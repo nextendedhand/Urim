@@ -1,6 +1,6 @@
 {
   "name": "Urim",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "To do list tool with Urgency-Importance feature.",
   "scripts": {
     "build": "tsc",
