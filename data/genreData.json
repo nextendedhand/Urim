@@ -2,16 +2,16 @@
   {
     "index": 0,
     "color": "#FFFFFF",
-    "name": "work",
+    "name": "work"
   },
   {
     "index": 1,
     "color": "#FFFF00",
-    "name": "school",
+    "name": "school"
   },
   {
     "index": 2,
     "color": "#00FFFF",
-    "name": "house",
+    "name": "house"
   }
 ]
