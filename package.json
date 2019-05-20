@@ -1,6 +1,6 @@
 {
   "name": "Urim",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "To do list tool with Urgency-Importance feature.",
   "scripts": {
     "build": "tsc",
@@ -20,7 +20,7 @@
   "author": "Gadpulse, narugit",
   "license": "",
   "devDependencies": {
-    "electron": "^2.0.2",
+    "electron": "^2.0.8",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   }
