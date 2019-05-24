@@ -16,18 +16,20 @@ Please launch Git Bash.
 
 1. Update npm.
 
+    ```
+    $ npm -v
+    $ npm update -g npm 
+    ```
 
-        $ npm -v
-        $ npm update -g npm
+    However, you may get error.
+    Therefore, your npm version has not been updated.
+    Please try below process.
 
-However, you may get error.
-Therefore, your npm version has not been updated.
-Please try below process.
-
+        ```
         $ cd "$PROGRAMFILES"/nodejs
         $ rm npm npx npm.cmd npx.cmd
         $ mv node_modules/npm node_modules/npm2
         $ node node_modules/npm2/bin/npm-cli.js i -g npm@latest
         $ rm -rf node_modules/npm2/
         $ npm -v # v6.9.0
-
+        ```
