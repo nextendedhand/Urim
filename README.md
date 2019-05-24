@@ -10,9 +10,11 @@ ToDo list tool with Urgency-Importance feature.
 1. Install Node.js v11.14.0.
 Please launch Git Bash.
 
-        $ nvm install 11.14.0
-        $ nvm use 11.14.0
-        $ node -v   # v11.14.0 
+    ```
+    $ nvm install 11.14.0
+    $ nvm use 11.14.0
+    $ node -v   # v11.14.0 
+    ```
 
 1. Update npm.
 
@@ -23,13 +25,13 @@ Please launch Git Bash.
 
     However, you may get error.
     Therefore, your npm version has not been updated.
-    Please try below process.
+    Please try below commands.
 
-        ```
-        $ cd "$PROGRAMFILES"/nodejs
-        $ rm npm npx npm.cmd npx.cmd
-        $ mv node_modules/npm node_modules/npm2
-        $ node node_modules/npm2/bin/npm-cli.js i -g npm@latest
-        $ rm -rf node_modules/npm2/
-        $ npm -v # v6.9.0
-        ```
+    ```
+    $ cd "$PROGRAMFILES"/nodejs
+    $ rm npm npx npm.cmd npx.cmd
+    $ mv node_modules/npm node_modules/npm2
+    $ node node_modules/npm2/bin/npm-cli.js i -g npm@latest
+    $ rm -rf node_modules/npm2/
+    $ npm -v # v6.9.0
+    ```
