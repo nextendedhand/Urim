@@ -20,8 +20,8 @@
   "author": "Gadpulse, narugit",
   "license": "",
   "devDependencies": {
-    "electron": "^2.0.8",
+    "electron": "^5.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^3.4.1"
   }
 }
