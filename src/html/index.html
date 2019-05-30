@@ -9,11 +9,16 @@
 <body>
   <h1>Hello World!</h1>
   <!-- All of the Node.js APIs are available in this renderer process. -->
+
+  <canvas id="myCanvas" width="700" height="400" style="background: #888888;"></canvas>
 </body>
 
 <script>
   // You can also require other files to run in this process
-  require('../../dist/renderer.js')
+  require('../../dist/renderer.js');
+  require('../../dist/canvasArrow.js');
+  require('../../dist/urimPlane.js');
 </script>
+
 
 </html>
