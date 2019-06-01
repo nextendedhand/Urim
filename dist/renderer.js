@@ -1,4 +1,12 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+"use strict";
+exports.__esModule = true;
+var urimPlaneManager_1 = require("./urimPlaneManager");
+var container = document.getElementById('urim-plain-container');
+var canvas = document.getElementById('urim-plain');
+var urimPlane = new urimPlaneManager_1["default"](canvas);
+var render = function () {
+    urimPlane.render(canvas, container);
+};
+window.onload = render;
+window.addEventListener('resize', render, false);
 //# sourceMappingURL=renderer.js.map

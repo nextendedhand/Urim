@@ -4,20 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Hello World!</title>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 
 <body>
-  <h1>Hello World!</h1>
+  <h1>Urim Mode</h1>
   <!-- All of the Node.js APIs are available in this renderer process. -->
 
-  <canvas id="myCanvas" width="700" height="400" style="background: #888888;"></canvas>
+  <div id="urim-plain-container">
+    <canvas id="urim-plain" style="background: #888888;"></canvas>
+  </div>
 </body>
 
 <script>
   // You can also require other files to run in this process
   require('../../dist/renderer.js');
-  require('../../dist/canvasArrow.js');
-  require('../../dist/urimPlane.js');
 </script>
 
 
