@@ -1,5 +1,5 @@
-export class toDoAbstData {
-    
+export default class toDoAbstData {
+
     private title: string;
     private importance: string;
     private urgency: Number;
@@ -19,58 +19,60 @@ export class toDoAbstData {
     }
 
     //getter
-    get getTitle() {
+    getTitle():string {
         return this.title;
     }
 
-    get getImportance() {
+    getImportance():string {
         return this.importance;
     }
 
-    get getUrgency() {
+    getUrgency():Number {
         return this.urgency;
     }
 
-    get getManHour() {
+    getManHour():Number {
         return this.manHour;
     }
 
-    get getGenreId() {
+    getGenreId():Number {
         return this.genreId;
     }
 
-    get getDetailDataId() {
+    getDetailDataId():Number {
         return this.detailDataId;
     }
 
-    get getToday() {
+    getToday():boolean {
         return this.today;
     }
 
     //setter
-    set setTitle(title: string) {
+    setTitle(title: string){
         this.title = title;
     }
 
-    set setImportance(importance: string) {
+    setImportance(importance: string) {
         this.importance = importance;
     }
 
-    set setUrgency(urgency: Number) {
+    setUrgency(urgency: Number){
         this.urgency = urgency;
     }
 
-    set setManHour(manHour: Number) {
+    setManHour(manHour: Number){
         this.manHour = manHour;
     }
 
-    set setGenreId(genreId: Number) {
+    setGenreId(genreId: Number){
         this.genreId = genreId;
     }
-    set setDetailDataId(detailDataId: Number) {
+
+    setDetailDataId(detailDataId: Number){
         this.detailDataId = detailDataId;
     }
-    set setToday(today: boolean) {
+
+    setToday(today: boolean){
         this.today = today;
     }
 };
