@@ -60,8 +60,9 @@ Please launch Git Bash.
     To synchronize some feature branches.
 - `feature/xxx/userName`
 
-    `xxx`: camelCase
-    `userName`: TauXdev, GadPulse, asaiasa, narugit
+    `xxx`: feature name wrote in camelCase
+    
+    `userName`: TauXdev, GadPulse, asaiasa, or narugit
     
     To synchronize some user's branches to complete xxx feature.
     You can create any branches under `feature/xxx/userName`. 
