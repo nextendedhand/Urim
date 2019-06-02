@@ -58,15 +58,15 @@ Please launch Git Bash.
 - `develop`
 
     To synchronize some feature branches.
-- `feature/xxx/userName`
+- `feature/abcXyz/userName`
 
-    `xxx`: feature name wrote in camelCase
+    `abcXyz`: feature name wrote in camelCase
     
     `userName`: TauXdev, GadPulse, asaiasa, or narugit
     
-    To synchronize some user's branches to complete xxx feature.
-    You can create any branches under `feature/xxx/userName`. 
-    It's OK if you push the branches under `feature/xxx/userName` or not.
+    To synchronize some user's branches to complete abcXyz feature.
+    You can create any branches under `feature/abcXyz/userName`. 
+    It's OK if you push the branches under `feature/abcXyz/userName` or not.
     
 ### Commit Message Rule
 Follow [this guide](https://qiita.com/itosho/items/9565c6ad2ffc24c09364).
