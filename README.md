@@ -2,7 +2,7 @@
 ToDo list tool with Urgency-Importance feature.
 
 ## For Developers
-### Setup development Environment
+### Setup Development Environment
 1. Install Git.
 
 1. Install [nvm-windows](https://github.com/coreybutler/nvm-windows).
@@ -35,3 +35,50 @@ Please launch Git Bash.
     $ rm -rf node_modules/npm2/
     $ npm -v # v6.9.0
     ```
+
+### Development Procedure
+1. Watch your error log when you save your editing code.
+
+    ```
+    $ npm run watch
+    ```
+    
+1. Edit your code.
+
+1. Debug.
+    
+    ```
+    $ npm run start
+    ```
+    
+### Branch Rule
+- `master`
+
+    In this branch, all commits are guaranteed to execute.
+- `develop`
+
+    To synchronize some feature branches.
+- `feature/xxx/userName`
+
+    `xxx`: camelCase
+    `userName`: TauXdev, GadPulse, asaiasa, narugit
+    
+    To synchronize some user's branches to complete xxx feature.
+    You can create any branches under `feature/xxx/userName`. 
+    It's OK if you push the branches under `feature/xxx/userName` or not.
+    
+### Commit Message Rule
+Follow [this guide](https://qiita.com/itosho/items/9565c6ad2ffc24c09364).
+
+### Pull Request Rule
+You can pull reqest and merge in any branch by yourself.
+
+### Documentation generator
+Use [TypeStrong/typedoc](https://github.com/TypeStrong/typedoc). 
+Here is [the guidline](https://typedoc.org/guides/doccomments/).
+
+### Style Guide
+Use [TypeScript Deep Dive](https://basarat.gitbooks.io/typescript/content/docs/styleguide/styleguide.html).
+
+### UI Component (Will Do)
+Use [Material Design Lite](https://getmdl.io/index.html).
