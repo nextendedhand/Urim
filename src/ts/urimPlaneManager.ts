@@ -1,5 +1,6 @@
 import AxisManager from './axisManager';
-import { Certificate } from 'crypto';
+import { stringify } from 'querystring';
+
 interface IImToCoord {
     S: number;
     A: number;
@@ -18,7 +19,7 @@ class UrimPlaneManager {
         'B': 2,
         'C': 3
     } as IImToCoord;
-    private urimCell: number[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
+    private urimCell: string[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
 
     constructor(canvas: HTMLCanvasElement) {
@@ -29,10 +30,10 @@ class UrimPlaneManager {
         this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 5, -20, 5, -20, 15]);
 
         this.urimCell = [
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]]
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']]
         ];
     }
 
@@ -97,26 +98,39 @@ class UrimPlaneManager {
 
         ctx.font = `${fontSize}px Arial`;
 
-        toDoDatas.forEach((toDoData: any) => {
+        toDoDatas.forEach((toDoData: { title: string, importance: string, urgency: number, id: string }) => {
             // CellManager呼んで、格納する？別のメソッドで呼ぶ？
             // データの格納
-            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== -1) {
+            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== '') {
                 this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1].push(toDoData.id);
             } else {
                 this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1] = [toDoData.id];
             }
         });
 
-        this.urimCell.forEach((imArray: any) => {
-            imArray.forEach((cell: any) => {
-                if (cell[0] !== -1) {
-                    cell.forEach((id: number, index: number) => {
+        this.urimCell.forEach((imArray: string[][]) => {
+            imArray.forEach((cell: string[]) => {
+                if (cell[0] !== '') {
+
+                    cell.forEach((id: string) => {
                         // TODO: スマートに四角形の大きさとか決める
-                        console.log(toDoDatas[id].urgency, this.urToCoord(toDoDatas[id].urgency));
-                        ctx.rect(this.calcUrCoord(canvas, toDoDatas[id].urgency), this.calcImCoord(canvas, toDoDatas[id].importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
+                        // idを検索して該当するtoDoDataを返却する
+                        // 引数idにして、toDoDatasを検索していく
+
+                        const toDoData: { title: string, importance: string, urgency: number, id: string } = ((_id: string): { title: string, importance: string, urgency: number, id: string } => {
+
+                            return toDoDatas.find((_toDoData: { title: string, importance: string, urgency: number, id: string }) => {
+                                if (_toDoData.id === _id) {
+                                    return _toDoData;
+                                }
+                            });
+                        })(id);
+
+
+                        ctx.rect(this.calcUrCoord(canvas, toDoData.urgency), this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
                         ctx.stroke();
 
-                        ctx.fillText(toDoDatas[id].title, this.calcUrCoord(canvas, toDoDatas[id].urgency), this.calcImCoord(canvas, toDoDatas[id].importance));
+                        ctx.fillText(toDoData.title, this.calcUrCoord(canvas, toDoData.urgency), this.calcImCoord(canvas, toDoData.importance));
                     });
                 }
             });
@@ -126,7 +140,7 @@ class UrimPlaneManager {
 
     }
 
-    public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: any) {
+    public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: { title: string, importance: string, urgency: number, id: string }[]) {
         const ctx = this.setupCanvas(canvas);
 
         this.renderAxis(canvas, ctx);

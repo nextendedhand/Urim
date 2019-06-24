@@ -15,10 +15,10 @@ var UrimPlaneManager = /** @class */ (function () {
         this.urAxis = new axisManager_1["default"](0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 5, -20, 5, -20, 15]);
         this.imAxis = new axisManager_1["default"](canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 5, -20, 5, -20, 15]);
         this.urimCell = [
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]],
-            [[-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1], [-1]]
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
+            [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']]
         ];
     }
     UrimPlaneManager.prototype.setupCanvas = function (canvas) {
@@ -72,7 +72,7 @@ var UrimPlaneManager = /** @class */ (function () {
         toDoDatas.forEach(function (toDoData) {
             // CellManager呼んで、格納する？別のメソッドで呼ぶ？
             // データの格納
-            if (_this.urimCell[_this.imToCoord[toDoData.importance]][1][0] !== -1) {
+            if (_this.urimCell[_this.imToCoord[toDoData.importance]][1][0] !== '') {
                 _this.urimCell[_this.imToCoord[toDoData.importance]][1].push(toDoData.id);
             }
             else {
@@ -81,13 +81,22 @@ var UrimPlaneManager = /** @class */ (function () {
         });
         this.urimCell.forEach(function (imArray) {
             imArray.forEach(function (cell) {
-                if (cell[0] !== -1) {
-                    cell.forEach(function (id, index) {
+                if (cell[0] !== '') {
+                    cell.forEach(function (id) {
                         // TODO: スマートに四角形の大きさとか決める
-                        console.log(toDoDatas[id].urgency, _this.urToCoord(toDoDatas[id].urgency));
-                        ctx.rect(_this.calcUrCoord(canvas, toDoDatas[id].urgency), _this.calcImCoord(canvas, toDoDatas[id].importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
+                        // idを検索して該当するtoDoDataを返却する
+                        // 引数idにして、toDoDatasを検索していく
+                        var toDoData = (function (_id) {
+                            return toDoDatas.find(function (_toDoData) {
+                                if (_toDoData.id === _id) {
+                                    //console.log(_toDoData);
+                                    return _toDoData;
+                                }
+                            });
+                        })(id);
+                        ctx.rect(_this.calcUrCoord(canvas, toDoData.urgency), _this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
                         ctx.stroke();
-                        ctx.fillText(toDoDatas[id].title, _this.calcUrCoord(canvas, toDoDatas[id].urgency), _this.calcImCoord(canvas, toDoDatas[id].importance));
+                        ctx.fillText(toDoData.title, _this.calcUrCoord(canvas, toDoData.urgency), _this.calcImCoord(canvas, toDoData.importance));
                     });
                 }
             });
