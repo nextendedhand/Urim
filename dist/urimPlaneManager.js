@@ -69,9 +69,8 @@ var UrimPlaneManager = /** @class */ (function () {
         var _this = this;
         var fontSize = canvas.width / 70;
         ctx.font = fontSize + "px Arial";
+        // urimCellにデータ格納する
         toDoDatas.forEach(function (toDoData) {
-            // CellManager呼んで、格納する？別のメソッドで呼ぶ？
-            // データの格納
             if (_this.urimCell[_this.imToCoord[toDoData.importance]][1][0] !== '') {
                 _this.urimCell[_this.imToCoord[toDoData.importance]][1].push(toDoData.id);
             }
@@ -79,20 +78,14 @@ var UrimPlaneManager = /** @class */ (function () {
                 _this.urimCell[_this.imToCoord[toDoData.importance]][1] = [toDoData.id];
             }
         });
+        // urimCellに格納されたidから、toDoDatasにある同一idを探索
+        // 探索したら、toDoDataを表示する
         this.urimCell.forEach(function (imArray) {
             imArray.forEach(function (cell) {
                 if (cell[0] !== '') {
                     cell.forEach(function (id) {
-                        // TODO: スマートに四角形の大きさとか決める
-                        // idを検索して該当するtoDoDataを返却する
-                        // 引数idにして、toDoDatasを検索していく
-                        var toDoData = (function (_id) {
-                            return toDoDatas.find(function (_toDoData) {
-                                if (_toDoData.id === _id) {
-                                    //console.log(_toDoData);
-                                    return _toDoData;
-                                }
-                            });
+                        var toDoData = (function (id) {
+                            return toDoDatas.find(function (_toDoData) { return _toDoData.id === id; });
                         })(id);
                         ctx.rect(_this.calcUrCoord(canvas, toDoData.urgency), _this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
                         ctx.stroke();

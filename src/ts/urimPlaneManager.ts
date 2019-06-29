@@ -13,12 +13,12 @@ class UrimPlaneManager {
     public imAxis: AxisManager;
     private height: number;
     private width: number;
-    private imToCoord = {
+    private imToCoord: IImToCoord = {
         'S': 0,
         'A': 1,
         'B': 2,
         'C': 3
-    } as IImToCoord;
+    };
     private urimCell: string[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
 
@@ -77,6 +77,7 @@ class UrimPlaneManager {
         return this.urToCoord(urgency) * canvas.width / 20;
     }
 
+
     private renderAxis(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         canvas.height = this.height;
         canvas.width = this.width;
@@ -93,14 +94,13 @@ class UrimPlaneManager {
         this.imAxis.create(ctx);
     }
 
-    private renderToDo(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoDatas: any) {
+    private renderToDo(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoDatas: toDoDataObject[]) {
         let fontSize = canvas.width / 70;
 
         ctx.font = `${fontSize}px Arial`;
 
-        toDoDatas.forEach((toDoData: { title: string, importance: string, urgency: number, id: string }) => {
-            // CellManager呼んで、格納する？別のメソッドで呼ぶ？
-            // データの格納
+        // urimCellにデータ格納する
+        toDoDatas.forEach((toDoData: toDoDataObject) => {
             if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== '') {
                 this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1].push(toDoData.id);
             } else {
@@ -108,24 +108,16 @@ class UrimPlaneManager {
             }
         });
 
+        // urimCellに格納されたidから、toDoDatasにある同一idを探索
+        // 探索したら、toDoDataを表示する
         this.urimCell.forEach((imArray: string[][]) => {
             imArray.forEach((cell: string[]) => {
                 if (cell[0] !== '') {
 
                     cell.forEach((id: string) => {
-                        // TODO: スマートに四角形の大きさとか決める
-                        // idを検索して該当するtoDoDataを返却する
-                        // 引数idにして、toDoDatasを検索していく
-
-                        const toDoData: { title: string, importance: string, urgency: number, id: string } = ((_id: string): { title: string, importance: string, urgency: number, id: string } => {
-
-                            return toDoDatas.find((_toDoData: { title: string, importance: string, urgency: number, id: string }) => {
-                                if (_toDoData.id === _id) {
-                                    return _toDoData;
-                                }
-                            });
+                        const toDoData: toDoDataObject = (id => {
+                            return toDoDatas.find(tDD => tDD.id === id);
                         })(id);
-
 
                         ctx.rect(this.calcUrCoord(canvas, toDoData.urgency), this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
                         ctx.stroke();
@@ -135,9 +127,6 @@ class UrimPlaneManager {
                 }
             });
         });
-
-
-
     }
 
     public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: { title: string, importance: string, urgency: number, id: string }[]) {
