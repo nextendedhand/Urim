@@ -1,0 +1,14 @@
+@charset "utf-8";
+label, input[type=text]{
+    display:block;
+}
+
+section[class=button_sec]{
+    display:block;
+    text-align: center;
+    padding: 15px;
+}
+
+section[class=button_sec] button{
+    margin: 0px 20px;
+}
