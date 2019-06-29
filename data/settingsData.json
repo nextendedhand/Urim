@@ -2,7 +2,7 @@
   {
     "_id": "5cdfc95bfd711ca4ccee5dd2",
     "index": 0,
-    "genreData": "genreSample.json",
+    "genreData": "../data/genreData.json",
     "urgencyScale": "1"
   }
 ]
