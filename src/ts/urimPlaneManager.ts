@@ -24,7 +24,7 @@ class UrimPlaneManager {
     private urimCell: string[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]) {
         let ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -37,9 +37,11 @@ class UrimPlaneManager {
             [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
             [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']]
         ];
+
+        this.createUrimCell(toDoDatas);
     }
 
-    private setupCanvas(canvas: HTMLCanvasElement) {
+    public setupCanvas(canvas: HTMLCanvasElement) {
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
 
@@ -91,7 +93,7 @@ class UrimPlaneManager {
         });
     }
 
-    private createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
+    public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
         let toDoTips: ToDoTip[] = new Array();
 
         this.urimCell.forEach((imArray: string[][]) => {
@@ -176,19 +178,12 @@ class UrimPlaneManager {
         ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
     }
 
-    public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: ToDoDataObject[]) {
-        const ctx = this.setupCanvas(canvas);
-
+    public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
         this.renderAxis(canvas, ctx);
-
-        this.createUrimCell(toDoDatas);
-        // toDoTips配列を作成して、その配列をrenderToDoに渡す
-        let toDoTips = this.createToDoTips(canvas, toDoDatas);
 
         toDoTips.forEach(toDoTip => {
             this.renderToDo(toDoTip, canvas, ctx);
         });
-
     }
 }
 

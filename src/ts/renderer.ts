@@ -1,4 +1,5 @@
 import UrimPlaneManager from './urimPlaneManager';
+import ToDoTip from './ToDoTip';
 
 const container: HTMLElement = <HTMLElement>document.getElementById('urim-plain-container');
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
@@ -49,10 +50,13 @@ const toDoDatas = [{
 }];
 
 let upm: UrimPlaneManager;
+let toDoTips: ToDoTip[]
 
 const render = () => {
-    upm = new UrimPlaneManager(canvas);
-    upm.render(canvas, container, toDoDatas);
+    upm = new UrimPlaneManager(canvas, toDoDatas);
+    const ctx = upm.setupCanvas(canvas);
+    toDoTips = upm.createToDoTips(canvas, toDoDatas);
+    upm.render(canvas, ctx, toDoTips);
 }
 
 // 無名関数の部分はtoggleToday関数作成する
@@ -64,6 +68,10 @@ canvas.addEventListener('click', e => {
     };
 
     // クリック判定処理
+    toDoTips.forEach(toDoTip => {
+        console.log(toDoTip.left);
+    });
+
 });
 
 window.onload = render;

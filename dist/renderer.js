@@ -48,9 +48,12 @@ var toDoDatas = [{
         id: 'fdspIRW3Sd'
     }];
 var upm;
+var toDoTips;
 var render = function () {
-    upm = new urimPlaneManager_1["default"](canvas);
-    upm.render(canvas, container, toDoDatas);
+    upm = new urimPlaneManager_1["default"](canvas, toDoDatas);
+    var ctx = upm.setupCanvas(canvas);
+    toDoTips = upm.createToDoTips(canvas, toDoDatas);
+    upm.render(canvas, ctx, toDoTips);
 };
 // 無名関数の部分はtoggleToday関数作成する
 canvas.addEventListener('click', function (e) {
@@ -60,6 +63,9 @@ canvas.addEventListener('click', function (e) {
         y: e.clientY - canvasRect.top
     };
     // クリック判定処理
+    toDoTips.forEach(function (toDoTip) {
+        console.log(toDoTip.left);
+    });
 });
 window.onload = render;
 window.addEventListener('resize', render, false);

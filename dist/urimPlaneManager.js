@@ -4,7 +4,7 @@ var axisManager_1 = require("./axisManager");
 var ToDoTip_1 = require("./ToDoTip");
 var UrimPlaneManager = /** @class */ (function () {
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
-    function UrimPlaneManager(canvas) {
+    function UrimPlaneManager(canvas, toDoDatas) {
         this.imToCoord = {
             'S': 0,
             'A': 1,
@@ -21,6 +21,7 @@ var UrimPlaneManager = /** @class */ (function () {
             [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']],
             [[''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], [''], ['']]
         ];
+        this.createUrimCell(toDoDatas);
     }
     UrimPlaneManager.prototype.setupCanvas = function (canvas) {
         var dpr = window.devicePixelRatio || 1;
@@ -117,27 +118,6 @@ var UrimPlaneManager = /** @class */ (function () {
         this.imAxis.create(ctx);
     };
     UrimPlaneManager.prototype.renderToDo = function (toDoTip, canvas, ctx) {
-        // toDoTips.forEach((toDoTip) => {
-        //     // toDoDataの矩形描画開始
-        //     ctx.beginPath();
-        //     // toDoDataの描画矩形の設定
-        //     ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
-        //     // toDoDataの色設定
-        //     // todayかどうかで色が決まる
-        //     if (toDoTip.today) {
-        //         ctx.fillStyle = 'rgb(192, 80, 77)';
-        //         ctx.fill();
-        //     } else {
-        //         ctx.fillStyle = 'rgb(0, 0, 0)';
-        //         ctx.stroke();
-        //     }
-        //     // toDoDataの文字描画開始
-        //     ctx.beginPath();
-        //     let fontSize = canvas.width / 70;
-        //     ctx.font = `${fontSize}px Arial`;
-        //     ctx.fillStyle = 'rgb(0, 0, 0)';
-        //     ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
-        // });
         // toDoDataの矩形描画開始
         ctx.beginPath();
         // toDoDataの描画矩形の設定
@@ -159,13 +139,9 @@ var UrimPlaneManager = /** @class */ (function () {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
     };
-    UrimPlaneManager.prototype.render = function (canvas, container, toDoDatas) {
+    UrimPlaneManager.prototype.render = function (canvas, ctx, toDoTips) {
         var _this = this;
-        var ctx = this.setupCanvas(canvas);
         this.renderAxis(canvas, ctx);
-        this.createUrimCell(toDoDatas);
-        // toDoTips配列を作成して、その配列をrenderToDoに渡す
-        var toDoTips = this.createToDoTips(canvas, toDoDatas);
         toDoTips.forEach(function (toDoTip) {
             _this.renderToDo(toDoTip, canvas, ctx);
         });
