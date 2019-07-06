@@ -120,11 +120,11 @@ class UrimPlaneManager {
                         toDoTip.id = toDoData.id;
 
                         toDoTip.left = this.calcUrCoord(canvas, toDoData.urgency);
-                        toDoTip.top = this.calcImCoord(canvas, toDoData.importance);
+                        toDoTip.bottom = this.calcImCoord(canvas, toDoData.importance);
                         toDoTip.width = canvas.width / 20;
                         toDoTip.height = canvas.height / 32;
                         toDoTip.right = toDoTip.left + toDoTip.width;
-                        toDoTip.bottom = toDoTip.top - toDoTip.height;
+                        toDoTip.top = toDoTip.bottom - toDoTip.height;
                         toDoTip.setTextPosition(toDoTip.left, toDoTip.top + canvas.height / 40);
 
                         toDoTips.push(toDoTip);
@@ -162,12 +162,12 @@ class UrimPlaneManager {
 
         // toDoDataの色設定
         // todayかどうかで色が決まる
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.stroke();
+
         if (toDoTip.today) {
             ctx.fillStyle = 'rgb(192, 80, 77)';
             ctx.fill();
-        } else {
-            ctx.fillStyle = 'rgb(0, 0, 0)';
-            ctx.stroke();
         }
 
         // toDoDataの文字描画開始

@@ -50,26 +50,31 @@ const toDoDatas = [{
 }];
 
 let upm: UrimPlaneManager;
-let toDoTips: ToDoTip[]
+let toDoTips: ToDoTip[];
+let ctx: CanvasRenderingContext2D;
 
 const render = () => {
     upm = new UrimPlaneManager(canvas, toDoDatas);
-    const ctx = upm.setupCanvas(canvas);
+    ctx = upm.setupCanvas(canvas);
     toDoTips = upm.createToDoTips(canvas, toDoDatas);
     upm.render(canvas, ctx, toDoTips);
 }
 
 // 無名関数の部分はtoggleToday関数作成する
 canvas.addEventListener('click', e => {
+    const dpr = window.devicePixelRatio || 1;
     const canvasRect = canvas.getBoundingClientRect();
+
     const point = {
-        x: e.clientX - canvasRect.left,
-        y: e.clientY - canvasRect.top
+        x: e.clientX * dpr - canvasRect.left * dpr,
+        y: e.clientY * dpr - canvasRect.top * dpr
     };
 
     // クリック判定処理
     toDoTips.forEach(toDoTip => {
-        console.log(toDoTip.left);
+        if (toDoTip.isClicked(point)) {
+            toDoTip.toggleToday(canvas, ctx);
+        }
     });
 
 });

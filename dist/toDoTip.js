@@ -28,6 +28,26 @@ var ToDoTip = /** @class */ (function (_super) {
     ToDoTip.prototype.getTextPosition = function () {
         return this.text;
     };
+    ToDoTip.prototype.isClicked = function (p) {
+        return (this.left <= p.x && p.x <= this.right) && (this.top <= p.y && p.y <= this.bottom);
+    };
+    ToDoTip.prototype.toggleToday = function (canvas, ctx) {
+        this.today = !this.today;
+        // ToDo: 共有データのtodayプロパティもtoggleする
+        ctx.beginPath();
+        // toDoDataの描画矩形の設定
+        ctx.rect(this.left, this.top, this.width, this.height);
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.stroke();
+        ctx.fillStyle = this.today ? 'rgb(192, 80, 77)' : 'rgb(234, 234, 234)';
+        ctx.fill();
+        // toDoDataの文字描画開始
+        ctx.beginPath();
+        var fontSize = canvas.width / 70;
+        ctx.font = fontSize + "px Arial";
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillText(this.title, this.getTextPosition().x, this.getTextPosition().y);
+    };
     return ToDoTip;
 }(ToDoDataObject_1["default"]));
 exports["default"] = ToDoTip;

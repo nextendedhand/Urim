@@ -49,22 +49,26 @@ var toDoDatas = [{
     }];
 var upm;
 var toDoTips;
+var ctx;
 var render = function () {
     upm = new urimPlaneManager_1["default"](canvas, toDoDatas);
-    var ctx = upm.setupCanvas(canvas);
+    ctx = upm.setupCanvas(canvas);
     toDoTips = upm.createToDoTips(canvas, toDoDatas);
     upm.render(canvas, ctx, toDoTips);
 };
 // 無名関数の部分はtoggleToday関数作成する
 canvas.addEventListener('click', function (e) {
+    var dpr = window.devicePixelRatio || 1;
     var canvasRect = canvas.getBoundingClientRect();
     var point = {
-        x: e.clientX - canvasRect.left,
-        y: e.clientY - canvasRect.top
+        x: e.clientX * dpr - canvasRect.left * dpr,
+        y: e.clientY * dpr - canvasRect.top * dpr
     };
     // クリック判定処理
     toDoTips.forEach(function (toDoTip) {
-        console.log(toDoTip.left);
+        if (toDoTip.isClicked(point)) {
+            toDoTip.toggleToday(canvas, ctx);
+        }
     });
 });
 window.onload = render;
