@@ -51,6 +51,7 @@ var AxisManager = /** @class */ (function () {
         }
         pathPoints.push(0, 0);
         ctx.beginPath();
+        ctx.fillStyle = 'rgb(0, 0, 0)';
         for (var i = 0; i < pathPoints.length; i += 2) {
             var x = pathPoints[i] * cos - pathPoints[i + 1] * sin + this.startX;
             var y = pathPoints[i] * sin + pathPoints[i + 1] * cos + this.startY;

@@ -8,43 +8,59 @@ var toDoDatas = [{
         title: 'hoge',
         importance: 'S',
         urgency: 1,
+        today: true,
         id: '9SPpJfkb32'
     }, {
         title: 'fuga',
         importance: 'A',
         urgency: 2,
+        today: true,
         id: '9SPpdgrkb3'
     }, {
         title: 'piyo',
         importance: 'A',
         urgency: 3,
+        today: false,
         id: 'fdsfdskb32'
     }, {
         title: 'huga',
         importance: 'A',
         urgency: 4,
+        today: true,
         id: 'hogefuga31'
     }, {
         title: 'foge',
         importance: 'B',
         urgency: 5,
+        today: false,
         id: 'piyoSdfe32'
     }, {
         title: 'piyo',
         importance: 'C',
         urgency: 6,
+        today: true,
         id: 'dskrj42edf'
     }, {
         title: 'hoge',
         importance: 'A',
         urgency: 11,
+        today: false,
         id: 'fdspIRW3Sd'
     }];
+var upm;
 var render = function () {
-    var upm = new urimPlaneManager_1["default"](canvas);
+    upm = new urimPlaneManager_1["default"](canvas);
     upm.render(canvas, container, toDoDatas);
-    upm = null;
 };
+// 無名関数の部分はtoggleToday関数作成する
+canvas.addEventListener('click', function (e) {
+    var canvasRect = canvas.getBoundingClientRect();
+    var point = {
+        x: e.clientX - canvasRect.left,
+        y: e.clientY - canvasRect.top
+    };
+    // クリック判定処理
+});
 window.onload = render;
 window.addEventListener('resize', render, false);
 //# sourceMappingURL=renderer.js.map

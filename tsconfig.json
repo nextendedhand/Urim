@@ -11,8 +11,7 @@
       ]
     },
     "typeRoots": [
-      "node_modules/@types", // デフォルトではここだけ読む.忘れず書き添える
-      "src/types" // ここを読むように変更
+      "node_modules/@types"
     ]
   },
   "include": [

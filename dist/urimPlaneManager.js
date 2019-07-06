@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var axisManager_1 = require("./axisManager");
+var ToDoTip_1 = require("./ToDoTip");
 var UrimPlaneManager = /** @class */ (function () {
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
     function UrimPlaneManager(canvas) {
@@ -53,6 +54,56 @@ var UrimPlaneManager = /** @class */ (function () {
     UrimPlaneManager.prototype.calcUrCoord = function (canvas, urgency) {
         return this.urToCoord(urgency) * canvas.width / 20;
     };
+    UrimPlaneManager.prototype.createUrimCell = function (toDoDatas) {
+        var _this = this;
+        // urimCellにデータ格納する
+        // ToDO: UtimCellクラス作るかどうか考える
+        toDoDatas.forEach(function (toDoData) {
+            if (_this.urimCell[_this.imToCoord[toDoData.importance]][1][0] !== '') {
+                _this.urimCell[_this.imToCoord[toDoData.importance]][1].push(toDoData.id);
+            }
+            else {
+                _this.urimCell[_this.imToCoord[toDoData.importance]][1] = [toDoData.id];
+            }
+        });
+    };
+    UrimPlaneManager.prototype.createToDoTips = function (canvas, toDoDatas) {
+        var _this = this;
+        var toDoTips = new Array();
+        this.urimCell.forEach(function (imArray) {
+            imArray.forEach(function (cell) {
+                if (cell[0] !== '') {
+                    cell.forEach(function (id) {
+                        // urimCellに格納されたidと一致するtoDoDataを検索して代入
+                        var toDoData = (function (id) {
+                            return toDoDatas.find(function (tDD) { return tDD.id === id; });
+                        })(id);
+                        // toDoTipの作成
+                        // - left
+                        // - right
+                        // - top
+                        // - bottom
+                        // を計算する
+                        var toDoTip = new ToDoTip_1["default"]();
+                        toDoTip.title = toDoData.title;
+                        toDoTip.importance = toDoData.importance;
+                        toDoTip.urgency = toDoData.urgency;
+                        toDoTip.today = toDoData.today;
+                        toDoTip.id = toDoData.id;
+                        toDoTip.left = _this.calcUrCoord(canvas, toDoData.urgency);
+                        toDoTip.top = _this.calcImCoord(canvas, toDoData.importance);
+                        toDoTip.width = canvas.width / 20;
+                        toDoTip.height = canvas.height / 32;
+                        toDoTip.right = toDoTip.left + toDoTip.width;
+                        toDoTip.bottom = toDoTip.top - toDoTip.height;
+                        toDoTip.setTextPosition(toDoTip.left, toDoTip.top + canvas.height / 40);
+                        toDoTips.push(toDoTip);
+                    });
+                }
+            });
+        });
+        return toDoTips;
+    };
     UrimPlaneManager.prototype.renderAxis = function (canvas, ctx) {
         canvas.height = this.height;
         canvas.width = this.width;
@@ -65,40 +116,59 @@ var UrimPlaneManager = /** @class */ (function () {
         this.urAxis.create(ctx);
         this.imAxis.create(ctx);
     };
-    UrimPlaneManager.prototype.renderToDo = function (canvas, ctx, toDoDatas) {
-        var _this = this;
+    UrimPlaneManager.prototype.renderToDo = function (toDoTip, canvas, ctx) {
+        // toDoTips.forEach((toDoTip) => {
+        //     // toDoDataの矩形描画開始
+        //     ctx.beginPath();
+        //     // toDoDataの描画矩形の設定
+        //     ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
+        //     // toDoDataの色設定
+        //     // todayかどうかで色が決まる
+        //     if (toDoTip.today) {
+        //         ctx.fillStyle = 'rgb(192, 80, 77)';
+        //         ctx.fill();
+        //     } else {
+        //         ctx.fillStyle = 'rgb(0, 0, 0)';
+        //         ctx.stroke();
+        //     }
+        //     // toDoDataの文字描画開始
+        //     ctx.beginPath();
+        //     let fontSize = canvas.width / 70;
+        //     ctx.font = `${fontSize}px Arial`;
+        //     ctx.fillStyle = 'rgb(0, 0, 0)';
+        //     ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
+        // });
+        // toDoDataの矩形描画開始
+        ctx.beginPath();
+        // toDoDataの描画矩形の設定
+        ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
+        // toDoDataの色設定
+        // todayかどうかで色が決まる
+        if (toDoTip.today) {
+            ctx.fillStyle = 'rgb(192, 80, 77)';
+            ctx.fill();
+        }
+        else {
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.stroke();
+        }
+        // toDoDataの文字描画開始
+        ctx.beginPath();
         var fontSize = canvas.width / 70;
         ctx.font = fontSize + "px Arial";
-        // urimCellにデータ格納する
-        toDoDatas.forEach(function (toDoData) {
-            if (_this.urimCell[_this.imToCoord[toDoData.importance]][1][0] !== '') {
-                _this.urimCell[_this.imToCoord[toDoData.importance]][1].push(toDoData.id);
-            }
-            else {
-                _this.urimCell[_this.imToCoord[toDoData.importance]][1] = [toDoData.id];
-            }
-        });
-        // urimCellに格納されたidから、toDoDatasにある同一idを探索
-        // 探索したら、toDoDataを表示する
-        this.urimCell.forEach(function (imArray) {
-            imArray.forEach(function (cell) {
-                if (cell[0] !== '') {
-                    cell.forEach(function (id) {
-                        var toDoData = (function (id) {
-                            return toDoDatas.find(function (_toDoData) { return _toDoData.id === id; });
-                        })(id);
-                        ctx.rect(_this.calcUrCoord(canvas, toDoData.urgency), _this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
-                        ctx.stroke();
-                        ctx.fillText(toDoData.title, _this.calcUrCoord(canvas, toDoData.urgency), _this.calcImCoord(canvas, toDoData.importance));
-                    });
-                }
-            });
-        });
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
     };
     UrimPlaneManager.prototype.render = function (canvas, container, toDoDatas) {
+        var _this = this;
         var ctx = this.setupCanvas(canvas);
         this.renderAxis(canvas, ctx);
-        this.renderToDo(canvas, ctx, toDoDatas);
+        this.createUrimCell(toDoDatas);
+        // toDoTips配列を作成して、その配列をrenderToDoに渡す
+        var toDoTips = this.createToDoTips(canvas, toDoDatas);
+        toDoTips.forEach(function (toDoTip) {
+            _this.renderToDo(toDoTip, canvas, ctx);
+        });
     };
     return UrimPlaneManager;
 }());

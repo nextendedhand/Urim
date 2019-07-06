@@ -1,4 +1,6 @@
 import AxisManager from './axisManager';
+import ToDoDataObject from './ToDoDataObject';
+import ToDoTip from './ToDoTip';
 import { stringify } from 'querystring';
 
 interface IImToCoord {
@@ -77,6 +79,61 @@ class UrimPlaneManager {
         return this.urToCoord(urgency) * canvas.width / 20;
     }
 
+    private createUrimCell(toDoDatas: ToDoDataObject[]) {
+        // urimCellにデータ格納する
+        // ToDO: UtimCellクラス作るかどうか考える
+        toDoDatas.forEach((toDoData: ToDoDataObject) => {
+            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== '') {
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1].push(toDoData.id);
+            } else {
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1] = [toDoData.id];
+            }
+        });
+    }
+
+    private createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
+        let toDoTips: ToDoTip[] = new Array();
+
+        this.urimCell.forEach((imArray: string[][]) => {
+            imArray.forEach((cell: string[]) => {
+                if (cell[0] !== '') {
+                    cell.forEach((id: string) => {
+                        // urimCellに格納されたidと一致するtoDoDataを検索して代入
+                        const toDoData: ToDoDataObject = (id => {
+                            return toDoDatas.find(tDD => tDD.id === id);
+                        })(id);
+
+                        // toDoTipの作成
+                        // - left
+                        // - right
+                        // - top
+                        // - bottom
+                        // を計算する
+                        let toDoTip = new ToDoTip();
+
+                        toDoTip.title = toDoData.title;
+                        toDoTip.importance = toDoData.importance;
+                        toDoTip.urgency = toDoData.urgency;
+                        toDoTip.today = toDoData.today;
+                        toDoTip.id = toDoData.id;
+
+                        toDoTip.left = this.calcUrCoord(canvas, toDoData.urgency);
+                        toDoTip.top = this.calcImCoord(canvas, toDoData.importance);
+                        toDoTip.width = canvas.width / 20;
+                        toDoTip.height = canvas.height / 32;
+                        toDoTip.right = toDoTip.left + toDoTip.width;
+                        toDoTip.bottom = toDoTip.top - toDoTip.height;
+                        toDoTip.setTextPosition(toDoTip.left, toDoTip.top + canvas.height / 40);
+
+                        toDoTips.push(toDoTip);
+                    });
+                }
+            });
+        });
+
+        return toDoTips;
+    }
+
 
     private renderAxis(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         canvas.height = this.height;
@@ -94,47 +151,44 @@ class UrimPlaneManager {
         this.imAxis.create(ctx);
     }
 
-    private renderToDo(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoDatas: toDoDataObject[]) {
+    private renderToDo(toDoTip: ToDoTip, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        // toDoDataの矩形描画開始
+        ctx.beginPath();
+
+        // toDoDataの描画矩形の設定
+        ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
+
+        // toDoDataの色設定
+        // todayかどうかで色が決まる
+        if (toDoTip.today) {
+            ctx.fillStyle = 'rgb(192, 80, 77)';
+            ctx.fill();
+        } else {
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.stroke();
+        }
+
+        // toDoDataの文字描画開始
+        ctx.beginPath();
         let fontSize = canvas.width / 70;
-
         ctx.font = `${fontSize}px Arial`;
-
-        // urimCellにデータ格納する
-        toDoDatas.forEach((toDoData: toDoDataObject) => {
-            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== '') {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1].push(toDoData.id);
-            } else {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1] = [toDoData.id];
-            }
-        });
-
-        // urimCellに格納されたidから、toDoDatasにある同一idを探索
-        // 探索したら、toDoDataを表示する
-        this.urimCell.forEach((imArray: string[][]) => {
-            imArray.forEach((cell: string[]) => {
-                if (cell[0] !== '') {
-
-                    cell.forEach((id: string) => {
-                        const toDoData: toDoDataObject = (id => {
-                            return toDoDatas.find(tDD => tDD.id === id);
-                        })(id);
-
-                        ctx.rect(this.calcUrCoord(canvas, toDoData.urgency), this.calcImCoord(canvas, toDoData.importance) - canvas.height / 40, canvas.width / 20, canvas.height / 32);
-                        ctx.stroke();
-
-                        ctx.fillText(toDoData.title, this.calcUrCoord(canvas, toDoData.urgency), this.calcImCoord(canvas, toDoData.importance));
-                    });
-                }
-            });
-        });
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
     }
 
-    public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: { title: string, importance: string, urgency: number, id: string }[]) {
+    public render(canvas: HTMLCanvasElement, container: HTMLElement, toDoDatas: ToDoDataObject[]) {
         const ctx = this.setupCanvas(canvas);
 
         this.renderAxis(canvas, ctx);
 
-        this.renderToDo(canvas, ctx, toDoDatas);
+        this.createUrimCell(toDoDatas);
+        // toDoTips配列を作成して、その配列をrenderToDoに渡す
+        let toDoTips = this.createToDoTips(canvas, toDoDatas);
+
+        toDoTips.forEach(toDoTip => {
+            this.renderToDo(toDoTip, canvas, ctx);
+        });
+
     }
 }
 

@@ -65,6 +65,7 @@ class AxisManager {
 
 
         ctx.beginPath();
+        ctx.fillStyle = 'rgb(0, 0, 0)';
 
         for (let i = 0; i < pathPoints.length; i += 2) {
             let x = pathPoints[i] * cos - pathPoints[i + 1] * sin + this.startX;
