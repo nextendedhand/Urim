@@ -9,43 +9,43 @@ var toDoDatas = [{
         importance: 'S',
         urgency: 1,
         today: true,
-        id: '9SPpJfkb32'
+        id: '9SPpJ'
     }, {
         title: 'fuga',
         importance: 'A',
         urgency: 2,
         today: true,
-        id: '9SPpdgrkb3'
+        id: '9SPpd'
     }, {
         title: 'piyo',
         importance: 'A',
         urgency: 3,
         today: false,
-        id: 'fdsfdskb32'
+        id: 'fdsfd'
     }, {
         title: 'huga',
         importance: 'A',
         urgency: 4,
         today: true,
-        id: 'hogefuga31'
+        id: 'hogef'
     }, {
         title: 'foge',
         importance: 'B',
         urgency: 5,
         today: false,
-        id: 'piyoSdfe32'
+        id: 'piyoS'
     }, {
         title: 'piyo',
         importance: 'C',
         urgency: 6,
         today: true,
-        id: 'dskrj42edf'
+        id: 'dskrj'
     }, {
         title: 'hoge',
         importance: 'A',
         urgency: 11,
         today: false,
-        id: 'fdspIRW3Sd'
+        id: 'fdspI'
     }];
 var upm;
 var toDoTips;
