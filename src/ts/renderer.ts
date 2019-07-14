@@ -61,7 +61,9 @@ const render = () => {
 }
 
 // 無名関数の部分はtoggleToday関数作成する
-canvas.addEventListener('click', e => {
+canvas.addEventListener('contextmenu', e => {
+    e.preventDefault();
+
     const dpr = window.devicePixelRatio || 1;
     const canvasRect = canvas.getBoundingClientRect();
 
