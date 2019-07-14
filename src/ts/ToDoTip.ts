@@ -44,16 +44,17 @@ class ToDoTip extends ToDoDataObject {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        ctx.fillStyle = this.today ? 'rgb(192, 80, 77)' : 'rgb(234, 234, 234)';
+        let titleWithTodayIcon = this.today ? '\uf005' + this.title : this.title;
+        ctx.fillStyle = 'rgb(234, 234, 234)';
 
         ctx.fill();
 
         // toDoDataの文字描画開始
         ctx.beginPath();
         let fontSize = canvas.width / 70;
-        ctx.font = `${fontSize}px Arial`;
+        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
         ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.fillText(this.title, this.getTextPosition().x, this.getTextPosition().y);
+        ctx.fillText(titleWithTodayIcon, this.getTextPosition().x, this.getTextPosition().y);
     }
 }
 

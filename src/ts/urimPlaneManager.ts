@@ -165,17 +165,14 @@ class UrimPlaneManager {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        if (toDoTip.today) {
-            ctx.fillStyle = 'rgb(192, 80, 77)';
-            ctx.fill();
-        }
+        let titleWithTodayIcon = toDoTip.today ? '\uf005' + toDoTip.title : toDoTip.title;
 
         // toDoDataの文字描画開始
         ctx.beginPath();
         let fontSize = canvas.width / 70;
-        ctx.font = `${fontSize}px Arial`;
+        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
         ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
+        ctx.fillText(titleWithTodayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
     }
 
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
