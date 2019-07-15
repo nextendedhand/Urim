@@ -95,11 +95,11 @@ class UrimPlaneManager {
 
     public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
         let toDoTips: ToDoTip[] = new Array();
-
+        console.log(this.urimCell);
         this.urimCell.forEach((imArray: string[][]) => {
             imArray.forEach((cell: string[]) => {
                 if (cell[0] !== '') {
-                    cell.forEach((id: string) => {
+                    cell.forEach((id: string, index: number) => {
                         // urimCellに格納されたidと一致するtoDoDataを検索して代入
                         const toDoData: ToDoDataObject = (id => {
                             return toDoDatas.find(tDD => tDD.id === id);
@@ -165,14 +165,22 @@ class UrimPlaneManager {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        let titleWithTodayIcon = toDoTip.today ? '\uf005' + toDoTip.title : toDoTip.title;
 
         // toDoDataの文字描画開始
         ctx.beginPath();
-        let fontSize = canvas.width / 70;
-        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
+        let fontSize = canvas.width / 80;
+
+        // today用の星描画
+        let todayIcon = '\uf005';
+
+        ctx.font = toDoTip.today ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
+
         ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.fillText(titleWithTodayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
+
+        ctx.fillText(todayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
+
+        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {

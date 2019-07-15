@@ -8,7 +8,7 @@ const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('ur
 const toDoDatas = [{
     title: 'hoge',
     importance: 'S',
-    urgency: 1,
+    urgency: 2,
     today: true,
     id: '9SPpJ'
 }, {
