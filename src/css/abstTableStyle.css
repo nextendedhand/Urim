@@ -1,0 +1,23 @@
+
+/* ソートボタンのみ対象 */
+#sort-01, #sort-02, #sort-03, #sort-04, #sort-05, #sort-06{
+    border-style: none;
+    position: relative;
+    left: 5%;
+}
+
+/* テーブルの調整 */
+table{
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* 背景の着色 */
+table tr:nth-child(odd){
+    background-color: rgb(180, 180, 180)
+}
+
+table tr:nth-child(1){
+    border-bottom-style: double;
+}
