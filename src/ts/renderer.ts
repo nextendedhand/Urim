@@ -6,47 +6,47 @@ const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('ur
 
 // todo情報を読み取る(最初のロード時・todoデータが作成・削除・編集されるたびに実行)
 const toDoDatas = [{
-    title: 'hoge',
+    title: '1:S2',
     importance: 'S',
     urgency: 2,
     today: true,
-    id: '9SPpJ'
+    id: '1SPpJ'
 }, {
-    title: 'fuga',
+    title: '2:A2',
     importance: 'A',
     urgency: 2,
     today: true,
-    id: '9SPpd'
+    id: '2SPpd'
 }, {
-    title: 'piyo',
+    title: '3:A2',
     importance: 'A',
-    urgency: 3,
+    urgency: 2,
     today: false,
-    id: 'fdsfd'
+    id: '3dsfd'
 }, {
-    title: 'huga',
+    title: '4:A4',
     importance: 'A',
     urgency: 4,
     today: true,
-    id: 'hogef'
+    id: '4ogef'
 }, {
-    title: 'foge',
+    title: '5:B5',
     importance: 'B',
     urgency: 5,
     today: false,
-    id: 'piyoS'
+    id: '5iyoS'
 }, {
-    title: 'piyo',
+    title: '6:C6',
     importance: 'C',
     urgency: 6,
     today: true,
-    id: 'dskrj'
+    id: '6skrj'
 }, {
-    title: 'hoge',
+    title: '7:A11',
     importance: 'A',
     urgency: 11,
     today: false,
-    id: 'fdspI'
+    id: '7dspI'
 }];
 
 let upm: UrimPlaneManager;
