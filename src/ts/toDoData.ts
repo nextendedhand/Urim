@@ -1,78 +1,193 @@
-export default class toDoAbstData {
+import detailData from './toDoDetailData';
 
+/**
+* This is a class for data container of TODO items.
+* It contains title, importance value, urgency value etc.
+*/
+export default class toDoData {
+
+    private id : string;
     private title: string;
     private importance: string;
-    private urgency: Number;
-    private manHour: Number;
-    private genreId: Number;
-    private detailDataId: Number;
-    private today: boolean;
+    private urgency: number;
+    private manHour: number;
+    private genreId: number;
+    private detailData: detailData;
+    private today : boolean;
 
-    constructor(title: string, importance: string, urgency: Number, manHour: Number, genreId: Number, detailDataId: Number, today: boolean) {
+    /**
+    * This is a constructor.
+    * @param title - TODO item's title
+    * @param importance - TODO items's importance.(1,2,3,4)
+    * @param urgency - TODO item's urgency. It calculates from the remaining days.
+    * @param manHour - TODO items's man hour.(days?)
+    * @param genreId - TODO item's genreId.
+    * @param deadline - TODO items's deadline.
+    * @param content - TODO item's content.
+    * @param place - Place where you do this action.
+    * @param today - A flag whether you should do this action today.
+    */
+    constructor(title :string, importance :string, urgency : number, manHour : number, genreId : number,
+                deadline:string, content:string, place:string, today:boolean) {
+        this.id = this.generateId();
         this.title = title;
         this.importance = importance;
         this.urgency = urgency;
         this.manHour = manHour;
         this.genreId = genreId;
-        this.detailDataId = detailDataId;
         this.today = today;
+        this.detailData = new detailData(deadline,content,place);
     }
 
-    //getter
-    getTitle(): string {
+    /**
+    * This is a function to generate ID.
+    * @param void
+    * @returns id
+    */
+    private generateId(){
+        // characters which is used as id
+        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        
+        // Number of digits
+        var len = 10;
+         
+        // generate id
+        var id = "";
+        for(var i=0;i<len;i++){
+          id += str.charAt(Math.floor(Math.random() * str.length));
+        }
+
+        return id;        
+    }
+
+    /**
+    * This is getter for TODO item's title.
+    * @param void
+    * @returns title
+    */
+    public getTitle():string {
         return this.title;
     }
 
-    getImportance(): string {
+    /**
+    * This is getter for TODO item's importance.
+    * @param void
+    * @returns importance
+    */
+    public getImportance():string {
         return this.importance;
     }
 
-    getUrgency(): Number {
+    /**
+    * This is getter for TODO item's urgency.
+    * @param void
+    * @returns urgency
+    */
+    public getUrgency(): number {
         return this.urgency;
     }
 
-    getManHour(): Number {
+    /**
+    * This is getter for TODO item's man hour.
+    * @param void
+    * @returns manHour
+    */
+    public getManHour(): number {
         return this.manHour;
     }
 
-    getGenreId(): Number {
+    /**
+    * This is getter for TODO item's genre id.
+    * @param void
+    * @returns genreId
+    */
+    public getGenreId(): number {
         return this.genreId;
     }
 
-    getDetailDataId(): Number {
-        return this.detailDataId;
+    /**
+    * This is getter for TODO item's detail data.
+    * @param void
+    * @returns detailData
+    */
+    public getDetailData():detailData {
+        return this.detailData;
     }
 
-    getToday(): boolean {
+    /**
+    * This is getter for the flag whether you should do this action today.
+    * @param void
+    * @returns today
+    */
+    public getToday():boolean {
         return this.today;
     }
 
-    //setter
-    setTitle(title: string) {
+
+    /**
+    * This is setter for TODO item's id.
+    * @param id
+    * @returns void
+    */
+    public setId(id: string){
+        this.id = id;
+    }
+
+    /**
+    * This is setter for TODO item's title.
+    * @param title
+    * @returns void
+    */
+    public setTitle(title: string){
         this.title = title;
     }
 
-    setImportance(importance: string) {
+    /**
+    * This is setter for TODO item's importance.
+    * @param importance
+    * @returns void
+    */
+    public setImportance(importance: string) {
         this.importance = importance;
     }
 
-    setUrgency(urgency: Number) {
+    /**
+    * This is setter for TODO item's urgency.
+    * @param urgency
+    * @returns void
+    */
+    public setUrgency(urgency: number){
         this.urgency = urgency;
     }
 
-    setManHour(manHour: Number) {
+    /**
+    * This is setter for TODO item's man hour.
+    * @param manHour
+    * @returns void
+    */
+    public setManHour(manHour: number){
         this.manHour = manHour;
     }
 
-    setGenreId(genreId: Number) {
-        this.genreId = genreId;
+    /**
+    * This is setter for TODO item's detail data.
+    * @param content - TODO item's content.
+    * @param deadline - TODO items's deadline.
+    * @param place - Place where you do this action.
+    * @returns void
+    */
+    public setDetailData(content : string,deadline : string,place : string){
+        this.detailData.setContent(content);
+        this.detailData.setDeadLine(deadline);
+        this.detailData.setPlace(place);
     }
 
-    setDetailDataId(detailDataId: Number) {
-        this.detailDataId = detailDataId;
-    }
-
-    setToday(today: boolean) {
+    /**
+    * This is setter for a flag whether you should do this action today.
+    * @param today
+    * @returns void
+    */
+    public setToday(today: boolean){
         this.today = today;
     }
 };
