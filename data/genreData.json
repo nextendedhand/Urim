@@ -1,16 +1,16 @@
 [
   {
-    "index": 0,
+    "id": 0,
     "color": "#FFFFFF",
     "name": "work"
   },
   {
-    "index": 1,
+    "id": 1,
     "color": "#FFFF00",
     "name": "school"
   },
   {
-    "index": 2,
+    "id": 2,
     "color": "#00FFFF",
     "name": "house"
   }
