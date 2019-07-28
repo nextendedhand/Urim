@@ -85,17 +85,17 @@ class UrimPlaneManager {
         // urimCellにデータ格納する
         // ToDO: UtimCellクラス作るかどうか考える
         toDoDatas.forEach((toDoData: ToDoDataObject) => {
-            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1][0] !== '') {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1].push(toDoData.id);
+            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)][0] !== '') {
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)].push(toDoData.id);
             } else {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][1] = [toDoData.id];
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)] = [toDoData.id];
             }
         });
     }
 
     public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
         let toDoTips: ToDoTip[] = new Array();
-        console.log(this.urimCell);
+
         this.urimCell.forEach((imArray: string[][]) => {
             imArray.forEach((cell: string[]) => {
                 if (cell[0] !== '') {
@@ -119,10 +119,17 @@ class UrimPlaneManager {
                         toDoTip.today = toDoData.today;
                         toDoTip.id = toDoData.id;
 
-                        toDoTip.left = this.calcUrCoord(canvas, toDoData.urgency);
-                        toDoTip.bottom = this.calcImCoord(canvas, toDoData.importance);
                         toDoTip.width = canvas.width / 20;
                         toDoTip.height = canvas.height / 32;
+                        toDoTip.left = this.calcUrCoord(canvas, toDoData.urgency);
+                        toDoTip.bottom = this.calcImCoord(canvas, toDoData.importance) + (index % 7) * toDoTip.height;
+
+                        toDoTip.page = 0;
+                        // TODO: 7個(index:6)以上の場合は、一番下に右矢印と左矢印を用意しておく
+                        // クリックしたら、次/前のToDoが表示されるようにする
+                        // 何ページ目のtoDoかを記憶するプロパティが必要
+                        // toDo描画時に、1ページ目のtoDoのみを描画する論理を追加する
+                        // 複数ページ持つ場合は、次へ/→へボタンが表示されるようにする
                         toDoTip.right = toDoTip.left + toDoTip.width;
                         toDoTip.top = toDoTip.bottom - toDoTip.height;
                         toDoTip.setTextPosition(toDoTip.left, toDoTip.top + canvas.height / 40);
@@ -187,7 +194,9 @@ class UrimPlaneManager {
         this.renderAxis(canvas, ctx);
 
         toDoTips.forEach(toDoTip => {
-            this.renderToDo(toDoTip, canvas, ctx);
+            if (toDoTip.page === 0) {
+                this.renderToDo(toDoTip, canvas, ctx);
+            }
         });
     }
 }

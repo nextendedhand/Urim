@@ -16,6 +16,7 @@ class ToDoTip extends ToDoDataObject {
     public bottom: number;
     public width: number;
     public height: number;
+    public page: number;
     private text: TextPos;
 
     public setTextPosition(xPos: number, yPos: number) {
@@ -44,7 +45,6 @@ class ToDoTip extends ToDoDataObject {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        let titleWithTodayIcon = this.today ? '\uf005' + this.title : '   ' + this.title;
         ctx.fillStyle = 'rgb(234, 234, 234)';
 
         ctx.fill();
@@ -63,6 +63,9 @@ class ToDoTip extends ToDoDataObject {
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
         ctx.fillText(this.title, this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
+
+        // toDoData本体も書き換える（rendere.tsでインポートしてきたやつ）
+        // でないと、resizeのたびに、todayがリセットされる
     }
 }
 
