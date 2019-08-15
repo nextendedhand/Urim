@@ -1,5 +1,7 @@
 import toDoData from './toDoData';
 import * as fs from 'fs';
+import * as path from 'path';
+
 /**
 * This is a class for a manager.
 * It contains a list for toDoAbstData.
@@ -14,8 +16,8 @@ export default class toDoDataManager {
     * @param void
     */
     constructor() {
-        this.importPathToFile = "../data/todoData.json";
-        this.exportPathToFile = "../data/new/todoData.json";
+        this.importPathToFile = path.resolve(__dirname, "../data/todoData.json");
+        this.exportPathToFile = path.resolve(__dirname, "../data/new/todoData.json");
         this.toDoDataArray = [];
     }
 
