@@ -5,17 +5,17 @@ import * as fs from 'fs';
 * It contains a list for toDoAbstData.
 */
 export default class toDoDataManager {
-	public importPathToFile : string;
-	public exportPathToFile : string;
-	public toDoDataArray : toDoData[];
+    public importPathToFile: string;
+    public exportPathToFile: string;
+    public toDoDataArray: toDoData[];
 
     /**
     * This is a constructor.
     * @param void
     */
     constructor() {
-    	this.importPathToFile = "../data/todoData.json";
-    	this.exportPathToFile = "../data/new/todoData.json";
+        this.importPathToFile = "../data/todoData.json";
+        this.exportPathToFile = "../data/new/todoData.json";
         this.toDoDataArray = [];
     }
 
@@ -24,22 +24,21 @@ export default class toDoDataManager {
     * @param void
     * @returns boolean
     */
-    public import(){
+    public import() {
         try {
             console.log('loading JSON file...');
-            let toDoDataArray = JSON.parse(fs.readFileSync(this.importPathToFile,'utf8'));
-            
-            for(let index in toDoDataArray){
-            	let tmpToDoData = toDoDataArray[index];
-				let data = new toDoData(tmpToDoData['title'],tmpToDoData['importance'],
-					                    tmpToDoData['urgency'],tmpToDoData['manHour'],
-					                    tmpToDoData['genreId'],tmpToDoData['deadline'],
-					                    tmpToDoData['content'],tmpToDoData['place'],tmpToDoData['today']);
-            	data.setId(tmpToDoData['id'])
-            	this.toDoDataArray.push(data);
+            let toDoDataArray = JSON.parse(fs.readFileSync(this.importPathToFile, 'utf8'));
+
+            for (let index in toDoDataArray) {
+                let tmpToDoData = toDoDataArray[index];
+                let data = new toDoData(tmpToDoData['title'], tmpToDoData['importance'],
+                    tmpToDoData['urgency'], tmpToDoData['manHour'],
+                    tmpToDoData['genreId'], tmpToDoData['deadline'],
+                    tmpToDoData['content'], tmpToDoData['place'], tmpToDoData['today']);
+                this.toDoDataArray.push(data);
             }
         }
-        catch(e){
+        catch (e) {
             console.log(e);
             return false;
         }
@@ -52,14 +51,14 @@ export default class toDoDataManager {
     * @param void
     * @returns boolean
     */
-    public export(){
+    public export() {
         try {
             console.log("exporting JSON file...");
             let json_text = JSON.stringify(this.toDoDataArray);
             fs.writeFileSync(this.exportPathToFile, json_text);
             console.log(json_text);
         }
-        catch(e){
+        catch (e) {
             console.log(e);
             return false;
         }
@@ -71,18 +70,18 @@ export default class toDoDataManager {
     * @param id
     * @returns void
     */
-    public delete(id : string){
-    	var isDeleted = false;
+    public delete(id: string) {
+        var isDeleted = false;
 
-        for(let index in this.toDoDataArray){
-            if(this.toDoDataArray[index]['id'] == id){
-            	delete this.toDoDataArray[index];
-            	isDeleted = true;
+        for (let index in this.toDoDataArray) {
+            if (this.toDoDataArray[index]['id'] == id) {
+                delete this.toDoDataArray[index];
+                isDeleted = true;
             }
         }
 
-        if (!isDeleted){
-        	console.log("Cannot find todo data(id: "+ id + " )")
+        if (!isDeleted) {
+            console.log("Cannot find todo data(id: " + id + " )")
         }
     }
 }

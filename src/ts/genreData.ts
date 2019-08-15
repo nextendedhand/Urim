@@ -2,7 +2,7 @@
 * This is a class for genre data.
 * It contains color and name of genre data.
 */
-export default  class genreData {
+export default class genreData {
     private id: string;
     private color: string;
     private name: string;
@@ -12,7 +12,7 @@ export default  class genreData {
     * @param color
     * @param name
     */
-    constructor(color : string, name: string) {
+    constructor(color: string, name: string) {
         this.id = this.generateId();
         this.color = color;
         this.name = name;
@@ -23,20 +23,20 @@ export default  class genreData {
     * @param void
     * @returns id
     */
-    private generateId(){
+    private generateId() {
         // characters which is used as id
         var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        
+
         // Number of digits
         var len = 10;
-         
+
         // generate id
         var id = "";
-        for(var i=0;i<len;i++){
-          id += str.charAt(Math.floor(Math.random() * str.length));
+        for (var i = 0; i < len; i++) {
+            id += str.charAt(Math.floor(Math.random() * str.length));
         }
 
-        return id;        
+        return id;
     }
 
     /**

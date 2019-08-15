@@ -61,11 +61,11 @@ export default class toDoData {
     }
 
     /**
-    * This is setter for TODO item's id.
+    * This is getter for TODO item's id.
     * @param void
     * @returns id
     */
-    public setId(): string {
+    public getId(): string {
         return this.id;
     }
 

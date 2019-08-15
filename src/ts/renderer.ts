@@ -5,6 +5,8 @@ const container: HTMLElement = <HTMLElement>document.getElementById('urim-plain-
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
 
 // todo情報を読み取る(最初のロード時・todoデータが作成・削除・編集されるたびに実行)
+// toDoDataManagerを生成して、import()すると、toDoDataManager.toDoDataArrayにjsonデータが格納される
+// この一時変数をいじる
 const toDoDatas = [{
     title: '1:S2',
     importance: 'S',
@@ -135,5 +137,8 @@ canvas.addEventListener('contextmenu', e => {
 
 });
 
+// 初期読み込み時は、renderに加えて、json読み込みとか行う
 window.onload = render;
+
+// リサイズのたびに、toDoData一時変数を読み込んでrenderする
 window.addEventListener('resize', render, false);

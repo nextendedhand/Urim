@@ -4,9 +4,9 @@ import genreData from './genreData';
 import settingData from './settingData';
 
 // init
-var abst = new abstData('test','im',1,2,3,'XXXX/XX/XX','content','Japan',false);    
+var abst = new abstData('test', 'im', 1, 2, 3, 'XXXX/XX/XX', 'content', 'Japan', false);
 var mng = new DATAMANAGER();
-var genre = new genreData('red','test');
+var genre = new genreData('red', 'test');
 var settingsData = new settingData();
 
 //settingsData.importSettingsData();
