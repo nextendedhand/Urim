@@ -4,9 +4,9 @@
 */
 export default class toDoDetailData {
 
-    private content:string;
-    private deadline:string;
-    private place : string;
+    private content: string;
+    private deadline: string;
+    private place: string;
 
     /**
     * This is a constructor.
@@ -14,7 +14,7 @@ export default class toDoDetailData {
     * @param deadline - TODO items's deadline.
     * @param place - Place where you do this action.
     */
-    constructor(deadline:string, content:string, place:string) {
+    constructor(deadline: string, content: string, place: string) {
         this.content = content;
         this.deadline = deadline;
         this.place = place;
@@ -25,7 +25,7 @@ export default class toDoDetailData {
     * @param void
     * @returns deadline
     */
-    getDeadLine():string {
+    getDeadLine(): string {
         return this.deadline;
     }
 
@@ -34,7 +34,7 @@ export default class toDoDetailData {
     * @param void
     * @returns content
     */
-    getContent():string{
+    getContent(): string {
         return this.content;
     }
 
@@ -43,7 +43,7 @@ export default class toDoDetailData {
     * @param void
     * @returns place
     */
-    getPlace():string {
+    getPlace(): string {
         return this.place;
     }
 
@@ -52,7 +52,7 @@ export default class toDoDetailData {
     * @param deadline - TODO items's deadline.
     * @returns void
     */
-    setDeadLine(deadline: string){
+    setDeadLine(deadline: string) {
         this.deadline = deadline;
     }
 
@@ -61,7 +61,7 @@ export default class toDoDetailData {
     * @param content - TODO item's content.
     * @returns void
     */
-    setContent(content : string){
+    setContent(content: string) {
         this.content = content;
     }
 
@@ -70,7 +70,7 @@ export default class toDoDetailData {
     * @param place - Place where you do this action.
     * @returns void
     */
-    setPlace(place :string){
+    setPlace(place: string) {
         this.place = place;
     }
 };

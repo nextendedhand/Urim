@@ -28,7 +28,6 @@ var toDoDataManager = /** @class */ (function () {
             for (var index in toDoDataArray) {
                 var tmpToDoData = toDoDataArray[index];
                 var data = new toDoData_1["default"](tmpToDoData['title'], tmpToDoData['importance'], tmpToDoData['urgency'], tmpToDoData['manHour'], tmpToDoData['genreId'], tmpToDoData['deadline'], tmpToDoData['content'], tmpToDoData['place'], tmpToDoData['today']);
-                data.setId(tmpToDoData['id']);
                 this.toDoDataArray.push(data);
             }
         }

@@ -14,7 +14,7 @@ class AxisManager {
     }
 
     /**
-     * Draw arrow by specifying a start point, end point, and control points. 
+     * Draw arrow by specifying a start point, end point, and control points.
      *
      * @remarks
      * This method is additional method of CanvasRenderingContext2D interface.
@@ -23,16 +23,16 @@ class AxisManager {
      * y direction is down direction.
      *
      * @param ctx - The 2D rendering context to rendering in canvas element
-     * @param startX - The x coordinate of start point 
-     * @param startY - The y coordinate of start point 
-     * @param endX - The x coordinate of end point 
-     * @param endY - The y coordinate of end point 
-     * @param controlPoints - The coordinates of control points which is relative coordinates 
-     *                        from start point or end point. 
-     *                        Odd-numbered value is x coordinate. 
+     * @param startX - The x coordinate of start point
+     * @param startY - The y coordinate of start point
+     * @param endX - The x coordinate of end point
+     * @param endY - The y coordinate of end point
+     * @param controlPoints - The coordinates of control points which is relative coordinates
+     *                        from start point or end point.
+     *                        Odd-numbered value is x coordinate.
      *                        Positive value is from the start point and negative is from end   point.
      *                        Even-numbered value is y coordinate.
-     *                         
+     *
      * @returns void
      */
     public create(ctx: CanvasRenderingContext2D) {
