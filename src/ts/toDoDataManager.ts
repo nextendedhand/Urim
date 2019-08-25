@@ -16,8 +16,8 @@ export default class toDoDataManager {
     * @param void
     */
     constructor() {
-        this.importPathToFile = path.resolve(__dirname, "../data/todoData.json");
-        this.exportPathToFile = path.resolve(__dirname, "../data/new/todoData.json");
+        this.importPathToFile = path.resolve(__dirname, '../data/todoData.json');
+        this.exportPathToFile = path.resolve(__dirname, '../data/new/todoData.json');
         this.toDoDataArray = [];
     }
 
@@ -55,7 +55,7 @@ export default class toDoDataManager {
     */
     public export() {
         try {
-            console.log("exporting JSON file...");
+            console.log('exporting JSON file...');
             let json_text = JSON.stringify(this.toDoDataArray);
             fs.writeFileSync(this.exportPathToFile, json_text);
             console.log(json_text);
@@ -83,7 +83,7 @@ export default class toDoDataManager {
         }
 
         if (!isDeleted) {
-            console.log("Cannot find todo data(id: " + id + " )")
+            console.log(`Cannot find todo data(id: ${id})`);
         }
     }
 }

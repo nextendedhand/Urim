@@ -1,7 +1,6 @@
 import AxisManager from './axisManager';
-import ToDoDataObject from './ToDoDataObject';
+import ToDoData from './ToDoData';
 import ToDoTip from './ToDoTip';
-import { stringify } from 'querystring';
 
 interface IImToCoord {
     S: number;
@@ -24,7 +23,7 @@ class UrimPlaneManager {
     private urimCell: string[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
 
-    constructor(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]) {
+    constructor(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]) {
         let ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,19 +80,19 @@ class UrimPlaneManager {
         return this.urToCoord(urgency) * canvas.width / 20;
     }
 
-    private createUrimCell(toDoDatas: ToDoDataObject[]) {
+    private createUrimCell(toDoDatas: ToDoData[]) {
         // urimCellにデータ格納する
         // ToDO: UtimCellクラス作るかどうか考える
-        toDoDatas.forEach((toDoData: ToDoDataObject) => {
-            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)][0] !== '') {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)].push(toDoData.id);
+        toDoDatas.forEach((toDoData: ToDoData) => {
+            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())][0] !== '') {
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].push(toDoData.getId());
             } else {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.importance]][this.urToCoord(toDoData.urgency)] = [toDoData.id];
+                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())] = [toDoData.getId()];
             }
         });
     }
 
-    public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoDataObject[]): ToDoTip[] {
+    public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]): ToDoTip[] {
         let toDoTips: ToDoTip[] = new Array();
 
         this.urimCell.forEach((imArray: string[][]) => {
@@ -101,8 +100,8 @@ class UrimPlaneManager {
                 if (cell[0] !== '') {
                     cell.forEach((id: string, index: number) => {
                         // urimCellに格納されたidと一致するtoDoDataを検索して代入
-                        const toDoData: ToDoDataObject = (id => {
-                            return toDoDatas.find(tDD => tDD.id === id);
+                        const toDoData: ToDoData = (id => {
+                            return toDoDatas.find(tDD => tDD.getId() === id);
                         })(id);
 
                         // toDoTipの作成
@@ -111,18 +110,12 @@ class UrimPlaneManager {
                         // - top
                         // - bottom
                         // を計算する
-                        let toDoTip = new ToDoTip();
-
-                        toDoTip.title = toDoData.title;
-                        toDoTip.importance = toDoData.importance;
-                        toDoTip.urgency = toDoData.urgency;
-                        toDoTip.today = toDoData.today;
-                        toDoTip.id = toDoData.id;
+                        let toDoTip = new ToDoTip(toDoData);
 
                         toDoTip.width = canvas.width / 20;
                         toDoTip.height = canvas.height / 32;
-                        toDoTip.left = this.calcUrCoord(canvas, toDoData.urgency);
-                        toDoTip.bottom = this.calcImCoord(canvas, toDoData.importance) + (index % 7) * toDoTip.height;
+                        toDoTip.left = this.calcUrCoord(canvas, toDoData.getUrgency());
+                        toDoTip.bottom = this.calcImCoord(canvas, toDoData.getImportance()) + (index % 7) * toDoTip.height;
 
                         toDoTip.page = 0;
                         // TODO: 7個(index:6)以上の場合は、一番下に右矢印と左矢印を用意しておく
@@ -180,14 +173,14 @@ class UrimPlaneManager {
         // today用の星描画
         let todayIcon = '\uf005';
 
-        ctx.font = toDoTip.today ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.font = toDoTip.toDoData.getToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
 
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
         ctx.fillText(todayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(toDoTip.title, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
+        ctx.fillText(toDoTip.toDoData.getTitle(), toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {

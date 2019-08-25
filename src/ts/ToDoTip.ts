@@ -1,4 +1,4 @@
-import ToDoDataObject from './ToDoDataObject';
+import ToDoData from './ToDoData';
 /**
  * - クリック判定
  * - toggleToday
@@ -9,7 +9,7 @@ interface TextPos {
     y: number
 }
 
-class ToDoTip extends ToDoDataObject {
+class ToDoTip {
     public left: number;
     public right: number;
     public top: number;
@@ -18,6 +18,11 @@ class ToDoTip extends ToDoDataObject {
     public height: number;
     public page: number;
     private text: TextPos;
+    public toDoData: ToDoData;
+
+    constructor(toDoData: ToDoData) {
+        this.toDoData = toDoData;
+    }
 
     public setTextPosition(xPos: number, yPos: number) {
         this.text = {
@@ -35,9 +40,7 @@ class ToDoTip extends ToDoDataObject {
     }
 
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this.today = !this.today;
-        // ToDo: 共有データのtodayプロパティもtoggleする
-
+        this.toDoData.setToday(!this.toDoData.getToday());
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
@@ -55,17 +58,14 @@ class ToDoTip extends ToDoDataObject {
 
         let todayIcon = '\uf005';
 
-        ctx.font = this.today ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.font = this.toDoData.getToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
 
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(this.title, this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
-
-        // toDoData本体も書き換える（rendere.tsでインポートしてきたやつ）
-        // でないと、resizeのたびに、todayがリセットされる
+        ctx.fillText(this.toDoData.getTitle(), this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
     }
 }
 
