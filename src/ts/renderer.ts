@@ -19,6 +19,7 @@ const render = (toDoDatas: toDoData[]) => {
     upm.render(canvas, ctx, toDoTips);
 }
 
+// toDoを右クリックした際に、toDayの星の色が変わる
 canvas.addEventListener('contextmenu', e => {
     e.preventDefault();
 
@@ -34,6 +35,28 @@ canvas.addEventListener('contextmenu', e => {
     toDoTips.forEach(toDoTip => {
         if (toDoTip.isClicked(point)) {
             toDoTip.toggleToday(canvas, ctx);
+        }
+    });
+
+});
+
+canvas.addEventListener('dblclick', e => {
+    e.preventDefault();
+
+    const dpr = window.devicePixelRatio || 1;
+    const canvasRect = canvas.getBoundingClientRect();
+
+    const point = {
+        x: e.clientX * dpr - canvasRect.left * dpr,
+        y: e.clientY * dpr - canvasRect.top * dpr
+    };
+
+    // クリック判定処理
+    toDoTips.forEach(toDoTip => {
+        if (toDoTip.isClicked(point)) {
+            // ToDo: 詳細画面に遷移する
+            // ToDoDataを渡すと詳細画面を描画するAPIが欲しい
+            console.log(toDoTip.toDoData.getDetailData());
         }
     });
 
