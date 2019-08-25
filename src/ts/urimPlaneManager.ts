@@ -142,15 +142,40 @@ class UrimPlaneManager {
         canvas.width = this.width;
 
         this.urAxis.startY = canvas.height / 2;
-        this.urAxis.endX = canvas.width;
+        this.urAxis.endX = canvas.width - canvas.width / 60;
         this.urAxis.endY = canvas.height / 2;
 
         this.imAxis.startX = canvas.width / 2;
         this.imAxis.startY = canvas.height;
         this.imAxis.endX = canvas.width / 2;
+        this.imAxis.endY = canvas.height / 30;
 
         this.urAxis.create(ctx);
         this.imAxis.create(ctx);
+
+        // 軸名の描画
+        ctx.beginPath();
+        let fontSize = canvas.width / 80;
+
+        ctx.font = `900 ${fontSize}pt 'Font Awesome 5 Free'`
+
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.textAlign = 'center';
+
+        ctx.fillText('重要度', canvas.width / 2, parseInt(ctx.font));
+        ctx.textAlign = 'start';
+
+        const vFillText = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => {
+            const textList = text.split('\n');
+            const lineHeight = ctx.measureText('あ').width;
+            textList.forEach(elm => {
+                Array.prototype.forEach.call(elm, (ch: string, j: number) => {
+                    ctx.fillText(ch, x - lineHeight, y + lineHeight * (j - 1));
+                });
+            });
+        };
+
+        vFillText(ctx, '緊急度', canvas.width, canvas.height / 2);
     }
 
     private renderToDo(toDoTip: ToDoTip, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
