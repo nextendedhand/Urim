@@ -205,7 +205,20 @@ class UrimPlaneManager {
         ctx.fillText(todayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(toDoTip.toDoData.getTitle(), toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
+
+        let title = toDoTip.toDoData.getTitle();
+
+        if (ctx.measureText(todayIcon + title).width >= toDoTip.width) {
+            while (true) {
+                if (ctx.measureText(`${todayIcon}${title}..`).width < toDoTip.width) {
+                    title += '..';
+                    break;
+                }
+                title = title.slice(0, -1);
+            }
+        }
+
+        ctx.fillText(title, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
