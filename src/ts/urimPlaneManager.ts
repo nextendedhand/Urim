@@ -138,9 +138,6 @@ class UrimPlaneManager {
 
 
     private renderAxis(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        canvas.height = this.height;
-        canvas.width = this.width;
-
         this.urAxis.startY = canvas.height / 2;
         this.urAxis.endX = canvas.width - canvas.width / 60;
         this.urAxis.endY = canvas.height / 2;
@@ -222,7 +219,20 @@ class UrimPlaneManager {
         ctx.fillText(toDoTip.shortTitle, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
+    private renderImBackground(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        const backgroundColor = ['#ffeaf4', '#fff4ea', '#ffffea', '#eaf4ff'];
+
+        backgroundColor.forEach((color, index) => {
+            ctx.fillStyle = color;
+            ctx.fillRect(0, canvas.height / 4 * index, canvas.width, canvas.height / 4);
+        })
+    }
+
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
+        canvas.height = this.height;
+        canvas.width = this.width;
+
+        this.renderImBackground(canvas, ctx);
         this.renderAxis(canvas, ctx);
 
         toDoTips.forEach(toDoTip => {
