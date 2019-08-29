@@ -211,14 +211,14 @@ class UrimPlaneManager {
         if (ctx.measureText(todayIcon + title).width >= toDoTip.width) {
             while (true) {
                 if (ctx.measureText(`${todayIcon}${title}..`).width < toDoTip.width) {
-                    title += '..';
+                    toDoTip.shortTitle = title + '..';
                     break;
                 }
                 title = title.slice(0, -1);
             }
         }
 
-        ctx.fillText(title, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
+        ctx.fillText(toDoTip.shortTitle, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
