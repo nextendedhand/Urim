@@ -207,6 +207,7 @@ class UrimPlaneManager {
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
 
         let title = toDoTip.toDoData.getTitle();
+        toDoTip.shortTitle = title;
 
         if (ctx.measureText(todayIcon + title).width >= toDoTip.width) {
             while (true) {
