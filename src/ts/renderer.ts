@@ -3,7 +3,6 @@ import ToDoTip from './ToDoTip';
 import toDoData from './toDoData';
 import ToDoDataManager from './toDoDataManager';
 
-const container: HTMLElement = <HTMLElement>document.getElementById('urim-plain-container');
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
 
 const tddMng = new ToDoDataManager();

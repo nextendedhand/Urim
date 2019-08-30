@@ -1,25 +1,13 @@
 import AxisManager from './axisManager';
 import ToDoData from './ToDoData';
 import ToDoTip from './ToDoTip';
-
-interface IImToCoord {
-    S: number;
-    A: number;
-    B: number;
-    C: number;
-}
+import Common from './common';
 
 class UrimPlaneManager {
     public urAxis: AxisManager;
     public imAxis: AxisManager;
     private height: number;
     private width: number;
-    private imToCoord: IImToCoord = {
-        'S': 0,
-        'A': 1,
-        'B': 2,
-        'C': 3
-    };
     private urimCell: string[][][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency][index]: 各importance, urgencyでのtoDoデータIDを格納する
 
@@ -73,7 +61,8 @@ class UrimPlaneManager {
     }
 
     private calcImCoord(canvas: HTMLCanvasElement, importance: string): number {
-        return canvas.height * this.imToCoord[<keyof IImToCoord>importance] / 4 + canvas.height / 20;
+        const common = new Common();
+        return canvas.height * common.imToNum[<keyof { [s: string]: number }>importance] / 4 + canvas.height / 20;
     }
 
     private calcUrCoord(canvas: HTMLCanvasElement, urgency: number): number {
@@ -81,13 +70,14 @@ class UrimPlaneManager {
     }
 
     private createUrimCell(toDoDatas: ToDoData[]) {
+        const common = new Common();
         // urimCellにデータ格納する
         // ToDO: UtimCellクラス作るかどうか考える
         toDoDatas.forEach((toDoData: ToDoData) => {
-            if (this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())][0] !== '') {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].push(toDoData.getId());
+            if (this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())][0] !== '') {
+                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].push(toDoData.getId());
             } else {
-                this.urimCell[this.imToCoord[<keyof IImToCoord>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())] = [toDoData.getId()];
+                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())] = [toDoData.getId()];
             }
         });
     }
@@ -220,9 +210,9 @@ class UrimPlaneManager {
     }
 
     private renderImBackground(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        const backgroundColor = ['#ffeaf4', '#fff4ea', '#ffffea', '#eaf4ff'];
+        const common = new Common();
 
-        backgroundColor.forEach((color, index) => {
+        common.backgroundColor.forEach((color, index) => {
             ctx.fillStyle = color;
             ctx.fillRect(0, canvas.height / 4 * index, canvas.width, canvas.height / 4);
         })

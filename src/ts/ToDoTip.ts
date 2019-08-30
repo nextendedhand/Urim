@@ -1,4 +1,6 @@
 import ToDoData from './ToDoData';
+import Common from './common';
+
 /**
  * - クリック判定
  * - toggleToday
@@ -41,6 +43,7 @@ class ToDoTip {
     }
 
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        const common = new Common();
         this.toDoData.setToday(!this.toDoData.getToday());
         ctx.beginPath();
 
@@ -49,7 +52,7 @@ class ToDoTip {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        ctx.fillStyle = 'rgb(234, 234, 234)';
+        ctx.fillStyle = common.backgroundColor[common.imToNum[this.toDoData.getImportance()]];
 
         ctx.fill();
 
