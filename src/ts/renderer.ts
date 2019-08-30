@@ -73,4 +73,7 @@ window.addEventListener('resize', () => { render(tddMng.toDoDataArray) }, false)
 
 // 概要モード画面に遷移
 const abstBtn = document.getElementById('abst-btn');
-abstBtn.addEventListener('click', () => { location.href = '../html/abst.html'; }, false);
+abstBtn.addEventListener('click', () => {
+    localStorage.setItem('toDoDataArray', JSON.stringify(tddMng.toDoDataArray));
+    location.href = '../html/abst.html';
+}, false);
