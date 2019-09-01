@@ -34,9 +34,9 @@ export default class toDoDataManager {
             for (let index in toDoDataArray) {
                 let tmpToDoData = toDoDataArray[index];
                 let data = new toDoData(tmpToDoData['title'], tmpToDoData['importance'],
-                    tmpToDoData['urgency'], tmpToDoData['manHour'],
+                    tmpToDoData['manHour'],
                     tmpToDoData['genreId'], tmpToDoData['deadline'],
-                    tmpToDoData['content'], tmpToDoData['place'], tmpToDoData['today']);
+                    tmpToDoData['contents'], tmpToDoData['place'], tmpToDoData['today']);
                 this.toDoDataArray.push(data);
             }
         }

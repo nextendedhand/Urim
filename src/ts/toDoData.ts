@@ -10,10 +10,10 @@ export default class toDoData {
     private title: string;
     private importance: string;
     private urgency: number;
-    private manHour: number;
+    private manHour: { [s: string]: number };
     private genreId: number;
     private detailData: detailData;
-    private today: boolean;
+    private isToday: boolean;
 
     /**
     * This is a constructor.
@@ -27,16 +27,16 @@ export default class toDoData {
     * @param place - Place where you do this action.
     * @param today - A flag whether you should do this action today.
     */
-    constructor(title: string, importance: string, urgency: number, manHour: number, genreId: number,
-        deadline: string, content: string, place: string, today: boolean) {
+    constructor(title: string, importance: string, manHour: { [s: string]: number }, genreId: number,
+        deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean) {
         this.id = this.generateId();
         this.title = title;
         this.importance = importance;
-        this.urgency = urgency;
         this.manHour = manHour;
         this.genreId = genreId;
-        this.today = today;
-        this.detailData = new detailData(deadline, content, place);
+        this.isToday = isToday;
+        this.detailData = new detailData(deadline, contents, place);
+        this.urgency = this.calcUrgency();
     }
 
     /**
@@ -101,7 +101,7 @@ export default class toDoData {
     * @param void
     * @returns manHour
     */
-    public getManHour(): number {
+    public getManHour(): { [s: string]: number } {
         return this.manHour;
     }
 
@@ -126,10 +126,10 @@ export default class toDoData {
     /**
     * This is getter for the flag whether you should do this action today.
     * @param void
-    * @returns today
+    * @returns isToday
     */
-    public getToday(): boolean {
-        return this.today;
+    public getIsToday(): boolean {
+        return this.isToday;
     }
 
     /**
@@ -150,13 +150,12 @@ export default class toDoData {
         this.importance = importance;
     }
 
-    /**
-    * This is setter for TODO item's urgency.
-    * @param urgency
-    * @returns void
-    */
-    public setUrgency(urgency: number) {
-        this.urgency = urgency;
+    private calcUrgency(): number {
+        // deadline - 現在日時から残日数を返す
+        const nowDate = new Date();
+        const deadlineDate = new Date(this.detailData.getDeadLine().year, this.detailData.getDeadLine().month - 1, this.detailData.getDeadLine().day, nowDate.getHours(), nowDate.getMinutes());
+
+        return Math.floor((deadlineDate.getTime() - nowDate.getTime()) / (1000 * 60 * 60 * 24)) + 2;
     }
 
     /**
@@ -164,7 +163,7 @@ export default class toDoData {
     * @param manHour
     * @returns void
     */
-    public setManHour(manHour: number) {
+    public setManHour(manHour: { [s: string]: number }) {
         this.manHour = manHour;
     }
 
@@ -175,18 +174,18 @@ export default class toDoData {
     * @param place - Place where you do this action.
     * @returns void
     */
-    public setDetailData(content: string, deadline: string, place: string) {
-        this.detailData.setContent(content);
+    public setDetailData(contents: string, deadline: { [s: string]: number }, place: string) {
+        this.detailData.setContents(contents);
         this.detailData.setDeadLine(deadline);
         this.detailData.setPlace(place);
     }
 
     /**
     * This is setter for a flag whether you should do this action today.
-    * @param today
+    * @param isToday
     * @returns void
     */
-    public setToday(today: boolean) {
-        this.today = today;
+    public setToday(isToday: boolean) {
+        this.isToday = isToday;
     }
 };

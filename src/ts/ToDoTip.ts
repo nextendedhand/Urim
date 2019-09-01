@@ -44,7 +44,7 @@ class ToDoTip {
 
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         const common = new Common();
-        this.toDoData.setToday(!this.toDoData.getToday());
+        this.toDoData.setToday(!this.toDoData.getIsToday());
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
@@ -62,7 +62,7 @@ class ToDoTip {
 
         let todayIcon = '\uf005';
 
-        ctx.font = this.toDoData.getToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.font = this.toDoData.getIsToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
 
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
