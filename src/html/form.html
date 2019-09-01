@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <link rel="stylesheet" type="text/css" href="../css/formstyle.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+
+
+<body>
+  <section class="section--center">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+      <div class="mdl-card__supporting-text">
+      <h3>Create Task</h3>
+        <div class="section__text">
+          <h5>Title</h5>
+          <input class="mdl-textfield__input" name="title" type="text" id="title" value="">
+        </div>
+
+        <div class="section__text">
+          <h5>Detail</h5>
+          <textarea class="mdl-textfield__input" type="text" rows= "5" id="contents" value=""></textarea>
+        </div>
+
+        <div class="section__text">
+          <h5>Place</h5>
+          <input class="mdl-textfield__input" name="place" type="text" id="place" value="">
+        </div>
+
+        <div>
+          <h5>Importance</h5>
+          <select name="importance" id="importance">
+            <option value="S">S</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+          </select>
+        </div>
+
+        <div>
+          <h5>Time</h5>
+          <input type="time" name="man_hour" id="man_hour" value="">
+        </div>
+
+        <div>
+          <h5>Genre</h5>
+          <select name="genre" id="genre">
+            <option value="work">business</option>
+            <option value="home">private</option>
+            <option value="other">other</option>
+          </select>
+        </div>
+
+        <div>
+          <h5>Deadline</h5>
+          <input type="date" name="deadline" id="deadline" value="">
+        </div>
+
+        <div>
+          <h5>within Today</h5>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="today">
+            <input type="radio" id="today" class="mdl-radio__button" name="istoday" value="yes" checked>
+            Today
+          </label>
+          <br>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="notoday">
+            <input type="radio" id="notoday" class="mdl-radio__button" name="istoday" value="no">
+            Not
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class=button_sec>
+    <div>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+      value="create" id="create_btn">OK</button>
+      <button class="mdl-button mdl-js-button mdl-button--raised"
+      value="cancel" id="cancel_btn">Cancel</button>
+    </div>
+  </section>
+</body>
+
+<script>
+  require('../../dist/toDoCreator.js');
+</script>
+</html>
