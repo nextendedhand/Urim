@@ -4,8 +4,8 @@
 */
 export default class toDoDetailData {
 
-    private content: string;
-    private deadline: string;
+    private contents: string;
+    private deadline: { [s: string]: number };
     private place: string;
 
     /**
@@ -14,8 +14,8 @@ export default class toDoDetailData {
     * @param deadline - TODO items's deadline.
     * @param place - Place where you do this action.
     */
-    constructor(deadline: string, content: string, place: string) {
-        this.content = content;
+    constructor(deadline: { [s: string]: number }, contents: string, place: string) {
+        this.contents = contents;
         this.deadline = deadline;
         this.place = place;
     }
@@ -25,17 +25,17 @@ export default class toDoDetailData {
     * @param void
     * @returns deadline
     */
-    getDeadLine(): string {
+    getDeadLine(): { [s: string]: number } {
         return this.deadline;
     }
 
     /**
-    * This is getter for TODO item's content.
+    * This is getter for TODO item's contents.
     * @param void
-    * @returns content
+    * @returns contents
     */
-    getContent(): string {
-        return this.content;
+    getContents(): string {
+        return this.contents;
     }
 
     /**
@@ -52,17 +52,17 @@ export default class toDoDetailData {
     * @param deadline - TODO items's deadline.
     * @returns void
     */
-    setDeadLine(deadline: string) {
+    setDeadLine(deadline: { [s: string]: number }) {
         this.deadline = deadline;
     }
 
     /**
     * This is setter for TODO contents.
-    * @param content - TODO item's content.
+    * @param contents - TODO item's content.
     * @returns void
     */
-    setContent(content: string) {
-        this.content = content;
+    setContents(contents: string) {
+        this.contents = contents;
     }
 
     /**

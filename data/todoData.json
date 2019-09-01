@@ -2,288 +2,304 @@
     {
         "title": "0:S2",
         "importance": "S",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 10,
-                "day": 3,
-                "month": 3,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 3,
+            "day": 3,
+            "hour": 10
+        },
         "genreId": 1,
         "contents": "work at the office.",
-        "deadLine": "20190505",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "Australia",
         "today": true
     },
     {
         "title": "1:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "2:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "3:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "4:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "5:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "6:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "7:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "8:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "9:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "10:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 12,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "11:A2",
         "importance": "A",
-        "urgency": 2,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 9,
+            "day": 2
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "12:A2",
         "importance": "B",
-        "urgency": 4,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 10,
+            "day": 20
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "13:A2",
         "importance": "B",
-        "urgency": 5,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 11,
+            "day": 5
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "14:C6",
         "importance": "C",
-        "urgency": 6,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2019,
+            "month": 10,
+            "day": 15
+        },
         "place": "USA",
         "today": false
     },
     {
         "title": "15:A11",
         "importance": "A",
-        "urgency": 11,
-        "manHour": [
-            {
-                "hour": 3,
-                "day": 0,
-                "month": 0,
-                "year": 0
-            }
-        ],
+        "manHour": {
+            "year": 0,
+            "month": 0,
+            "day": 0,
+            "hour": 3
+        },
         "genreId": 0,
         "contents": "work at the office.",
-        "deadLine": "20200404",
+        "deadline": {
+            "year": 2020,
+            "month": 1,
+            "day": 15
+        },
         "place": "USA",
         "today": false
     }

@@ -52,7 +52,7 @@ export class UrimPlaneManager {
                 this.urimCell[iIm][iUr].ids = [''];
                 this.urimCell[iIm][iUr].pm.maxPage = 0;
                 this.urimCell[iIm][iUr].pm.minPage = 0;
-                this.urimCell[iIm][iUr].pm.left = this.calcUrCoord(canvas, 20 - iUr);
+                this.urimCell[iIm][iUr].pm.left = iUr * canvas.width / 20;;
                 this.urimCell[iIm][iUr].pm.width = canvas.width / 20;
                 this.urimCell[iIm][iUr].pm.height = canvas.height / 32;
                 this.urimCell[iIm][iUr].pm.top = this.calcImCoord(canvas, Object.keys(common.imToNum).filter(v => { return common.imToNum[v] == iIm })[0]) + 6 * this.urimCell[iIm][iUr].pm.height - this.urimCell[iIm][iUr].pm.height;
@@ -74,10 +74,10 @@ export class UrimPlaneManager {
         else if (urgency >= 31 && urgency <= 90) {
             return (urgency - 30) % 12 !== 0 ? 20 - 11 - Math.floor((urgency - 30) / 12) : 20 - 10 - Math.floor((urgency - 30) / 12);
         }
-        else if (urgency >= 91) {
-            return (urgency - 90) % 30 !== 0 ? 20 - 16 - Math.floor((urgency - 30) / 18) : 20 - 15 - Math.floor((urgency - 90) / 18);
+        else if (urgency >= 91 && urgency <= 242) {
+            return (urgency - 90) % 30 !== 0 ? 20 - 16 - Math.floor((urgency - 90) / 30) : 20 - 15 - Math.floor((urgency - 90) / 30);
         }
-        else if (urgency >= 163) {
+        else if (urgency >= 243) {
             return 0;
         }
     }
@@ -213,7 +213,7 @@ export class UrimPlaneManager {
         // today用の星描画
         let todayIcon = '\uf005';
 
-        ctx.font = toDoTip.toDoData.getToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.font = toDoTip.toDoData.getIsToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
 
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
