@@ -1,4 +1,6 @@
 import ToDoData from './ToDoData';
+import Common from './common';
+
 /**
  * - クリック判定
  * - toggleToday
@@ -18,6 +20,7 @@ class ToDoTip {
     public height: number;
     public page: number;
     private text: TextPos;
+    public shortTitle: string
     public toDoData: ToDoData;
 
     constructor(toDoData: ToDoData) {
@@ -40,6 +43,7 @@ class ToDoTip {
     }
 
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        const common = new Common();
         this.toDoData.setToday(!this.toDoData.getToday());
         ctx.beginPath();
 
@@ -48,7 +52,7 @@ class ToDoTip {
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.stroke();
 
-        ctx.fillStyle = 'rgb(234, 234, 234)';
+        ctx.fillStyle = common.backgroundColor[common.imToNum[this.toDoData.getImportance()]];
 
         ctx.fill();
 
@@ -65,7 +69,7 @@ class ToDoTip {
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(this.toDoData.getTitle(), this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
+        ctx.fillText(this.shortTitle, this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
     }
 }
 
