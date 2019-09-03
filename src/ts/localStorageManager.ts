@@ -43,7 +43,6 @@ export default class LocalStorage {
     public getValue(): string {
         if (this.isAvailable)
             return localStorage.getItem(TODODATA_KEY);
-        return "localStorage is unavailable."
     }
 
     /**
