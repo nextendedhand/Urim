@@ -6,7 +6,7 @@ import * as path from 'path';
 import initializeSortSetting from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
 import my_LS from './localStorageManager';
-// import toDoData_class from './toDoData';
+import toDoData_class from './toDoData';
 /************************* variables & constances *************************/
 
 // ToDoListの受け渡し法
@@ -445,10 +445,10 @@ const toJsonFile = (backupdata: string): void => {
     }
 }
 
-// tableからセル値を取り出す
+// tableから全てのセル値を取り出す
 const setTableDataForString = (): string[][] => {
     var row_length: number;
-    var column_length: number = TEABLE_HEADER_STRINGS.length;
+    const column_length: number = TEABLE_HEADER_STRINGS.length;
     var table_value: string[][] = [
         [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6]]
     ];
@@ -471,6 +471,54 @@ const setTableDataForString = (): string[][] => {
     }
 
     return table_value;
+
+}
+
+// tableをtoDoData型変数に格納する
+const setTableDataFortoDoDataClass = (): toDoData_class[] => {
+
+    var table_toDoData: toDoData_class[] = [];
+    var row_length: number;
+    const column_length: number = TEABLE_HEADER_STRINGS.length;
+
+    let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
+    {
+        row_length = $listtable.rows.length - 1;
+    }
+
+    let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
+    for (let i: number = 1; i <= row_length; ++i) { // ヘッダ行は不要
+        let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
+        let temp_toDoData: toDoData_class;
+        {
+            for (let j: number = 1; j < column_length; ++j) {   // 削除用チェックリスト列は不要
+                switch (j) {
+                    case 1:
+                        temp_toDoData.setTitle(checkColumn[j].textContent);
+                        break;
+                    case 2:
+                        if (checkColumn[j].textContent == "★") temp_toDoData.setToday(true);
+                        else temp_toDoData.setToday(false);
+                        break;
+                    case 3:
+                        temp_toDoData.setImportance(checkColumn[j].textContent);
+                        break;
+                    case 4: // urgencyは不要
+                        break;
+                    case 5:
+
+                        break;
+                    case 6: // genreIDは不要
+                        break;
+                    default:
+                        break;
+                }
+            }
+            table_toDoData.push(temp_toDoData);
+        }
+    }
+
+    return table_toDoData;
 
 }
 
