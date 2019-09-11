@@ -1,4 +1,3 @@
-// とりあえずjson読み出しのToDoListデータを使用して作成する。
 // ヘッダ行はhtmlでやればよかったと後ほど気付いたが、修正が面倒なので放置している。
 
 /************************* imports *************************/
@@ -7,14 +6,21 @@ import * as path from 'path';
 import initializeSortSetting from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
 import my_LS from './localStorageManager';
-// import DATAMANAGER from './toDoDATAMANAGER'; //ファイル出力が同期処理なので使用しないことにする
 // import toDoData_class from './toDoData';
 /************************* variables & constances *************************/
 
 // ToDoListの受け渡し法
 // 1: localStorage
 // 5: JSONファイル
-var GET_TO_DO_DATA_LIST = 1;
+var DEAL_TO_DO_DATA_LIST: number = 1;
+
+// リスト削除前に　バックアップを取るか
+var IS_BACKUP: boolean = false;
+
+// バックアップ方法
+// 1: localStorage /* 非実装 */
+// 5: JSONファイル
+var BACKUP_TO_DO_DATA_LIST: number = 5;
 
 // テーブルの列数
 const TABLE_COLUMN_NUM: number = 7;
@@ -41,14 +47,18 @@ export var enableDeleteList: boolean = false;
 // backupファイルパス
 const backupFilePath: string = "data/backup/";
 
+//error number: ex) " : XXX Error"
+var error_s: string = null;
+
 /************************* functions *************************/
 
 // ウィンドウオンロード時に初期化する
 window.onload = (): void => {
     windowInitialize();
-    if (!fs.existsSync(backupFilePath)) {
-        fs.mkdirSync(backupFilePath);
-    }
+    if (IS_BACKUP)
+        if (BACKUP_TO_DO_DATA_LIST == 5)
+            if (!fs.existsSync(backupFilePath))   // バックアップファイルパスの確認
+                fs.mkdirSync(backupFilePath);   // フォルダが無ければつくる
 }
 
 // 初期化関数
@@ -165,6 +175,8 @@ const makeTable = (): void => {
 
     }
 
+    error_Check();
+
 }
 
 // 列番号に従い、セルに代入するテキストを決定する
@@ -259,11 +271,11 @@ const subSortSetting_Changed = () => {
 }
 
 const getToDoData = (): any => {
-    if (GET_TO_DO_DATA_LIST == 1) {
+    if (DEAL_TO_DO_DATA_LIST == 1) {
         console.log("use localStorage.");
         return getToDoDataFromlocalStorage();
     }
-    else if (GET_TO_DO_DATA_LIST == 5) {
+    else if (DEAL_TO_DO_DATA_LIST == 5) {
         console.log("use JSON file.");
         return getToDoDataFromJSON();
     }
@@ -274,6 +286,7 @@ const getToDoDataFromJSON = (): any => {
     try {
         return JSON.parse(fs.readFileSync(path.join(__dirname, PATH_TO_DATA_FILE), 'utf8'));
     } catch (ex) {
+        error_s = " :Error in Reading JSON File";
         console.log(ex);
     }
     return null;
@@ -283,7 +296,13 @@ const getToDoDataFromJSON = (): any => {
 const getToDoDataFromlocalStorage = (): any => {
 
     let ls: my_LS = new my_LS();
-    //return JSON.parse
+    try {
+        return JSON.parse(ls.getValue());
+    } catch (ex) {
+        error_s = " :Error in Reading localStorage";
+        console.log(ex);
+    }
+    return null;
 
 }
 
@@ -303,7 +322,9 @@ const changeDeleteMode = (): void => {
 
 // リスト削除
 const toDoListDelete = (): void => {
-    beforeToDoDelete();
+
+    if (IS_BACKUP) beforeToDoDelete();
+
     var deleteList: number[] = getDeleteList();
     let last: number = deleteList.length;
     if (0 < last) {
@@ -377,9 +398,14 @@ const beforeToDoDelete = (): void => {
     // 削除前のToDoList行列を取得
     var table_value: string[][] = setTableDataForString();
 
-    // jsonファイルにbackup出力
-    toJsonFile(JSON.stringify(table_value));
+    if (BACKUP_TO_DO_DATA_LIST == 1) {
 
+    } else if (BACKUP_TO_DO_DATA_LIST == 5) {
+        // jsonファイルにbackup出力
+        toJsonFile(JSON.stringify(table_value));
+    }
+
+    error_Check();
 }
 
 const afterToDoDelete = (): void => {
@@ -387,12 +413,18 @@ const afterToDoDelete = (): void => {
     // 削除後のToDoList行列を取得
     var table_value: string[][] = setTableDataForString();
 
-    if (GET_TO_DO_DATA_LIST == 1) { // localstorageに保存
-        let ls: my_LS = new my_LS();
-        ls.setValue(JSON.stringify(table_value));
+    if (DEAL_TO_DO_DATA_LIST == 1) { // localstorageに保存
+        try {
+            let ls: my_LS = new my_LS();
+            ls.setValue(JSON.stringify(table_value));
+        } catch (e) {
+            error_s = " :Error in accessing localStorage";
+        }
     }
-    else if (GET_TO_DO_DATA_LIST == 5)   // jsonファイルに出力
+    else if (DEAL_TO_DO_DATA_LIST == 5)   // jsonファイルに出力
         toJsonFile(JSON.stringify(table_value));
+
+    error_Check();
 
 }
 
@@ -408,7 +440,7 @@ const toJsonFile = (backupdata: string): void => {
         });
     }
     catch (e) {
-        console.log("backup Error.");
+        error_s = " :Error in Making JSON File"
         console.log(e);
     }
 }
@@ -438,8 +470,13 @@ const setTableDataForString = (): string[][] => {
         }
     }
 
-    console.log(table_value);
-
     return table_value;
 
+}
+
+const error_Check = (): void => {
+    if (error_s == null) {
+        alert(error_s);
+        error_s = null;
+    }
 }
