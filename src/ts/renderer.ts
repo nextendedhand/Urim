@@ -3,12 +3,20 @@ import ToDoTip from './ToDoTip';
 import toDoData from './toDoData';
 import ToDoDataManager from './toDoDataManager';
 import Common from './common';
+import LocalStorage from './localStorageManager';
+import settingsDataManager from './settingsDataManager';
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
 
-const tddMng = new ToDoDataManager();
+const tddm = new ToDoDataManager();
+
+const sdm = new settingsDataManager();
 
 const upm = new UrimPlaneManager();
+
+const common = new Common();
+
+const ls = new LocalStorage();
 
 let toDoTips: ToDoTip[];
 let ctx: CanvasRenderingContext2D;
@@ -22,8 +30,6 @@ const render = (toDoDatas: toDoData[]) => {
 // toDoを右クリックした際に、toDayの星の色が変わる
 canvas.addEventListener('contextmenu', e => {
     e.preventDefault();
-
-    const common = new Common();
 
     const dpr = window.devicePixelRatio || 1;
     const canvasRect = canvas.getBoundingClientRect();
@@ -104,16 +110,18 @@ canvas.addEventListener('click', e => {
 
 // 初期読み込み時は、renderに加えて、json読み込みとか行う
 window.onload = () => {
-    tddMng.import();
-    render(tddMng.toDoDataArray);
+    tddm.import();
+    sdm.import();
+    render(tddm.toDoDataArray);
 };
 
 // リサイズのたびに、toDoDataを読み込んでrenderする
-window.addEventListener('resize', () => { render(tddMng.toDoDataArray) }, false);
+window.addEventListener('resize', () => { render(tddm.toDoDataArray) }, false);
 
 // 概要モード画面に遷移
 const abstBtn = document.getElementById('abst-btn');
 abstBtn.addEventListener('click', () => {
-    localStorage.setItem('toDoDataArray', JSON.stringify(tddMng.toDoDataArray));
+    ls.setValue(common.key.toDoData, tddm.toDoDataArray);
+    ls.setValue(common.key.settingsData, sdm.settingsData);
     location.href = '../html/abst.html';
 }, false);

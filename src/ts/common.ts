@@ -6,6 +6,10 @@ class Common {
         'B': 2,
         'C': 3
     };
+    public key = {
+        toDoData: 'toDoDataArray',
+        settingsData: 'settingsData'
+    }
 }
 
 export default Common;

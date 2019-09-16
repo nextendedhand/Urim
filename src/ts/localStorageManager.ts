@@ -13,11 +13,9 @@
  * and also cannot used when the cookie setting is OFF.
  * (Checked if the localStorage is available in the constructor automatically)
  */
+import toDoData from './toDoData';
+import settingsData from './settingsData';
 
-
-
-/* common key for "LocalStorage */
-const TODODATA_KEY: string = "toDoDataArray";
 
 
 
@@ -39,19 +37,21 @@ export default class LocalStorage {
 
     /**
      * get value with common key
+     * @param key key to identify data
      */
-    public getValue(): string {
+    public getValue(key: string): toDoData[] | settingsData {
         if (this.isAvailable)
-            return localStorage.getItem(TODODATA_KEY);
+            return JSON.parse(localStorage.getItem(key));
     }
 
     /**
-     * set value with TODODATA_KEY
+     * set value with common key
+     * @param key key to identify data (toDoData or settingsData)
      * @param value this is set with common key
      */
-    public setValue(value: string): void {
+    public setValue(key: string, value: toDoData[] | settingsData): void {
         if (this.isAvailable)
-            localStorage.setItem(TODODATA_KEY, value);
+            localStorage.setItem(key, JSON.stringify(value));
     }
 
 }
