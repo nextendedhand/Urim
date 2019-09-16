@@ -6,7 +6,8 @@ import * as path from 'path';
 import initializeSortSetting from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
 import my_LS from './localStorageManager';
-import toDoData_class from './toDoData';
+import { LocalStorage_All as master_LS } from './localStorageManager';
+// import toDoData_class from './toDoData';
 /************************* variables & constances *************************/
 
 // ToDoListの受け渡し法
@@ -18,19 +19,19 @@ var DEAL_TO_DO_DATA_LIST: number = 1;
 var IS_BACKUP: boolean = false;
 
 // バックアップ方法
-// 1: localStorage /* 非実装 */
+// 1: localStorage
 // 5: JSONファイル
 var BACKUP_TO_DO_DATA_LIST: number = 5;
 
 // テーブルの列数
-const TABLE_COLUMN_NUM: number = 7;
+const TABLE_COLUMN_NUM: number = 8;
 
 // データファイルへのパス
 const PATH_TO_DATA_FILE: string = "../data/testData.json";
 
 // テーブルのヘッダ行
 const TEABLE_HEADER_STRINGS: string[] =
-    ["削除", "本日", "タイトル", "重要度", "緊急度(残日数)", "工数", "ジャンル"];
+    ["削除", "本日", "タイトル", "重要度", "緊急度(残日数)", "工数", "ジャンル", "ID"];
 
 // 暫定ジャンルデータ
 export const GENRE_ARRAY: string[] = ["プライベート", "仕事", "副業"];
@@ -61,8 +62,16 @@ window.onload = (): void => {
                 fs.mkdirSync(backupFilePath);   // フォルダが無ければつくる
 }
 
+
+
 // 初期化関数
 const windowInitialize = (): void => {
+
+    /* test */
+    // let ls: my_LS = new my_LS();
+    // ls.setValue(JSON.stringify(getToDoDataFromJSON()));
+    // console.log("OK");
+    // console.log(ls.getValue());
 
     // テーブルを作成し表示する
     makeTable();
@@ -76,7 +85,11 @@ const windowInitialize = (): void => {
     // 一部のボタンとカラムを非表示にする
     changePartofDisplay(false);
 
+    // 残処理
+    init_Others();
 }
+
+
 
 // イベントハンドラ登録
 const my_addEventListener = (): void => {
@@ -101,10 +114,15 @@ const my_addEventListener = (): void => {
 
 }
 
+
+
 // テーブル作成 & テキスト書き込み
 const makeTable = (): void => {
 
-    let dataList: any = getToDoData();
+    let dataList: any[] = getToDoData();
+
+    // console.log(dataList);  /* debug */
+
     if (dataList != null) {
 
         var rows: any[] = [], cell: any;
@@ -137,6 +155,7 @@ const makeTable = (): void => {
                         cell.appendChild($button);
                     }
 
+                    // サブソートボタンを追加
                     if (j == 1 || j == 3 || j == 6) {
                         cell.appendChild(document.createElement('br'));
                         cell.appendChild(document.createTextNode("subsort:"));
@@ -179,53 +198,81 @@ const makeTable = (): void => {
 
 }
 
+
+
 // 列番号に従い、セルに代入するテキストを決定する
 const returnColumnValue = (columnIndex: number, data: any): string => {
 
     switch (columnIndex) {
-        case 0:// checkbox
-            break;
         case 1:// today
-            if (data.today)
+            if (data['today'])
                 return "★";
             else
                 return "";
         case 2:// title
-            return String(data.title);
+            return data['title'];
         case 3:// importance
-            return String(data.importance);
+            return data['importance'];
         case 4:// urgency
-            return String(data.urgency);
+            return String(data['urgency']);
         case 5:// manHour
-            // /* json file : manHour = [ {  } ] */
-            // if (0 < data.manHour[0].year)
-            //     return String(data.manHour[0].year) + "Y";
-            // else if (0 < data.manHour[0].month)
-            //     return String(data.manHour[0].month) + "M";
-            // else if (0 < data.manHour[0].day)
-            //     return String(data.manHour[0].day) + "D";
-            // else
-            //     return String(data.manHour[0].hour) + "h";
-
-            /* json file : manHour = {  } */
-            if (0 < data.manHour.year)
-                return String(data.manHour.year) + "Y";
-            else if (0 < data.manHour.month)
-                return String(data.manHour.month) + "M";
-            else if (0 < data.manHour.day)
-                return String(data.manHour.day) + "D";
+            if (0 < data['manHour'].year)
+                return String(data['manHour'].year) + "Y";
+            else if (0 < data['manHour'].month)
+                return String(data['manHour'].month) + "M";
+            else if (0 < data['manHour'].day)
+                return String(data['manHour'].day) + "D";
             else
-                return String(data.manHour.hour) + "h";
+                return String(data['manHour'].hour) + "h";
         case 6:// genre
-            if (0 <= data.genreId && data.genreId < GENRE_ARRAY.length)
-                return GENRE_ARRAY[data.genreId];
+            let box: number = Number(data['genreId']);
+            if (0 <= box && box < GENRE_ARRAY.length)
+                return GENRE_ARRAY[box];
             else
                 return "error";
+        case 7://ID
+            return data['id'];
         default:
             return "null";
     }
 
+    /* doDoData class */
+    // switch (columnIndex) {
+    //     case 1:// today
+    //         if (data.getIsToday())
+    //             return "★";
+    //         else
+    //             return "";
+    //     case 2:// title
+    //         return data.getTitle();
+    //     case 3:// importance
+    //         return data.getImportance();
+    //     case 4:// urgency
+    //         return String(data.getUrgency());
+    //     case 5:// manHour
+    //         if (0 < data.getManHour().year)
+    //             return String(data.getManHour().year) + "Y";
+    //         else if (0 < data.getManHour().month)
+    //             return String(data.getManHour().month) + "M";
+    //         else if (0 < data.getManHour().day)
+    //             return String(data.getManHour().day) + "D";
+    //         else
+    //             return String(data.getManHour().hour) + "h";
+    //     case 6:// genre
+    //         let box: number = data.getGenreId();
+    //         if (0 <= box && box < GENRE_ARRAY.length)
+    //             return GENRE_ARRAY[box];
+    //         else
+    //             return "error";
+    //     case 7://ID
+    //         return data.getId();
+    //     default:
+    //         return "null";
+    // }
+
 }
+
+
 
 // add selector
 const createSelectBoxForSubSort = (index: number): HTMLSelectElement => {
@@ -256,6 +303,8 @@ const createSelectBoxForSubSort = (index: number): HTMLSelectElement => {
     return $select;
 }
 
+
+
 const subSortSetting_Changed = () => {
     let ss: NodeListOf<HTMLElement> = document.getElementsByName("ss-selector");
     let columnm1: HTMLSelectElement = <HTMLSelectElement>ss[0];
@@ -270,7 +319,20 @@ const subSortSetting_Changed = () => {
     SUB_SORT_MODE[2] = columnm6.selectedIndex + 1;
 }
 
-const getToDoData = (): any => {
+
+/* 要修正 */
+// 読み込んだデータをtoDoData型で取得する
+const getToDoData = (): any[] => {
+
+    return getToDoData_objects();
+    // var ToDoData_objects: any = getToDoData_objects();
+    // if (ToDoData_objects == null) return null;
+
+}
+
+
+// any型でデータ取得
+const getToDoData_objects = (): any => {
     if (DEAL_TO_DO_DATA_LIST == 1) {
         console.log("use localStorage.");
         return getToDoDataFromlocalStorage();
@@ -280,6 +342,8 @@ const getToDoData = (): any => {
         return getToDoDataFromJSON();
     }
 }
+
+
 
 // jsonファイル読み出し
 const getToDoDataFromJSON = (): any => {
@@ -291,6 +355,8 @@ const getToDoDataFromJSON = (): any => {
     }
     return null;
 }
+
+
 
 // localStorage読み込み
 const getToDoDataFromlocalStorage = (): any => {
@@ -306,6 +372,8 @@ const getToDoDataFromlocalStorage = (): any => {
 
 }
 
+
+
 // リスト削除モードオン
 const changeDeleteMode = (): void => {
     if (enableDeleteList) {
@@ -320,12 +388,16 @@ const changeDeleteMode = (): void => {
     }
 }
 
+
+
 // リスト削除
 const toDoListDelete = (): void => {
 
     if (IS_BACKUP) beforeToDoDelete();
 
-    var deleteList: number[] = getDeleteList();
+    var deleteList: number[] = [];
+    var deleteId: string[] = [];
+    deleteId = getDeleteList(deleteList);
     let last: number = deleteList.length;
     if (0 < last) {
         let i: number;
@@ -335,22 +407,30 @@ const toDoListDelete = (): void => {
         }
     }
     changeDeleteMode();
-    afterToDoDelete();
+    afterToDoDelete(deleteId);
 }
 
-// 削除するリストのindex配列を返す
-const getDeleteList = (): number[] => {
 
-    var deleteList: number[] = [];
+
+// 削除するリストのindex配列を返す
+const getDeleteList = (deleteList: number[]): string[] => {
+
     var checkboxList: NodeListOf<HTMLInputElement> = <NodeListOf<HTMLInputElement>>document.getElementsByName("isDelete");
-    let i: number, last: number = checkboxList.length;
+    let i: number;
+    const last: number = checkboxList.length;
     for (i = 0; i < last; ++i)
         if (checkboxList[i].checked)
             deleteList.push(i);
 
-    return deleteList;
+    if (DEAL_TO_DO_DATA_LIST == 1) {
+        return keepDeleteID(deleteList);
+    }
+
+    return null;
 
 }
+
+
 
 // ボタンとカラムの表示/非表示切り替え
 const changePartofDisplay = (isDiplay: boolean): void => {
@@ -393,47 +473,95 @@ const changePartofDisplay = (isDiplay: boolean): void => {
     }
 }
 
+
+
+const init_Others = (): void => {
+    // IDカラム非表示
+    let checkRow: HTMLCollectionOf<HTMLTableRowElement> = MY_TABLE_DIV.getElementsByTagName("tr");
+    for (let i: number = 0; i < checkRow.length; ++i) {
+        let checkColumn = checkRow[i].getElementsByTagName("td");
+        checkColumn[TABLE_COLUMN_NUM - 1].style.display = "none";
+    }
+}
+
+
+
 const beforeToDoDelete = (): void => {
 
-    // 削除前のToDoList行列を取得
-    var table_value: string[][] = setTableDataForString();
-
     if (BACKUP_TO_DO_DATA_LIST == 1) {
-
+        // localStorageにbackup出力
+        let ms_ls: master_LS = new master_LS();
+        let temp: string = ms_ls.LS_GetValue("toDoDataArray");
+        ms_ls.LS_Write("backup", temp);
     } else if (BACKUP_TO_DO_DATA_LIST == 5) {
         // jsonファイルにbackup出力
+        let table_value: string[][] = setTableDataForString();
         toJsonFile(JSON.stringify(table_value));
     }
 
     error_Check();
 }
 
-const afterToDoDelete = (): void => {
 
-    // 削除後のToDoList行列を取得
-    var table_value: string[][] = setTableDataForString();
+
+// 削除するタスクのID配列を返す
+const keepDeleteID = (index: number[]): string[] => {
+
+    var isDeleteID: string[] = [];
+
+    let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
+    for (let i: number = 0; i < index.length; ++i) {
+        let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[index[i] + 1].getElementsByTagName("td");    //ヘッダを考慮
+        isDeleteID.push(checkColumn[TABLE_COLUMN_NUM - 1].textContent);
+    }
+
+    return isDeleteID;
+
+}
+
+
+
+const afterToDoDelete = (deleteId: string[]): void => {
 
     if (DEAL_TO_DO_DATA_LIST == 1) { // localstorageに保存
         try {
+            if (deleteId == null) return;
+
             let ls: my_LS = new my_LS();
-            ls.setValue(JSON.stringify(table_value));
+            let temp_data: any[] = JSON.parse(ls.getValue());
+            console.log(temp_data);
+
+            // 削除したリストを取得してオブジェクトから削除する
+            for (let j: number = 0; j < deleteId.length; ++j) {
+                for (let i: number = 0; i < temp_data.length; ++i) {
+                    let box: any = temp_data[i];
+                    if (deleteId[j] == box['id']) {
+                        temp_data.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            ls.setValue(JSON.stringify(temp_data));
         } catch (e) {
-            error_s = " :Error in accessing localStorage";
+            error_s = " :Error in writing localStorage";
         }
     }
-    else if (DEAL_TO_DO_DATA_LIST == 5)   // jsonファイルに出力
+    else if (DEAL_TO_DO_DATA_LIST == 5) {   // jsonファイルに出力
+        let table_value: string[][] = setTableDataForString();
         toJsonFile(JSON.stringify(table_value));
+    }
 
     error_Check();
 
 }
+
+
 
 const toJsonFile = (backupdata: string): void => {
     try {
         let today: Date = new Date();
         let today_string: string = today.getFullYear() + ("00" + (today.getMonth() + 1)).slice(-2) + ("00" + today.getDate()).slice(-2)
-        // fs.writeFileSync(backupFilePath + "ToDoList_" + today_string + Date.now().toString() + ".json", backupdata);
-        // console.log("exported backup JSON file");
         fs.writeFile(backupFilePath + "ToDoList_" + today_string + Date.now().toString() + ".json", backupdata, function (err) {
             if (err) throw err;
             else console.log("exported backup JSON file");
@@ -445,12 +573,13 @@ const toJsonFile = (backupdata: string): void => {
     }
 }
 
+
+
 // tableから全てのセル値を取り出す
 const setTableDataForString = (): string[][] => {
     var row_length: number;
-    const column_length: number = TEABLE_HEADER_STRINGS.length;
     var table_value: string[][] = [
-        [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6]]
+        [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6], TEABLE_HEADER_STRINGS[7]]
     ];
 
     let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
@@ -463,7 +592,7 @@ const setTableDataForString = (): string[][] => {
         let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
         let temp_row: string[] = [];
         {
-            for (let j: number = 1; j < column_length; ++j) {   // 削除用チェックリスト列は不要
+            for (let j: number = 1; j < TABLE_COLUMN_NUM; ++j) {   // 削除用チェックリスト列は不要
                 temp_row.push(checkColumn[j].textContent);
             }
             table_value.push(temp_row);
@@ -474,56 +603,11 @@ const setTableDataForString = (): string[][] => {
 
 }
 
-// tableをtoDoData型変数に格納する
-const setTableDataFortoDoDataClass = (): toDoData_class[] => {
 
-    var table_toDoData: toDoData_class[] = [];
-    var row_length: number;
-    const column_length: number = TEABLE_HEADER_STRINGS.length;
 
-    let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    {
-        row_length = $listtable.rows.length - 1;
-    }
-
-    let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
-    for (let i: number = 1; i <= row_length; ++i) { // ヘッダ行は不要
-        let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
-        let temp_toDoData: toDoData_class;
-        {
-            for (let j: number = 1; j < column_length; ++j) {   // 削除用チェックリスト列は不要
-                switch (j) {
-                    case 1:
-                        temp_toDoData.setTitle(checkColumn[j].textContent);
-                        break;
-                    case 2:
-                        if (checkColumn[j].textContent == "★") temp_toDoData.setToday(true);
-                        else temp_toDoData.setToday(false);
-                        break;
-                    case 3:
-                        temp_toDoData.setImportance(checkColumn[j].textContent);
-                        break;
-                    case 4: // urgencyは不要
-                        break;
-                    case 5:
-
-                        break;
-                    case 6: // genreIDは不要
-                        break;
-                    default:
-                        break;
-                }
-            }
-            table_toDoData.push(temp_toDoData);
-        }
-    }
-
-    return table_toDoData;
-
-}
-
+// エラーがあれば表示する
 const error_Check = (): void => {
-    if (error_s == null) {
+    if (error_s != null) {
         alert(error_s);
         error_s = null;
     }
