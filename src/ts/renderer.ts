@@ -117,3 +117,11 @@ abstBtn.addEventListener('click', () => {
     localStorage.setItem('toDoDataArray', JSON.stringify(tddMng.toDoDataArray));
     location.href = '../html/abst.html';
 }, false);
+
+// タスク作成画面に遷移
+const createBtn = document.getElementById('create-btn');
+createBtn.addEventListener('click', () => {
+    localStorage.setItem('toDoDataArray', JSON.stringify(tddMng.toDoDataArray));
+    location.href = '../html/form.html';
+}, false);
+
