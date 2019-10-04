@@ -1,13 +1,6 @@
 import toDoData from './toDoData';
-import DATAMANAGER from './toDoDATAMANAGER';
-// import genreData from './genreData';
-// import settingData from './settingData';
+import LS from './localStorageManager';
 
-// var settings = new settingData();
-// var genre1 = new genreData('red', 'business');
-// var genre2 = new genreData('blue', 'private');
-// settings.setGenreData(genre1);
-// settings.setGenreData(genre2);
 
 interface FormItems {
     title: string;
@@ -22,19 +15,19 @@ interface FormItems {
 }
 
 let createBtn = document.getElementById("create_btn");
-createBtn.addEventListener("click", function () {
+createBtn.addEventListener("click", () => {
     if (checkInputFilled()) {
         let item: FormItems = getTaskInfo();
         registerTask(item);
-        history.back();
+        //location.href = '../html/index.html';
     } else {
         // "入力が不足しています"
     }
 }, false);
 
 let cancelBtn = document.getElementById("cancel_btn");
-cancelBtn.addEventListener("click", function () {
-    history.back();
+cancelBtn.addEventListener("click", () => {
+    location.href = '../html/index.html';
 }, false);
 
 function getTaskInfo(): FormItems {
