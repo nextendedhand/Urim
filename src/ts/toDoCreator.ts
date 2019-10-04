@@ -30,7 +30,7 @@ createBtn.addEventListener("click", () => {
     if (checkInputFilled()) {
         let item: FormItems = getTaskInfo();
         registerTask(item);
-        //location.href = '../html/index.html';
+        location.href = '../html/index.html';
     } else {
         // "入力が不足しています"
     }
@@ -82,11 +82,11 @@ function registerTask(items: FormItems) {
         items.title, items.importance,
         items.manHour as any, items.genreId, items.deadline as any,
         items.contents, items.place, items.isToday);
-    let ls = new LS();
+    // let ls = new LS();
     // ls.getValueしてtoDoDataArray型へ
-    // 末尾にpushする
-    // toDoDataArrayを
-    ls.setValue(JSON.stringify(toDoDataItems));
+    // 末尾にtoDoDataItemsをpushし、setValue
+    
+    // ls.setValue(JSON.stringify(toDoDataItems));
 }
 
 function getTitle(): string {
