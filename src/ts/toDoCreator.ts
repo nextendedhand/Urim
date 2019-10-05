@@ -35,10 +35,10 @@ window.addEventListener("load", ()=> {
     genreArray[2] = new genreData("green", "test_other");
 
     //const genreArray = setting.getGenreData();
-    expireGenreData(genreArray);
+    updateGenreData(genreArray);
 }, false);
 
-function expireGenreData(genreDataArray: genreData[]) {
+function updateGenreData(genreDataArray: genreData[]) {
     let genre_list = document.getElementById("genre");
     for (let i = 0; i < genreDataArray.length; i++) {
         let option = document.createElement("option");
