@@ -1,5 +1,7 @@
 import toDoData from './toDoData';
 import LS from './localStorageManager';
+import settingData from './settingData';
+import genreData from './genreData';
 
 interface ManHour {
     "year": number;
@@ -23,6 +25,27 @@ interface FormItems {
     deadline: Deadline;
     place: string;
     isToday: boolean;
+}
+
+window.addEventListener("load", ()=> {
+    // TODO: delete test-data
+    const genreArray = new Array();
+    genreArray[0] = new genreData("red", "test_businness");
+    genreArray[1] = new genreData("blue", "test_private");
+    genreArray[2] = new genreData("green", "test_other");
+
+    //const genreArray = setting.getGenreData();
+    expireGenreData(genreArray);
+}, false);
+
+function expireGenreData(genreDataArray: genreData[]) {
+    let genre_list = document.getElementById("genre");
+    for (let i = 0; i < genreDataArray.length; i++) {
+        let option = document.createElement("option");
+        option.setAttribute("value", genreDataArray[i].getId());
+        option.innerHTML = genreDataArray[i].getName();
+        genre_list.appendChild(option);
+    }
 }
 
 let createBtn = document.getElementById("create_btn");
@@ -71,7 +94,6 @@ function getTaskInfo(): FormItems {
         place: place,
         isToday: isToday
     }
-    console.log(items);
     return items;
 }
 
@@ -111,14 +133,7 @@ function getManHour(): ManHour {
 
 function getGenreId(): number {
     const genre = (document.getElementById("genre") as HTMLInputElement).value;
-    // const genreArray = settings.getGenreData();
-    // TODO: get genreId
-    // for (let genreData of genreArray) {
-    //   if (genreData.getName() == genre) {
-    //     return Number(genreData.getId());
-    //   }
-    // }
-    return 1;
+    return parseInt(genre);
 }
 
 function getContents(): string {
