@@ -1,7 +1,8 @@
-import toDoData from './toDoData';
-import LS from './localStorageManager';
-import settingData from './settingData';
+import Common from './common';
+import ToDoDataManager from './toDoDataManager';
+import settingsDataManager from './settingsDataManager';
 import genreData from './genreData';
+import toDoData from './toDoData';
 
 interface ManHour {
     "year": number;
@@ -27,16 +28,18 @@ interface FormItems {
     isToday: boolean;
 }
 
-window.addEventListener("load", ()=> {
-    // TODO: delete test-data
-    const genreArray = new Array();
-    genreArray[0] = new genreData("red", "test_businness");
-    genreArray[1] = new genreData("blue", "test_private");
-    genreArray[2] = new genreData("green", "test_other");
-
-    //const genreArray = setting.getGenreData();
-    updateGenreData(genreArray);
-}, false);
+window.onload = () => {
+    // 最新のgenreDataを取得
+    const sdm = new settingsDataManager();
+    sdm.importFromLocalStorage();
+    console.log(sdm.settingsData);
+    let gArray = new Array();
+    const gDataObj =  sdm.settingsData.getGenreData();
+    for (let i=0; i<gDataObj.length; i++) {
+        gArray[i] = new genreData(gDataObj[i]["color"], gDataObj[i]["name"]);
+    }
+    updateGenreData(gArray);
+};
 
 function updateGenreData(genreDataArray: genreData[]) {
     let genre_list = document.getElementById("genre");
@@ -104,11 +107,12 @@ function registerTask(items: FormItems) {
         items.title, items.importance,
         items.manHour as any, items.genreId, items.deadline as any,
         items.contents, items.place, items.isToday);
-    // let ls = new LS();
-    // ls.getValueしてtoDoDataArray型へ
-    // 末尾にtoDoDataItemsをpushし、setValue
     
-    // ls.setValue(JSON.stringify(toDoDataItems));
+    // toDoDataArrayの末尾にtoDoDataを追加しexport
+    const tddm = new ToDoDataManager();
+    tddm.importFromLocalStorage();
+    tddm.toDoDataArray.push(toDoDataItems);
+    tddm.exportToLocalStorage();
 }
 
 function getTitle(): string {

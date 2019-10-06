@@ -128,7 +128,8 @@ abstBtn.addEventListener('click', () => {
 // タスク作成画面に遷移
 const createBtn = document.getElementById('create-btn');
 createBtn.addEventListener('click', () => {
-    localStorage.setItem('toDoDataArray', JSON.stringify(tddMng.toDoDataArray));
+    tddm.exportToLocalStorage();
+    sdm.exportToLocalStorage();
     location.href = '../html/form.html';
 }, false);
 
