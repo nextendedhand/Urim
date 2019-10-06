@@ -1,40 +1,70 @@
+import Common from './common';
+import ToDoDataManager from './toDoDataManager';
+import settingsDataManager from './settingsDataManager';
+import genreData from './genreData';
 import toDoData from './toDoData';
-import DATAMANAGER from './toDoDATAMANAGER';
-// import genreData from './genreData';
-// import settingData from './settingData';
 
-// var settings = new settingData();
-// var genre1 = new genreData('red', 'business');
-// var genre2 = new genreData('blue', 'private');
-// settings.setGenreData(genre1);
-// settings.setGenreData(genre2);
+interface ManHour {
+    "year": number;
+    "month": number;
+    "day": number;
+    "hour": number;
+}
+
+interface Deadline {
+    "year": number;
+    "month": number;
+    "day": number;
+}
 
 interface FormItems {
     title: string;
     importance: string;
-    urgency: number;
-    manHour: number;
+    manHour: ManHour;
     genreId: number;
     contents: string;
-    deadline: string;
+    deadline: Deadline;
     place: string;
     isToday: boolean;
 }
 
+window.onload = () => {
+    // 最新のgenreDataを取得
+    const sdm = new settingsDataManager();
+    sdm.importFromLocalStorage();
+    console.log(sdm.settingsData);
+    let gArray = new Array();
+    const gDataObj =  sdm.settingsData.getGenreData();
+    for (let i=0; i<gDataObj.length; i++) {
+        gArray[i] = new genreData(gDataObj[i]["color"], gDataObj[i]["name"]);
+    }
+    updateGenreData(gArray);
+};
+
+function updateGenreData(genreDataArray: genreData[]) {
+    let genre_list = document.getElementById("genre");
+    for (let i = 0; i < genreDataArray.length; i++) {
+        let option = document.createElement("option");
+        option.setAttribute("value", genreDataArray[i].getId());
+        option.innerHTML = genreDataArray[i].getName();
+        genre_list.appendChild(option);
+    }
+}
+
 let createBtn = document.getElementById("create_btn");
-createBtn.addEventListener("click", function () {
+createBtn.addEventListener("click", () => {
     if (checkInputFilled()) {
         let item: FormItems = getTaskInfo();
         registerTask(item);
-        history.back();
+        location.href = '../html/index.html';
     } else {
         // "入力が不足しています"
     }
 }, false);
 
 let cancelBtn = document.getElementById("cancel_btn");
-cancelBtn.addEventListener("click", function () {
-    history.back();
+cancelBtn.addEventListener("click", () => {
+    location.href = '../html/index.html';
 }, false);
 
 function getTaskInfo(): FormItems {
@@ -42,15 +72,13 @@ function getTaskInfo(): FormItems {
     const title = getTitle();
     // importance(string)
     const importance = getImportance();
-    // urgency(number)
-    const urgency = getUrgency();
-    // manHour: 工数(number: hour)
+    // manHour: 工数(ManHour)
     const manHour = getManHour();
     // genreId: タスク内容のジャンル(number)
     const genreId = getGenreId();
     // contents: タスク内容
     const contents = getContents();
-    // deadLine: タスク締め切り(string: 標準表記"yyyy-mm-dd")
+    // deadLine: タスク締め切り(Deadline)
     const deadline = getDeadline();
     // place: タスクを行う場所
     const place = getPlace();
@@ -62,7 +90,6 @@ function getTaskInfo(): FormItems {
     const items: FormItems = {
         title: title,
         importance: importance,
-        urgency: urgency,
         manHour: manHour,
         genreId: genreId,
         contents: contents,
@@ -70,34 +97,22 @@ function getTaskInfo(): FormItems {
         place: place,
         isToday: isToday
     }
-    console.log(items);
-
     return items;
 }
 
 function registerTask(items: FormItems) {
     console.log(items);
-    const tmpManHour = {
-        "year": 1,
-        "month": 12,
-        "day": 2,
-        "hour": 1
-    };
-    const tmpDeadline = {
-        "year": 2019,
-        "month": 12,
-        "day": 2
-    }
-
-    const abst = new toDoData(
+    // TODO: ここのas anyの無い版
+    const toDoDataItems = new toDoData(
         items.title, items.importance,
-        tmpManHour, items.genreId, tmpDeadline,
+        items.manHour as any, items.genreId, items.deadline as any,
         items.contents, items.place, items.isToday);
-    let mng = new DATAMANAGER();
-    // TODO: データ出力
-    // mng.import();
-    // mng.toDoDataArray.push(abst);
-    // mng.export();
+    
+    // toDoDataArrayの末尾にtoDoDataを追加しexport
+    const tddm = new ToDoDataManager();
+    tddm.importFromLocalStorage();
+    tddm.toDoDataArray.push(toDoDataItems);
+    tddm.exportToLocalStorage();
 }
 
 function getTitle(): string {
@@ -108,34 +123,36 @@ function getImportance(): string {
     return (document.getElementById("importance") as HTMLInputElement).value;
 }
 
-function getUrgency(): number {
-    // TODO: use calculateUrgency()
-    return 1;
-}
-
-function getManHour(): number {
+function getManHour(): ManHour {
     const hour = (document.getElementById("man_hour") as HTMLInputElement).value;
-    return parseFloat(hour);
+    // TODO: other form
+    const manHour:ManHour = {
+        year: 0,
+        month: 0,
+        day: 0,
+        hour: parseFloat(hour),
+    }
+    return manHour;
 }
 
 function getGenreId(): number {
     const genre = (document.getElementById("genre") as HTMLInputElement).value;
-    // const genreArray = settings.getGenreData();
-    // TODO: get genreId
-    // for (let genreData of genreArray) {
-    //   if (genreData.getName() == genre) {
-    //     return Number(genreData.getId());
-    //   }
-    // }
-    return 1;
+    return parseInt(genre);
 }
 
 function getContents(): string {
     return (document.getElementById("contents") as HTMLInputElement).value;
 }
 
-function getDeadline(): string {
-    return (document.getElementById("deadline") as HTMLInputElement).value;
+function getDeadline(): Deadline {
+    const date = (document.getElementById("deadline") as HTMLInputElement).value;
+    const dateData = new Date(date);
+    const deadLine:Deadline = {
+        year: dateData.getFullYear(),
+        month: dateData.getMonth(),
+        day: dateData.getDay(),
+    }
+    return deadLine;
 }
 
 function getPlace(): string {
