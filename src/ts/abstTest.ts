@@ -1,9 +1,13 @@
 import Common from './common';
+import ToDoDataManager from './toDoDataManager';
+import settingsDataManager from './settingsDataManager';
 
 const common = new Common();
+const tddm = new ToDoDataManager();
+const sdm = new settingsDataManager();
 
-let toDoDataArray = JSON.parse(localStorage.getItem(common.key.toDoData));
-console.log(toDoDataArray);
+let toDoDataArray = tddm.importFromLocalStorage();
+console.log(tddm.toDoDataArray);
 
-let settingsData = JSON.parse(localStorage.getItem(common.key.settingsData));
-console.log(settingsData);
+let settingsData = sdm.importFromLocalStorage();
+console.log(sdm.settingsData);

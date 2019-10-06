@@ -3,7 +3,6 @@ import ToDoTip from './ToDoTip';
 import toDoData from './toDoData';
 import ToDoDataManager from './toDoDataManager';
 import Common from './common';
-import LocalStorage from './localStorageManager';
 import settingsDataManager from './settingsDataManager';
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
@@ -15,8 +14,6 @@ const sdm = new settingsDataManager();
 const upm = new UrimPlaneManager();
 
 const common = new Common();
-
-const ls = new LocalStorage();
 
 let toDoTips: ToDoTip[];
 let ctx: CanvasRenderingContext2D;
@@ -111,6 +108,8 @@ canvas.addEventListener('click', e => {
 // 初期読み込み時は、renderに加えて、json読み込みとか行う
 window.onload = () => {
     tddm.import();
+    // TODO: 2回目のアクセス移行は、下記方法でimportする
+    // tddm.importFromLocalStorage();
     sdm.import();
     render(tddm.toDoDataArray);
 };
@@ -121,7 +120,7 @@ window.addEventListener('resize', () => { render(tddm.toDoDataArray) }, false);
 // 概要モード画面に遷移
 const abstBtn = document.getElementById('abst-btn');
 abstBtn.addEventListener('click', () => {
-    ls.setValue(common.key.toDoData, tddm.toDoDataArray);
-    ls.setValue(common.key.settingsData, sdm.settingsData);
+    tddm.exportToLocalStorage();
+    sdm.exportToLocalStorage();
     location.href = '../html/abst.html';
 }, false);

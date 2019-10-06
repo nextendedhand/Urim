@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import settingsData from './settingsData';
+import LocalStorage from './localStorageManager';
+import Common from './common';
 
 /**
 * This is a class for settingsData manager.
@@ -31,9 +33,6 @@ export default class settingsDataManager {
     * @returns boolean
     */
     public import() {
-
-
-
         try {
             console.log('loading SettingsData JSON file...');
             let settingsDataArray = JSON.parse(fs.readFileSync(this.importSettingsDataPathToFile, 'utf8'));
@@ -53,6 +52,30 @@ export default class settingsDataManager {
             console.log("Loading GenreData Complete.");
 
             this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray[0]['urgencyScale']));
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
+        console.log("Loading SettingsData Complete.")
+
+        return true;
+    }
+
+    /**
+* This is a function to import settings data from local storage.
+* @param void
+* @returns boolean
+*/
+    public importFromLocalStorage() {
+        try {
+            console.log('loading SettingsData from local storage...');
+            const ls = new LocalStorage();
+            const common = new Common();
+
+            let tmpSettingsData = ls.getValue(common.key.settingsData);
+
+            this.settingsData = new settingsData((<settingsData>tmpSettingsData)['genreArray'], Number((<settingsData>tmpSettingsData)['urgencyScale']));
         }
         catch (e) {
             console.log(e);
@@ -92,6 +115,28 @@ export default class settingsDataManager {
             return false;
         }
         console.log("Expoting GenreData Complete.")
+
+        return true;
+    }
+
+    /**
+    * This is a function to export settings data to local stoarage.
+    * @param void
+    * @returns boolean
+    */
+    public exportToLocalStorage() {
+        try {
+            console.log("exporting SettingData to local storage...");
+            const ls = new LocalStorage();
+            const common = new Common();
+
+            ls.setValue(common.key.settingsData, this.settingsData);
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
+        console.log("Expoting SettingData Complete.")
 
         return true;
     }
