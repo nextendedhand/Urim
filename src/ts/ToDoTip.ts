@@ -11,6 +11,10 @@ interface TextPos {
     y: number
 }
 
+/**
+ * todoチップ
+ * todoデータをcanvas上に配置するためのデータ構造
+ */
 class ToDoTip {
     public left: number;
     public right: number;
@@ -23,10 +27,21 @@ class ToDoTip {
     public shortTitle: string
     public toDoData: ToDoData;
 
+    /**
+     * todoデータをコピーする
+     * 
+     * @param toDoData todoデータ
+     */
     constructor(toDoData: ToDoData) {
         this.toDoData = toDoData;
     }
 
+    /**
+     * テキスト開始canvas座標のsetter
+     * 
+     * @param xPos canvasX座標
+     * @param yPos canvasY座標
+     */
     public setTextPosition(xPos: number, yPos: number) {
         this.text = {
             x: xPos,
@@ -34,14 +49,28 @@ class ToDoTip {
         };
     }
 
+    /**
+     * テキスト開始canvas座標のgetter
+     */
     public getTextPosition(): TextPos {
         return this.text;
     }
 
+    /**
+     * todoチップ（自身）をクリックしたかどうかを判定する
+     * 
+     * @param p クリック時のcanvas座標
+     */
     public isClicked(p: { x: number, y: number }) {
         return (this.left <= p.x && p.x <= this.right) && (this.top <= p.y && p.y <= this.bottom);
     }
 
+    /**
+     * todayの星マークの色をtoggleする
+     * 
+     * @param canvas 
+     * @param ctx 
+     */
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         const common = new Common();
         this.toDoData.setToday(!this.toDoData.getIsToday());

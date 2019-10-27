@@ -24,7 +24,9 @@ const render = (toDoDatas: toDoData[]) => {
     upm.render(canvas, ctx, toDoTips);
 }
 
-// toDoを右クリックした際に、toDayの星の色が変わる
+/**
+ * toDoを右クリック時に、todayの星の色がトグルする
+ */
 canvas.addEventListener('contextmenu', e => {
     e.preventDefault();
 
@@ -48,6 +50,10 @@ canvas.addEventListener('contextmenu', e => {
 
 });
 
+/**
+ * [未実装]
+ * todoをダブルクリックすると、詳細画面に遷移する
+ */
 canvas.addEventListener('dblclick', e => {
     e.preventDefault();
 
@@ -70,6 +76,9 @@ canvas.addEventListener('dblclick', e => {
 
 });
 
+/**
+ * ◀/▶をクリックすると、同一セル内の前/次ページのtodoを表示する
+ */
 canvas.addEventListener('click', e => {
     e.preventDefault();
 
@@ -105,7 +114,12 @@ canvas.addEventListener('click', e => {
     })
 });
 
-// 初期読み込み時は、renderに加えて、json読み込みとか行う
+/**
+ * [未実装]
+ * アプリ起動時にurim画面であった場合は、jsonからデータを読み込む
+ * 他画面からの遷移時には、local storageからデータを読み込む
+ * データ読み込み後に、描画処理
+ */
 window.onload = () => {
     tddm.import();
     // TODO: 2回目のアクセス移行は、下記方法でimportする
@@ -114,22 +128,29 @@ window.onload = () => {
     render(tddm.toDoDataArray);
 };
 
-// リサイズのたびに、toDoDataを読み込んでrenderする
+/**
+ * ウィンドウをリサイズする度に、描画し直す
+ */
 window.addEventListener('resize', () => { render(tddm.toDoDataArray) }, false);
 
-// 概要モード画面に遷移
 const abstBtn = document.getElementById('abst-btn');
+
+/**
+ * 概要モードボタンをクリックすると、概要モード画面へ遷移する
+ */
 abstBtn.addEventListener('click', () => {
     tddm.exportToLocalStorage();
     sdm.exportToLocalStorage();
     location.href = '../html/abst.html';
 }, false);
 
-// タスク作成画面に遷移
 const createBtn = document.getElementById('create-btn');
+
+/**
+ * 作成ボタンをクリックすると、todo作成画面へ遷移する
+ */
 createBtn.addEventListener('click', () => {
     tddm.exportToLocalStorage();
     sdm.exportToLocalStorage();
     location.href = '../html/form.html';
 }, false);
-

@@ -1,3 +1,6 @@
+/**
+ * 複数のtsファイルから参照する定数データを格納する
+ */
 class Common {
     public backgroundColor = ['#ffeaf4', '#fff4ea', '#ffffea', '#eaf4ff'];
     public imToNum: { [s: string]: number } = {
