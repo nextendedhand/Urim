@@ -1,3 +1,6 @@
+/**
+ * 緊急度軸や重要度軸の矢印描画のためのデータの管理及び描画処理を行う
+ */
 class AxisManager {
     public startX: number;
     public startY: number;
@@ -5,6 +8,15 @@ class AxisManager {
     public endY: number;
     public controlPoints: number[];
 
+    /**
+     * 始点、終点、制御点を設定する
+     * 
+     * @param startX 始点canvasX座標
+     * @param startY 始点canvasY座標
+     * @param endX 終点canvasX座標
+     * @param endY 終点canvasY座標
+     * @param controlPoints 制御点
+     */
     constructor(startX: number, startY: number, endX: number, endY: number, controlPoints: number[]) {
         this.startX = startX;
         this.startY = startY;

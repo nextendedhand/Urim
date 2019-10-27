@@ -9,6 +9,9 @@ export interface UrimCell {
     pm: PageManager
 }
 
+/**
+ * urim画面の描画処理を管理する
+ */
 export class UrimPlaneManager {
     public urAxis: AxisManager;
     public imAxis: AxisManager;
@@ -17,6 +20,9 @@ export class UrimPlaneManager {
     public urimCell: UrimCell[][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency].ids[index]: 各importance, urgencyでのtoDoデータIDを格納する
 
+    /**
+     * 4 * 20のセルを作成する
+     */
     constructor() {
         this.urimCell = new Array(4);
         for (let iIm = 0; iIm < 4; iIm++) {
@@ -30,6 +36,12 @@ export class UrimPlaneManager {
         }
     }
 
+    /**
+     * 各セルのサイズと位置を決定後、各セルに格納するtodoデータのidをcreateUrimCell()によって決定する
+     * 
+     * @param canvas 
+     * @param toDoDatas 全todoデータ
+     */
     public setupCanvas(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]) {
         const common = new Common();
         const ctx = canvas.getContext('2d');
@@ -64,6 +76,11 @@ export class UrimPlaneManager {
         return ctx;
     }
 
+    /**
+     * 緊急度から緊急度インデックス（緊急でない 0 - 20 緊急）を算出している
+     * 
+     * @param urgency 緊急度（現状[要検討]20分割している）
+     */
     public urToCoord(urgency: number) {
         if (urgency >= 1 && urgency <= 5) {
             return 20 - urgency;
@@ -82,15 +99,32 @@ export class UrimPlaneManager {
         }
     }
 
+    /**
+     * 重要度から重要度canvas座標を算出する
+     * 
+     * @param canvas 
+     * @param importance 重要度（S, A, B, C）
+     */
     private calcImCoord(canvas: HTMLCanvasElement, importance: string): number {
         const common = new Common();
         return canvas.height * common.imToNum[<keyof { [s: string]: number }>importance] / 4 + canvas.height / 20;
     }
 
+    /**
+     * 緊急度から緊急度canvas座標を算出する
+     * 
+     * @param canvas 
+     * @param urgency 緊急度
+     */
     private calcUrCoord(canvas: HTMLCanvasElement, urgency: number): number {
         return this.urToCoord(urgency) * canvas.width / 20;
     }
 
+    /**
+     * 各セルが保持するtodoデータのidをurimCell配列に格納する
+     * 
+     * @param toDoDatas 全todoデータ
+     */
     private createUrimCell(toDoDatas: ToDoData[]) {
         const common = new Common();
         // urimCellにデータ格納する
@@ -104,6 +138,12 @@ export class UrimPlaneManager {
         });
     }
 
+    /**
+     * 各todoの座標や配置するページ番号を算出する
+     * 
+     * @param canvas 
+     * @param toDoDatas 全todoデータ
+     */
     public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]): ToDoTip[] {
         const common = new Common();
         let toDoTips: ToDoTip[] = new Array();
@@ -154,7 +194,12 @@ export class UrimPlaneManager {
         return toDoTips;
     }
 
-
+    /**
+     * 緊急度軸、重要度軸の軸矢印と軸名を描画する
+     * 
+     * @param canvas 
+     * @param ctx 
+     */
     private renderAxis(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this.urAxis.startY = canvas.height / 2;
         this.urAxis.endX = canvas.width - canvas.width / 60;
@@ -193,6 +238,13 @@ export class UrimPlaneManager {
         vFillText(ctx, '緊急度', canvas.width, canvas.height / 2);
     }
 
+    /**
+     * 各todoを描画する
+     * 
+     * @param toDoTip todoチップ（canvas上に配置するためのデータ構造）
+     * @param canvas 
+     * @param ctx 
+     */
     private renderToDo(toDoTip: ToDoTip, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         // toDoDataの矩形描画開始
         ctx.beginPath();
@@ -237,6 +289,12 @@ export class UrimPlaneManager {
         ctx.fillText(toDoTip.shortTitle, toDoTip.getTextPosition().x + toDoTip.width / 3, toDoTip.getTextPosition().y);
     }
 
+    /**
+     * 重要度に応じて背景色を描画する
+     * 
+     * @param canvas 
+     * @param ctx 
+     */
     private renderImBackground(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         const common = new Common();
 
@@ -246,6 +304,12 @@ export class UrimPlaneManager {
         })
     }
 
+    /**
+     * ページ管理用のボタンを配置する
+     * 
+     * @param canvas 
+     * @param ctx 
+     */
     private renderPageController(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         for (let iIm = 0; iIm < 4; iIm++) {
             for (let iUr = 0; iUr < 20; iUr++) {
@@ -266,6 +330,13 @@ export class UrimPlaneManager {
         }
     }
 
+    /**
+     * 描画に関する関数を呼び出す
+     * 
+     * @param canvas 
+     * @param ctx 
+     * @param toDoTips 全todoチップ（canvas上に配置するためのデータ構造）
+     */
     public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
         const common = new Common();
 
