@@ -3,14 +3,15 @@ import LocalStorage from './localStorageManager';
 import Common from './common';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as Store from 'electron-store';
 
 /**
 * This is a class for a manager.
 * It contains a list for toDoAbstData.
 */
 export default class toDoDataManager {
-    public importPathToFile: string;
-    public exportPathToFile: string;
+    private store: Store;
+    private common: Common;
     public toDoDataArray: toDoData[];
 
     /**
@@ -18,9 +19,9 @@ export default class toDoDataManager {
     * @param void
     */
     constructor() {
-        this.importPathToFile = path.resolve(__dirname, '../data/todoData.json');
-        this.exportPathToFile = path.resolve(__dirname, '../data/new/todoData.json');
         this.toDoDataArray = [];
+        this.store = new Store();
+        this.common = new Common();
     }
 
     /**
@@ -30,15 +31,13 @@ export default class toDoDataManager {
     */
     public import() {
         try {
-            console.log('loading JSON file...');
-            let toDoDataArray = JSON.parse(fs.readFileSync(this.importPathToFile, 'utf8'));
+            console.log('loading file by electron-store...');
+            let toDoDataArray = this.store.get(this.common.key.toDoData);
+            console.log(toDoDataArray)
 
             for (let index in toDoDataArray) {
                 let tmpToDoData = toDoDataArray[index];
-                let data = new toDoData(tmpToDoData['title'], tmpToDoData['importance'],
-                    tmpToDoData['manHour'],
-                    tmpToDoData['genreId'], tmpToDoData['deadline'],
-                    tmpToDoData['contents'], tmpToDoData['place'], tmpToDoData['today']);
+                let data = new toDoData(tmpToDoData.title, tmpToDoData.importance, tmpToDoData.manHour, tmpToDoData.genreId, tmpToDoData.detailData.deadline, tmpToDoData.detailData.contents, tmpToDoData.detailData.place, tmpToDoData.isToday);
                 this.toDoDataArray.push(data);
             }
 
@@ -61,9 +60,8 @@ export default class toDoDataManager {
         try {
             console.log('loading local storage...');
             const ls = new LocalStorage();
-            const common = new Common();
 
-            let toDoDataArray = ls.getValue(common.key.toDoData);
+            let toDoDataArray = ls.getValue(this.common.key.toDoData);
 
             (<toDoData[]>toDoDataArray).forEach(tdd => {
                 let data = new toDoData(tdd['title'], tdd['importance'],
@@ -88,10 +86,9 @@ export default class toDoDataManager {
     */
     public export() {
         try {
-            console.log('exporting JSON file...');
-            let json_text = JSON.stringify(this.toDoDataArray);
-            fs.writeFileSync(this.exportPathToFile, json_text);
-            console.log(json_text);
+            console.log('exporting file by electron-store...');
+            this.store.set(this.common.key.toDoData, this.toDoDataArray);
+            console.log(this.toDoDataArray);
         }
         catch (e) {
             console.log(e);
@@ -110,9 +107,8 @@ export default class toDoDataManager {
         try {
             console.log('exporting to local storage...');
             const ls = new LocalStorage();
-            const common = new Common();
 
-            ls.setValue(common.key.toDoData, this.toDoDataArray);
+            ls.setValue(this.common.key.toDoData, this.toDoDataArray);
         }
         catch (e) {
             console.log(e);
@@ -140,5 +136,36 @@ export default class toDoDataManager {
         if (!isDeleted) {
             console.log(`Cannot find todo data(id: ${id})`);
         }
+    }
+
+    /**
+     * [For-Debug-Function]
+     * [デバッグ用関数]]
+     * This is a function to reset todo datas to local json files.
+     */
+    public resetDataForDebug() {
+        try {
+            const importPathToFile = path.resolve(__dirname, '../data/todoData.json');
+
+            console.log('loading JSON file...');
+            let toDoDataArray = JSON.parse(fs.readFileSync(importPathToFile, 'utf8'));
+
+            for (let index in toDoDataArray) {
+                let tmpToDoData = toDoDataArray[index];
+                let data = new toDoData(tmpToDoData['title'], tmpToDoData['importance'],
+                    tmpToDoData['manHour'],
+                    tmpToDoData['genreId'], tmpToDoData['deadline'],
+                    tmpToDoData['contents'], tmpToDoData['place'], tmpToDoData['today']);
+                this.toDoDataArray.push(data);
+            }
+
+            this.store.set(this.common.key.toDoData, this.toDoDataArray);
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
+        console.log('Complete.');
+        return true;
     }
 }
