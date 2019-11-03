@@ -43,7 +43,7 @@ canvas.addEventListener('contextmenu', e => {
         // TODO: upmにページ判定関数として定義する
         if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
             if (toDoTip.isClicked(point)) {
-                toDoTip.toggleToday(canvas, ctx);
+                toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
             }
         }
     });

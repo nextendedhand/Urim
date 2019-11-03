@@ -1,17 +1,17 @@
 [
-  {
-    "id": 0,
-    "color": "#FFFFFF",
-    "name": "work"
-  },
-  {
-    "id": 1,
-    "color": "#FFFF00",
-    "name": "school"
-  },
-  {
-    "id": 2,
-    "color": "#00FFFF",
-    "name": "house"
-  }
+    {
+        "id": 0,
+        "color": "#d7c447",
+        "name": "work"
+    },
+    {
+        "id": 1,
+        "color": "#00ac9b",
+        "name": "school"
+    },
+    {
+        "id": 2,
+        "color": "#b6007a",
+        "name": "house"
+    }
 ]

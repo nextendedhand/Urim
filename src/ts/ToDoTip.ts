@@ -1,4 +1,5 @@
 import ToDoData from './ToDoData';
+import settingsData from './settingsData';
 import Common from './common';
 
 /**
@@ -71,18 +72,14 @@ class ToDoTip {
      * @param canvas 
      * @param ctx 
      */
-    public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        const common = new Common();
+    public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, settingsData: settingsData) {
         this.toDoData.setToday(!this.toDoData.getIsToday());
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
+        // ジャンルIDに応じた背景色に設定する
         ctx.rect(this.left, this.top, this.width, this.height);
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.stroke();
-
-        ctx.fillStyle = common.backgroundColor[common.imToNum[this.toDoData.getImportance()]];
-
+        ctx.fillStyle = settingsData.getGenreData()[this.toDoData.getGenreId()]['color'];
         ctx.fill();
 
         // toDoDataの文字描画開始

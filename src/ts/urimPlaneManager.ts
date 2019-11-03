@@ -3,6 +3,7 @@ import ToDoData from './ToDoData';
 import ToDoTip from './ToDoTip';
 import Common from './common';
 import PageManager from './pageManager';
+import settingsDataManager from './settingsDataManager';
 
 export interface UrimCell {
     ids: string[],
@@ -17,6 +18,7 @@ export class UrimPlaneManager {
     public imAxis: AxisManager;
     private height: number;
     private width: number;
+    private sdm: settingsDataManager;
     public urimCell: UrimCell[][]; // 4 * 20の要素　各要素に入るデータ数は異なる
     // cell[importance][urgency].ids[index]: 各importance, urgencyでのtoDoデータIDを格納する
 
@@ -24,6 +26,9 @@ export class UrimPlaneManager {
      * 4 * 20のセルを作成する
      */
     constructor() {
+        this.sdm = new settingsDataManager();
+        this.sdm.import();
+
         this.urimCell = new Array(4);
         for (let iIm = 0; iIm < 4; iIm++) {
             this.urimCell[iIm] = new Array(20);
@@ -253,9 +258,9 @@ export class UrimPlaneManager {
         ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
 
         // toDoDataの色設定
-        // todayかどうかで色が決まる
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.stroke();
+        // ジャンルIDに応じた背景色に設定する
+        ctx.fillStyle = this.sdm.settingsData.getGenreData()[toDoTip.toDoData.getGenreId()]['color'];
+        ctx.fill();
 
 
         // toDoDataの文字描画開始

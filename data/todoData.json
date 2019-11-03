@@ -27,7 +27,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 2,
         "contents": "work at the office.",
         "deadline": {
             "year": 2019,
@@ -84,7 +84,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 1,
         "contents": "work at the office.",
         "deadline": {
             "year": 2019,
@@ -122,7 +122,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 2,
         "contents": "work at the office.",
         "deadline": {
             "year": 2019,
@@ -160,7 +160,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 1,
         "contents": "work at the office.",
         "deadline": {
             "year": 2019,
@@ -217,7 +217,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 2,
         "contents": "work at the office.",
         "deadline": {
             "year": 2019,
@@ -255,7 +255,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 2,
         "contents": "work at the office.",
         "deadline": {
             "year": 2020,
@@ -293,7 +293,7 @@
             "day": 0,
             "hour": 3
         },
-        "genreId": 0,
+        "genreId": 1,
         "contents": "work at the office.",
         "deadline": {
             "year": 2020,

@@ -7,7 +7,7 @@ let mainWindow: Electron.BrowserWindow;
 
 /**
  * [ForDebugFunction]
- * [デバッグ用関数]]
+ * [デバッグ用関数]
  * electron-storeで管理しているtodoデータとsettingsデータをdata/*.jsonファイルの値にリセットする
  */
 const resetAllDataForDebug = () => {
