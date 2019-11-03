@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var abstRender_1 = require("./abstRender");
+var abstRenderer_1 = require("./abstRenderer");
 // importance list
 var IMPORTANCE_LIST = ["S", "A", "B", "C", "D"];
 // today mark
@@ -22,7 +22,7 @@ function initializeSortSetting() {
     // イベントハンドラ登録
     if (sort01_button != null) {
         sort01_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(1);
         });
     }
@@ -31,7 +31,7 @@ function initializeSortSetting() {
     }
     if (sort02_button != null) {
         sort02_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(2);
         });
     }
@@ -40,7 +40,7 @@ function initializeSortSetting() {
     }
     if (sort03_button != null) {
         sort03_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(3);
         });
     }
@@ -49,7 +49,7 @@ function initializeSortSetting() {
     }
     if (sort04_button != null) {
         sort04_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(4);
         });
     }
@@ -58,7 +58,7 @@ function initializeSortSetting() {
     }
     if (sort05_button != null) {
         sort05_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(5);
         });
     }
@@ -67,7 +67,7 @@ function initializeSortSetting() {
     }
     if (sort06_button != null) {
         sort06_button.addEventListener('click', function (clickEvent) {
-            if (!abstRender_1.enableDeleteList)
+            if (!abstRenderer_1.enableDeleteList)
                 mySortToDoList(6);
         });
     }
@@ -199,15 +199,15 @@ var mySort06 = function (order, subsorton, pos) {
     if (pos === void 0) { pos = [1, -1, 1]; }
     var i, posGR = [];
     if (order) {
-        for (i = 0; i < abstRender_1.GENRE_ARRAY.length; ++i) {
+        for (i = 0; i < abstRenderer_1.GENRE_ARRAY.length; ++i) {
             posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, abstRender_1.GENRE_ARRAY[i], pos);
+            sortBySpecifiedCharacterPriority(6, abstRenderer_1.GENRE_ARRAY[i], pos);
         }
     }
     else {
-        for (i = 0; i < abstRender_1.GENRE_ARRAY.length; ++i) {
+        for (i = 0; i < abstRenderer_1.GENRE_ARRAY.length; ++i) {
             posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, abstRender_1.GENRE_ARRAY.slice().reverse()[i], pos);
+            sortBySpecifiedCharacterPriority(6, abstRenderer_1.GENRE_ARRAY.slice().reverse()[i], pos);
         }
     }
     if (subsorton) {
@@ -446,7 +446,7 @@ var quickSort_JapaneseString = function (table, order, start_index, end_index) {
 // s_char     : specified character
 // pos[start_pos, end_pos, change_pos]
 // start_pos  : start position. normally 1.
-// end_pos    : end position. if it is -1, sort by array-end 
+// end_pos    : end position. if it is -1, sort by array-end
 // change_pos : normally 1. if you sort this function with other char, this helps sorting.
 var sortBySpecifiedCharacterPriority = function (index, s_char, pos) {
     var $listtable = document.getElementById("ListTable");
