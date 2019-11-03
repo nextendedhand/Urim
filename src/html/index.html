@@ -25,11 +25,11 @@
             削除
         </button>
         <i class="far fa-star" style="visibility:hidden;"></i>
-        <input type="image" src="../img/settings.svg" alt="設定画面を開く" class="mdl-button mdl-js-button" id="setting-btn" >
-        
+        <input type="image" src="../img/settings.svg" alt="設定画面を開く" class="mdl-button mdl-js-button" id="setting-btn">
+
     </div>
 
-        <!-- All of the Node.js APIs are available in this renderer process. -->
+    <!-- All of the Node.js APIs are available in this renderer process. -->
     <div id="urim-plain-container">
         <canvas id="urim-plain"></canvas>
     </div>
@@ -42,11 +42,11 @@
             <!-- 以下にインプットタグをjsonから読み込んだ設定ファイルの値に動的に変更 -->
         </ul>
         <h6>ジャンル新規登録</h6>
-            <form name="form1" id="newGenre" action="">
-                <input type="color" id="newGenreColorPallet" name="createGenre" value="#e66465">
-                <input type="text" id="newGenreLabel" name="createGenre">
-                <input type="button" id="genreAdd" value="登録" />
-            </form>
+        <form name="form1" id="newGenre" action="">
+            <input type="color" id="newGenreColorPallet" name="createGenre" value="#e66465">
+            <input type="text" id="newGenreLabel" name="createGenre">
+            <input type="button" id="genreAdd" value="登録" />
+        </form>
         <h5>緊急度のスケール調整</h5>
 
         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
@@ -64,10 +64,29 @@
 
         <p><a id="modal-close" class="button-link">閉じる</a></p>
     </div>
+
     <!-- 2番目に表示されるモーダル（オーバーウエィ)半透明な膜 -->
-    <div id="modal-overlay" ></div>
+    <div id="modal-overlay"></div>
 
     <!-- モーダルウィンドウここまで -->
+
+    <!-- 詳細画面モーダル -->
+    <dialog id="detail-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__content">
+            <div id="detail-title"></div>
+            <div id="detail-contents"></div>
+            <div id="detail-importance"></div>
+            <div id="detail-urgency"></div>
+            <div id="detail-deadline"></div>
+            <div id="detail-manHour"></div>
+            <div id="detail-genre"></div>
+            <div id="detail-place"></div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button" id="close-detail-dialog-button">閉じる</button>
+        </div>
+    </dialog>
+    <!-- 詳細画面モーダルここまで -->
 
 </body>
 <script>

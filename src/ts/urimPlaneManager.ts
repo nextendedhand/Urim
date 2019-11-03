@@ -177,6 +177,12 @@ export class UrimPlaneManager {
 
                         toDoTip.page = Math.floor(index / 6);
 
+                        if (toDoTip.page == 0) {
+                            toDoTip.isOnPage = true;
+                        } else {
+                            toDoTip.isOnPage = false;
+                        }
+
                         // 最大ページを求める
                         this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.maxPage = Math.max(this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.maxPage, toDoTip.page);
 
@@ -354,6 +360,9 @@ export class UrimPlaneManager {
         toDoTips.forEach(toDoTip => {
             if (toDoTip.page == this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
                 this.renderToDo(toDoTip, canvas, ctx);
+                toDoTip.isOnPage = true;
+            } else {
+                toDoTip.isOnPage = false;
             }
         });
 

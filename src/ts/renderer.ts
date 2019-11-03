@@ -4,8 +4,12 @@ import toDoData from './toDoData';
 import ToDoDataManager from './toDoDataManager';
 import Common from './common';
 import settingsDataManager from './settingsDataManager';
+import DetailDialogManager from './detailDialogManager';
+
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
+
+const ddlgm = new DetailDialogManager();
 
 const tddm = new ToDoDataManager();
 
@@ -68,9 +72,7 @@ canvas.addEventListener('dblclick', e => {
     // クリック判定処理
     toDoTips.forEach(toDoTip => {
         if (toDoTip.isClicked(point)) {
-            // ToDo: 詳細画面に遷移する
-            // ToDoDataを渡すと詳細画面を描画するAPIが欲しい
-            console.log(toDoTip.toDoData.getDetailData());
+            ddlgm.renderContents(toDoTip, sdm.settingsData);
         }
     });
 

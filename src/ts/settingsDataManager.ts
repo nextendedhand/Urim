@@ -30,7 +30,7 @@ export default class settingsDataManager {
     */
     public import() {
         try {
-            console.log('loading SettingsData by electron-store...');
+            console.log('Loading settings data by electron-store...');
             let settingsDataArray = this.store.get(this.common.key.settingsData);
 
             let genreDataArray = settingsDataArray.genreArray;
@@ -42,7 +42,7 @@ export default class settingsDataManager {
             console.log(e);
             return false;
         }
-        console.log("Loading SettingsData Complete.")
+        console.log("Completed settings data loading by electron-store.")
 
         return true;
     }
@@ -54,7 +54,7 @@ export default class settingsDataManager {
 */
     public importFromLocalStorage() {
         try {
-            console.log('loading SettingsData from local storage...');
+            console.log('Loading settings data from local storage...');
             const ls = new LocalStorage();
             const common = new Common();
 
@@ -66,7 +66,7 @@ export default class settingsDataManager {
             console.log(e);
             return false;
         }
-        console.log("Loading SettingsData Complete.")
+        console.log("Completed settings data loading from local storage.")
 
         return true;
     }
@@ -78,7 +78,7 @@ export default class settingsDataManager {
     */
     public export() {
         try {
-            console.log("exporting SettingData by electron-store...");
+            console.log("Exporting settings data by electron-store...");
             this.store.set(this.common.key.settingsData, this.settingsData);
             console.log(this.settingsData);
         }
@@ -86,7 +86,7 @@ export default class settingsDataManager {
             console.log(e);
             return false;
         }
-        console.log("Expoting SettingData Complete.");
+        console.log("Completed settings data expoting by electron-store.");
 
         return true;
     }
@@ -98,7 +98,7 @@ export default class settingsDataManager {
     */
     public exportToLocalStorage() {
         try {
-            console.log("exporting SettingData to local storage...");
+            console.log("Exporting settings data to local storage...");
             const ls = new LocalStorage();
             const common = new Common();
 
@@ -108,7 +108,7 @@ export default class settingsDataManager {
             console.log(e);
             return false;
         }
-        console.log("Expoting SettingData Complete.")
+        console.log("Completed settings data expoting to local storage.")
 
         return true;
     }
@@ -120,7 +120,7 @@ export default class settingsDataManager {
      */
     public resetDataForDebug() {
         try {
-            console.log('loading SettingsData JSON file...');
+            console.log('Resetting settings data...');
             const importSettingsDataPathToFile = path.resolve(__dirname, "../data/settingsData.json");
             let settingsDataArray = JSON.parse(fs.readFileSync(importSettingsDataPathToFile, 'utf8'));
 
@@ -128,7 +128,7 @@ export default class settingsDataManager {
             let genreDataArray;
 
             try {
-                console.log('loading GenreData JSON file...');
+                console.log('Resetting genre data...');
 
                 genreDataArray = JSON.parse(fs.readFileSync(path.resolve(__dirname, importGenreDataPathToFile), 'utf8'));
             }
@@ -136,7 +136,7 @@ export default class settingsDataManager {
                 console.log(e);
                 return false;
             }
-            console.log("Loading GenreData Complete.");
+            console.log("Completed genre data resetting.");
 
             this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray[0]['urgencyScale']));
 
@@ -146,7 +146,7 @@ export default class settingsDataManager {
             console.log(e);
             return false;
         }
-        console.log("Loading SettingsData Complete.")
+        console.log("Completed settings data resetting.")
 
         return true;
 

@@ -31,7 +31,7 @@ export default class toDoDataManager {
     */
     public import() {
         try {
-            console.log('loading file by electron-store...');
+            console.log('Loading todo data by electron-store...');
             let toDoDataArray = this.store.get(this.common.key.toDoData);
             console.log(toDoDataArray)
 
@@ -47,7 +47,7 @@ export default class toDoDataManager {
             console.log(e);
             return false;
         }
-        console.log('Complete.');
+        console.log('Completed todo data loading by electron-store.');
         return true;
     }
 
@@ -58,7 +58,7 @@ export default class toDoDataManager {
     */
     public importFromLocalStorage() {
         try {
-            console.log('loading local storage...');
+            console.log('Loading todo data from local storage...');
             const ls = new LocalStorage();
 
             let toDoDataArray = ls.getValue(this.common.key.toDoData);
@@ -75,7 +75,7 @@ export default class toDoDataManager {
             console.log(e);
             return false;
         }
-        console.log('Complete.');
+        console.log('Completed todo data loading from local storage.');
         return true;
     }
 
@@ -86,7 +86,7 @@ export default class toDoDataManager {
     */
     public export() {
         try {
-            console.log('exporting file by electron-store...');
+            console.log('Exporting todo data by electron-store...');
             this.store.set(this.common.key.toDoData, this.toDoDataArray);
             console.log(this.toDoDataArray);
         }
@@ -94,7 +94,7 @@ export default class toDoDataManager {
             console.log(e);
             return false;
         }
-        console.log('Complete.');
+        console.log('Completed todo data exporting by electron-store.');
         return true;
     }
 
@@ -105,7 +105,7 @@ export default class toDoDataManager {
     */
     public exportToLocalStorage() {
         try {
-            console.log('exporting to local storage...');
+            console.log('Exporting todo data to local storage...');
             const ls = new LocalStorage();
 
             ls.setValue(this.common.key.toDoData, this.toDoDataArray);
@@ -114,7 +114,7 @@ export default class toDoDataManager {
             console.log(e);
             return false;
         }
-        console.log('Complete.');
+        console.log('Completed todo data exporting to local storage.');
         return true;
     }
 
@@ -147,7 +147,7 @@ export default class toDoDataManager {
         try {
             const importPathToFile = path.resolve(__dirname, '../data/todoData.json');
 
-            console.log('loading JSON file...');
+            console.log('Resetting todo data...');
             let toDoDataArray = JSON.parse(fs.readFileSync(importPathToFile, 'utf8'));
 
             for (let index in toDoDataArray) {
@@ -165,7 +165,7 @@ export default class toDoDataManager {
             console.log(e);
             return false;
         }
-        console.log('Complete.');
+        console.log('Completed todo data resetting.');
         return true;
     }
 }

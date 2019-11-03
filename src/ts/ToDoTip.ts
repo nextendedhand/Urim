@@ -23,7 +23,8 @@ class ToDoTip {
     public bottom: number;
     public width: number;
     public height: number;
-    public page: number;
+    public page: number;    // 存在するページ番号
+    public isOnPage: boolean;   // 今一番表示されているかどうか
     private text: TextPos;
     public shortTitle: string
     public toDoData: ToDoData;
@@ -63,6 +64,7 @@ class ToDoTip {
      * @param p クリック時のcanvas座標
      */
     public isClicked(p: { x: number, y: number }) {
+        if (!this.isOnPage) return false;
         return (this.left <= p.x && p.x <= this.right) && (this.top <= p.y && p.y <= this.bottom);
     }
 
