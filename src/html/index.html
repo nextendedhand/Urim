@@ -72,7 +72,14 @@
 
     <!-- 詳細画面モーダル -->
     <dialog id="detail-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__actions">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="close-detail-dialog-button">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
         <div class="mdl-dialog__content">
+            <i id="detail-today-star" class="fas fa-star" style="display:none;"></i>
+            <i id="detail-not-today-star" class="far fa-star" style="display:none;"></i>
             <div id="detail-title"></div>
             <div id="detail-contents"></div>
             <div id="detail-importance"></div>
@@ -82,9 +89,22 @@
             <div id="detail-genre"></div>
             <div id="detail-place"></div>
         </div>
-        <div class="mdl-dialog__actions">
-            <button type="button" class="mdl-button" id="close-detail-dialog-button">閉じる</button>
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+            </div>
         </div>
+
+
     </dialog>
     <!-- 詳細画面モーダルここまで -->
 

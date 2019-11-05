@@ -42,6 +42,23 @@ class DetailDialogManager {
     }
 
     /**
+     * 本日行うtodoかどうかを表す星を描画する
+     * 
+     * @param toDoTip toDoTipデータ
+     */
+    private renderStar(toDoTip: ToDoTip) {
+        if (toDoTip.toDoData.getIsToday()) {
+            this.dialog.querySelector('#detail-today-star').removeAttribute('style');
+            let deteilStarElement = <HTMLElement>this.dialog.querySelector('#detail-not-today-star');
+            deteilStarElement.style.display = 'none';
+        } else {
+            this.dialog.querySelector('#detail-not-today-star').removeAttribute('style');
+            let deteilStarElement = <HTMLElement>this.dialog.querySelector('#detail-today-star');
+            deteilStarElement.style.display = 'none';
+        }
+    }
+
+    /**
      * 詳細ダイアログ内に表示するコンテンツをDOM操作により変更する
      * 
      * @param toDoTip todoTipデータ
@@ -49,6 +66,7 @@ class DetailDialogManager {
      */
     public renderContents(toDoTip: ToDoTip, settingsData: settingsData) {
         this.dialog.showModal();
+        this.renderStar(toDoTip);
         this.dialog.querySelector('#detail-title').textContent = `作業名：${toDoTip.toDoData.getTitle()}`;
         this.dialog.querySelector('#detail-contents').textContent = `作業内容：${toDoTip.toDoData.getDetailData().getContents()}`;
         this.dialog.querySelector('#detail-importance').textContent = `重要度：${toDoTip.toDoData.getImportance()}`;
