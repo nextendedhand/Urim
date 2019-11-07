@@ -28,6 +28,9 @@ class ToDoTip {
     private text: TextPos;
     public shortTitle: string
     public toDoData: ToDoData;
+    public urgencyNumber: number;
+    public importanceNumber: number;
+    public fontScale: number;
 
     /**
      * todoデータをコピーする
@@ -86,7 +89,7 @@ class ToDoTip {
 
         // toDoDataの文字描画開始
         ctx.beginPath();
-        let fontSize = canvas.width / 80;
+        let fontSize = canvas.height * this.fontScale / this.importanceNumber;
 
         let todayIcon = '\uf005';
 
@@ -97,7 +100,7 @@ class ToDoTip {
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(this.shortTitle, this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
+        ctx.fillText(this.shortTitle, this.getTextPosition().x + ctx.measureText(todayIcon).width * 1.25, this.getTextPosition().y);
     }
 }
 
