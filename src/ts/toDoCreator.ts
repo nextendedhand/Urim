@@ -21,7 +21,7 @@ interface FormItems {
     title: string;
     importance: string;
     manHour: ManHour;
-    genreId: number;
+    genreId: string;
     contents: string;
     deadline: Deadline;
     place: string;
@@ -34,9 +34,9 @@ window.onload = () => {
     sdm.importFromLocalStorage();
     console.log(sdm.settingsData);
     let gArray = new Array();
-    const gDataObj =  sdm.settingsData.getGenreData();
-    for (let i=0; i<gDataObj.length; i++) {
-        gArray[i] = new genreData(gDataObj[i]["color"], gDataObj[i]["name"]);
+    const gDataObj = sdm.settingsData.getGenreData();
+    for (let i = 0; i < gDataObj.length; i++) {
+        gArray[i] = new genreData(gDataObj[i]["color"], gDataObj[i]["name"], gDataObj[i]["id"]);
     }
     updateGenreData(gArray);
 };
@@ -74,7 +74,7 @@ function getTaskInfo(): FormItems {
     const importance = getImportance();
     // manHour: 工数(ManHour)
     const manHour = getManHour();
-    // genreId: タスク内容のジャンル(number)
+    // genreId: タスク内容のジャンル(string)
     const genreId = getGenreId();
     // contents: タスク内容
     const contents = getContents();
@@ -107,7 +107,7 @@ function registerTask(items: FormItems) {
         items.title, items.importance,
         items.manHour as any, items.genreId, items.deadline as any,
         items.contents, items.place, items.isToday);
-    
+
     // toDoDataArrayの末尾にtoDoDataを追加しexport
     const tddm = new ToDoDataManager();
     tddm.importFromLocalStorage();
@@ -126,7 +126,7 @@ function getImportance(): string {
 function getManHour(): ManHour {
     const hour = (document.getElementById("man_hour") as HTMLInputElement).value;
     // TODO: other form
-    const manHour:ManHour = {
+    const manHour: ManHour = {
         year: 0,
         month: 0,
         day: 0,
@@ -135,9 +135,8 @@ function getManHour(): ManHour {
     return manHour;
 }
 
-function getGenreId(): number {
-    const genre = (document.getElementById("genre") as HTMLInputElement).value;
-    return parseInt(genre);
+function getGenreId(): string {
+    return (document.getElementById("genre") as HTMLInputElement).value;
 }
 
 function getContents(): string {
@@ -147,7 +146,7 @@ function getContents(): string {
 function getDeadline(): Deadline {
     const date = (document.getElementById("deadline") as HTMLInputElement).value;
     const dateData = new Date(date);
-    const deadLine:Deadline = {
+    const deadLine: Deadline = {
         year: dateData.getFullYear(),
         month: dateData.getMonth(),
         day: dateData.getDay(),
