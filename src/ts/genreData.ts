@@ -9,11 +9,20 @@ export default class genreData {
 
     /**
     * This is a constructor.
-    * @param color
-    * @param name
+    * @param color genre color.
+    * @param name genre name.
+    * @param id OPTION: genre ID.
     */
-    constructor(color: string, name: string) {
-        this.id = this.generateId();
+    constructor(color: string, name: string);
+    constructor(color: string, name: string, id: string);
+    constructor(color: string, name: string, id?: string) {
+        if (id === undefined) {
+            this.id = this.generateId();
+            console.log("genreID生成");
+        } else {
+            this.id = id;
+            console.log("genreID読み込み");
+        }
         this.color = color;
         this.name = name;
     }
@@ -23,7 +32,7 @@ export default class genreData {
     * @param void
     * @returns id
     */
-    private generateId() {
+    private generateId(): string {
         // characters which is used as id
         var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -44,7 +53,7 @@ export default class genreData {
     * @param void
     * @returns id
     */
-    public getId() {
+    public getId(): string {
         return this.id;
     }
 
@@ -53,7 +62,7 @@ export default class genreData {
     * @param void
     * @returns color
     */
-    public getColor() {
+    public getColor(): string {
         return this.color;
     }
 
@@ -62,7 +71,7 @@ export default class genreData {
     * @param void
     * @returns name
     */
-    public getName() {
+    public getName(): string {
         return this.name;
     }
 

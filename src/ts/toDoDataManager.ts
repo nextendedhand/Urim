@@ -37,7 +37,7 @@ export default class toDoDataManager {
 
             for (let index in toDoDataArray) {
                 let tmpToDoData = toDoDataArray[index];
-                let data = new toDoData(tmpToDoData.title, tmpToDoData.importance, tmpToDoData.manHour, tmpToDoData.genreId, tmpToDoData.detailData.deadline, tmpToDoData.detailData.contents, tmpToDoData.detailData.place, tmpToDoData.isToday);
+                let data = new toDoData(tmpToDoData.title, tmpToDoData.importance, tmpToDoData.manHour, tmpToDoData.genreId, tmpToDoData.detailData.deadline, tmpToDoData.detailData.contents, tmpToDoData.detailData.place, tmpToDoData.isToday, tmpToDoData.id);
                 this.toDoDataArray.push(data);
             }
 
@@ -155,7 +155,7 @@ export default class toDoDataManager {
                 let data = new toDoData(tmpToDoData['title'], tmpToDoData['importance'],
                     tmpToDoData['manHour'],
                     tmpToDoData['genreId'], tmpToDoData['deadline'],
-                    tmpToDoData['contents'], tmpToDoData['place'], tmpToDoData['today']);
+                    tmpToDoData['contents'], tmpToDoData['place'], tmpToDoData['today'], tmpToDoData['id']);
                 this.toDoDataArray.push(data);
             }
 

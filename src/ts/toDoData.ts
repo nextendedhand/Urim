@@ -11,9 +11,10 @@ export default class toDoData {
     private importance: string;
     private urgency: number;
     private manHour: { [s: string]: number };
-    private genreId: number;
+    private genreId: string;
     private detailData: detailData;
     private isToday: boolean;
+
 
     /**
     * This is a constructor.
@@ -26,10 +27,21 @@ export default class toDoData {
     * @param content - TODO item's content.
     * @param place - Place where you do this action.
     * @param today - A flag whether you should do this action today.
+    * @param id - OPTION: TODO id.
     */
-    constructor(title: string, importance: string, manHour: { [s: string]: number }, genreId: number,
-        deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean) {
-        this.id = this.generateId();
+    constructor(title: string, importance: string, manHour: { [s: string]: number }, genreId: string,
+        deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean);
+    constructor(title: string, importance: string, manHour: { [s: string]: number }, genreId: string,
+        deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean, id: string);
+    constructor(title: string, importance: string, manHour: { [s: string]: number }, genreId: string,
+        deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean, id?: string) {
+        if (id === undefined) {
+            this.id = this.generateId();
+            console.log('todoID生成');
+        } else {
+            this.id = id;
+            console.log('todoID読み込み');
+        }
         this.title = title;
         this.importance = importance;
         this.manHour = manHour;
@@ -44,7 +56,7 @@ export default class toDoData {
     * @param void
     * @returns id
     */
-    private generateId() {
+    private generateId(): string {
         // characters which is used as id
         var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -110,7 +122,7 @@ export default class toDoData {
     * @param void
     * @returns genreId
     */
-    public getGenreId(): number {
+    public getGenreId(): string {
         return this.genreId;
     }
 
