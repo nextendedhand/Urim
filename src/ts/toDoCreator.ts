@@ -31,7 +31,7 @@ interface FormItems {
 window.onload = () => {
     // 最新のgenreDataを取得
     const sdm = new settingsDataManager();
-    sdm.importFromLocalStorage();
+    sdm.import();
     console.log(sdm.settingsData);
     let gArray = new Array();
     const gDataObj = sdm.settingsData.getGenreData();
@@ -110,9 +110,9 @@ function registerTask(items: FormItems) {
 
     // toDoDataArrayの末尾にtoDoDataを追加しexport
     const tddm = new ToDoDataManager();
-    tddm.importFromLocalStorage();
+    tddm.import();
     tddm.toDoDataArray.push(toDoDataItems);
-    tddm.exportToLocalStorage();
+    tddm.export();
 }
 
 function getTitle(): string {
@@ -130,7 +130,7 @@ function getManHour(): ManHour {
         year: 0,
         month: 0,
         day: 0,
-        hour: parseFloat(hour),
+        hour: parseInt(hour),
     }
     return manHour;
 }
@@ -145,11 +145,12 @@ function getContents(): string {
 
 function getDeadline(): Deadline {
     const date = (document.getElementById("deadline") as HTMLInputElement).value;
-    const dateData = new Date(date);
+    // TODO: 格納をよりスマートにできるか
+    const dateInfo = date.split('-');
     const deadLine: Deadline = {
-        year: dateData.getFullYear(),
-        month: dateData.getMonth(),
-        day: dateData.getDay(),
+        year: parseInt(dateInfo[0]),
+        month: parseInt(dateInfo[1]),
+        day: parseInt(dateInfo[2]),
     }
     return deadLine;
 }
