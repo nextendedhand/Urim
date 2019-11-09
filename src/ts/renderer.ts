@@ -4,8 +4,12 @@ import toDoData from './toDoData';
 import ToDoDataManager from './toDoDataManager';
 import Common from './common';
 import settingsDataManager from './settingsDataManager';
+import DetailDialogManager from './detailDialogManager';
+
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
+
+const ddlgm = new DetailDialogManager();
 
 const tddm = new ToDoDataManager();
 
@@ -43,7 +47,7 @@ canvas.addEventListener('contextmenu', e => {
         // TODO: upmにページ判定関数として定義する
         if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
             if (toDoTip.isClicked(point)) {
-                toDoTip.toggleToday(canvas, ctx);
+                toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
             }
         }
     });
@@ -68,9 +72,7 @@ canvas.addEventListener('dblclick', e => {
     // クリック判定処理
     toDoTips.forEach(toDoTip => {
         if (toDoTip.isClicked(point)) {
-            // ToDo: 詳細画面に遷移する
-            // ToDoDataを渡すと詳細画面を描画するAPIが欲しい
-            console.log(toDoTip.toDoData.getDetailData());
+            ddlgm.renderContents(toDoTip, sdm.settingsData);
         }
     });
 
@@ -115,15 +117,11 @@ canvas.addEventListener('click', e => {
 });
 
 /**
- * [未実装]
- * アプリ起動時にurim画面であった場合は、jsonからデータを読み込む
- * 他画面からの遷移時には、local storageからデータを読み込む
+ * html読み込み完了後、electron-storeからデータを読み込む
  * データ読み込み後に、描画処理
  */
 window.onload = () => {
     tddm.import();
-    // TODO: 2回目のアクセス移行は、下記方法でimportする
-    // tddm.importFromLocalStorage();
     sdm.import();
     render(tddm.toDoDataArray);
 };
@@ -139,8 +137,8 @@ const abstBtn = document.getElementById('abst-btn');
  * 概要モードボタンをクリックすると、概要モード画面へ遷移する
  */
 abstBtn.addEventListener('click', () => {
-    tddm.exportToLocalStorage();
-    sdm.exportToLocalStorage();
+    tddm.export();
+    sdm.export();
     location.href = '../html/abst.html';
 }, false);
 
@@ -150,7 +148,7 @@ const createBtn = document.getElementById('create-btn');
  * 作成ボタンをクリックすると、todo作成画面へ遷移する
  */
 createBtn.addEventListener('click', () => {
-    tddm.exportToLocalStorage();
-    sdm.exportToLocalStorage();
+    tddm.export();
+    sdm.export();
     location.href = '../html/form.html';
 }, false);

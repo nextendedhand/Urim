@@ -1,4 +1,5 @@
 import ToDoData from './ToDoData';
+import settingsData from './settingsData';
 import Common from './common';
 
 /**
@@ -22,10 +23,14 @@ class ToDoTip {
     public bottom: number;
     public width: number;
     public height: number;
-    public page: number;
+    public page: number;    // 存在するページ番号
+    public isOnPage: boolean;   // 今一番表示されているかどうか
     private text: TextPos;
     public shortTitle: string
     public toDoData: ToDoData;
+    public urgencyNumber: number;
+    public importanceNumber: number;
+    public fontScale: number;
 
     /**
      * todoデータをコピーする
@@ -62,6 +67,7 @@ class ToDoTip {
      * @param p クリック時のcanvas座標
      */
     public isClicked(p: { x: number, y: number }) {
+        if (!this.isOnPage) return false;
         return (this.left <= p.x && p.x <= this.right) && (this.top <= p.y && p.y <= this.bottom);
     }
 
@@ -71,23 +77,19 @@ class ToDoTip {
      * @param canvas 
      * @param ctx 
      */
-    public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        const common = new Common();
+    public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, settingsData: settingsData) {
         this.toDoData.setToday(!this.toDoData.getIsToday());
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
+        // ジャンルIDに応じた背景色に設定する
         ctx.rect(this.left, this.top, this.width, this.height);
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.stroke();
-
-        ctx.fillStyle = common.backgroundColor[common.imToNum[this.toDoData.getImportance()]];
-
+        ctx.fillStyle = settingsData.getGenreData()[this.toDoData.getGenreId()]['color'];
         ctx.fill();
 
         // toDoDataの文字描画開始
         ctx.beginPath();
-        let fontSize = canvas.width / 80;
+        let fontSize = canvas.height * this.fontScale / this.importanceNumber;
 
         let todayIcon = '\uf005';
 
@@ -98,7 +100,7 @@ class ToDoTip {
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-        ctx.fillText(this.shortTitle, this.getTextPosition().x + this.width / 3, this.getTextPosition().y);
+        ctx.fillText(this.shortTitle, this.getTextPosition().x + ctx.measureText(todayIcon).width * 1.25, this.getTextPosition().y);
     }
 }
 

@@ -2,7 +2,7 @@
  * 各セルの大きさや位置、ページを管理する
  */
 class PageManager {
-    public page: number;
+    public page: number;    // 現在のページ番号
     public minPage: number;
     public maxPage: number;
     public hasPages: boolean;
