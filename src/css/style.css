@@ -1,3 +1,7 @@
+*{
+    user-select: none;
+}
+
 #urim-plain-container{
     position: relative;
     height: 0;
