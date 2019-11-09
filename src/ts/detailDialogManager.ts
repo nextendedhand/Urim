@@ -1,11 +1,12 @@
-import ToDoTip from './ToDoTip';
-import settingsData from './settingsData'
+import toDoData from './toDoData';
+import settingsDataManager from './settingsDataManager'
 
 /**
  * 詳細ダイアログに表示するコンテンツを生成するクラス
  */
 class DetailDialogManager {
     private dialog: HTMLDialogElement;
+    private sdm: settingsDataManager;
 
     /**
      * 詳細ダイアログの取得と、閉じるボタンを押した際にダイアログを閉じるイベント処理を追加する
@@ -15,6 +16,8 @@ class DetailDialogManager {
         this.dialog.querySelector('#close-detail-dialog-button').addEventListener('click', () => {
             this.dialog.close();
         });
+        this.sdm = new settingsDataManager();
+        this.sdm.import();
     }
 
     /**
@@ -46,8 +49,8 @@ class DetailDialogManager {
      * 
      * @param toDoTip toDoTipデータ
      */
-    private renderStar(toDoTip: ToDoTip) {
-        if (toDoTip.toDoData.getIsToday()) {
+    private renderStar(toDoData: toDoData) {
+        if (toDoData.getIsToday()) {
             this.dialog.querySelector('#detail-today-star').removeAttribute('style');
             let deteilStarElement = <HTMLElement>this.dialog.querySelector('#detail-not-today-star');
             deteilStarElement.style.display = 'none';
@@ -61,22 +64,21 @@ class DetailDialogManager {
     /**
      * 詳細ダイアログ内に表示するコンテンツをDOM操作により変更する
      * 
-     * @param toDoTip todoTipデータ
-     * @param settingsData settingsデータ
+     * @param toDoData todoデータ
      */
-    public renderContents(toDoTip: ToDoTip, settingsData: settingsData) {
+    public renderContents(toDoData: toDoData) {
         this.dialog.showModal();
-        this.renderStar(toDoTip);
-        this.dialog.querySelector('#detail-title').textContent = `作業名：${toDoTip.toDoData.getTitle()}`;
-        this.dialog.querySelector('#detail-contents').textContent = `作業内容：${toDoTip.toDoData.getDetailData().getContents()}`;
-        this.dialog.querySelector('#detail-importance').textContent = `重要度：${toDoTip.toDoData.getImportance()}`;
-        this.dialog.querySelector('#detail-urgency').textContent = `緊急度：${toDoTip.toDoData.getUrgency()}`;
-        this.dialog.querySelector('#detail-deadline').textContent = `〆切：${toDoTip.toDoData.getDetailData().getDeadLine().year}/${toDoTip.toDoData.getDetailData().getDeadLine().month}/${toDoTip.toDoData.getDetailData().getDeadLine().day}`;
-        this.dialog.querySelector('#detail-manHour').textContent = `工数：${this.formatManHour(toDoTip.toDoData.getManHour())}`;
-        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${settingsData.getGenreData().find(gd => {
-            return gd['id'] === toDoTip.toDoData.getGenreId();
+        this.renderStar(toDoData);
+        this.dialog.querySelector('#detail-title').textContent = `作業名：${toDoData.getTitle()}`;
+        this.dialog.querySelector('#detail-contents').textContent = `作業内容：${toDoData.getDetailData().getContents()}`;
+        this.dialog.querySelector('#detail-importance').textContent = `重要度：${toDoData.getImportance()}`;
+        this.dialog.querySelector('#detail-urgency').textContent = `緊急度：${toDoData.getUrgency()}`;
+        this.dialog.querySelector('#detail-deadline').textContent = `〆切：${toDoData.getDetailData().getDeadLine().year}/${toDoData.getDetailData().getDeadLine().month}/${toDoData.getDetailData().getDeadLine().day}`;
+        this.dialog.querySelector('#detail-manHour').textContent = `工数：${this.formatManHour(toDoData.getManHour())}`;
+        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${this.sdm.settingsData.getGenreData().find(gd => {
+            return gd['id'] === toDoData.getGenreId();
         })['name']} `;
-        this.dialog.querySelector('#detail-place').textContent = `場所：${toDoTip.toDoData.getDetailData().getPlace()} `;
+        this.dialog.querySelector('#detail-place').textContent = `場所：${toDoData.getDetailData().getPlace()} `;
     }
 };
 

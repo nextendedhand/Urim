@@ -55,7 +55,6 @@ canvas.addEventListener('contextmenu', e => {
 });
 
 /**
- * [未実装]
  * todoをダブルクリックすると、詳細画面に遷移する
  */
 canvas.addEventListener('dblclick', e => {
@@ -72,7 +71,7 @@ canvas.addEventListener('dblclick', e => {
     // クリック判定処理
     toDoTips.forEach(toDoTip => {
         if (toDoTip.isClicked(point)) {
-            ddlgm.renderContents(toDoTip, sdm.settingsData);
+            ddlgm.renderContents(toDoTip.toDoData);
         }
     });
 
