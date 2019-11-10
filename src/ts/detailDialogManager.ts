@@ -75,9 +75,7 @@ class DetailDialogManager {
         this.dialog.querySelector('#detail-urgency').textContent = `緊急度：${toDoData.getUrgency()}`;
         this.dialog.querySelector('#detail-deadline').textContent = `〆切：${toDoData.getDetailData().getDeadLine().year}/${toDoData.getDetailData().getDeadLine().month}/${toDoData.getDetailData().getDeadLine().day}`;
         this.dialog.querySelector('#detail-manHour').textContent = `工数：${this.formatManHour(toDoData.getManHour())}`;
-        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${this.sdm.settingsData.getGenreData().find(gd => {
-            return gd['id'] === toDoData.getGenreId();
-        })['name']} `;
+        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${this.sdm.settingsData.getGenreData().find(gd => gd.getId() === toDoData.getGenreId()).getName()}`;
         this.dialog.querySelector('#detail-place').textContent = `場所：${toDoData.getDetailData().getPlace()} `;
     }
 };

@@ -281,9 +281,7 @@ export class UrimPlaneManager {
 
         // toDoDataの色設定
         // ジャンルIDに応じた背景色に設定する
-        ctx.fillStyle = this.sdm.settingsData.getGenreData().find(gd => {
-            return gd['id'] === toDoTip.toDoData.getGenreId();
-        })['color'];
+        ctx.fillStyle = this.sdm.settingsData.getGenreData().find(gd => gd.getId() === toDoTip.toDoData.getGenreId()).getColor();
         ctx.fill();
 
 
