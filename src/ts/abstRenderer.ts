@@ -1,40 +1,26 @@
 // ヘッダ行はhtmlでやればよかったと後ほど気付いたが、修正が面倒なので放置している。
 
 /************************* imports *************************/
-import * as fs from 'fs';
-import * as path from 'path';
 import initializeSortSetting from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
-import my_LS from './localStorageManager';
-import { LocalStorage_All as master_LS } from './localStorageManager';
-// import toDoData_class from './toDoData';
+import toDoData from './toDoData';
+import genreData from './genreData';
+import toDoDataManager from './toDoDataManager';
+import settingDataManager from './settingsDataManager';
+/************************* global instances *************************/
+const tddm = new toDoDataManager();
+const sdm = new settingDataManager();
 /************************* variables & constances *************************/
-
-// ToDoListの受け渡し法
-// 1: localStorage
-// 5: JSONファイル
-var DEAL_TO_DO_DATA_LIST: number = 1;
-
-// リスト削除前に　バックアップを取るか
-var IS_BACKUP: boolean = false;
-
-// バックアップ方法
-// 1: localStorage
-// 5: JSONファイル
-var BACKUP_TO_DO_DATA_LIST: number = 5;
 
 // テーブルの列数
 const TABLE_COLUMN_NUM: number = 8;
-
-// データファイルへのパス
-const PATH_TO_DATA_FILE: string = "../data/testData.json";
 
 // テーブルのヘッダ行
 const TEABLE_HEADER_STRINGS: string[] =
     ["削除", "本日", "タイトル", "重要度", "緊急度(残日数)", "工数", "ジャンル", "ID"];
 
-// 暫定ジャンルデータ
-export const GENRE_ARRAY: string[] = ["プライベート", "仕事", "副業"];
+// ジャンルデータ
+export var GENRE_ARRAY: string[] = [];
 
 // テーブル名
 const TABLE_NAME: string = "ToDoList_TABLE";
@@ -45,9 +31,6 @@ const MY_TABLE_DIV: HTMLElement = document.getElementById(TABLE_NAME);
 // リスト削除モードの判定フラグ
 export var enableDeleteList: boolean = false;
 
-// backupファイルパス
-const backupFilePath: string = "data/backup/";
-
 //error number: ex) " : XXX Error"
 var error_s: string = null;
 
@@ -55,23 +38,13 @@ var error_s: string = null;
 
 // ウィンドウオンロード時に初期化する
 window.onload = (): void => {
-    windowInitialize();
-    if (IS_BACKUP)
-        if (BACKUP_TO_DO_DATA_LIST == 5)
-            if (!fs.existsSync(backupFilePath))   // バックアップファイルパスの確認
-                fs.mkdirSync(backupFilePath);   // フォルダが無ければつくる
-}
-
-
-
-// 初期化関数
-const windowInitialize = (): void => {
 
     /* test */
-    // let ls: my_LS = new my_LS();
-    // ls.setValue(JSON.stringify(getToDoDataFromJSON()));
-    // console.log("OK");
-    // console.log(ls.getValue());
+    tddm.resetDataForDebug();
+    sdm.resetDataForDebug();
+
+    // データインポート
+    dataSetting();
 
     // テーブルを作成し表示する
     makeTable();
@@ -87,6 +60,26 @@ const windowInitialize = (): void => {
 
     // 残処理
     init_Others();
+
+}
+
+
+
+// データセッティング
+const dataSetting = (): void => {
+    tddm.import();
+    // console.log("toDoData console out");
+    // console.log(tddm.toDoDataArray);
+    sdm.import();
+    // console.log("settingData console out");
+    // console.log(sdm.settingsData);
+    let genrearray: genreData[] = sdm.settingsData.getGenreData();
+    // console.log("genreData console out");
+    // console.log(genrearray);
+    console.log(genrearray[0].getId());
+    // genrearray.forEach(elm => {
+    //     GENRE_ARRAY.push(elm.getName());
+    // });
 }
 
 
@@ -119,16 +112,12 @@ const my_addEventListener = (): void => {
 // テーブル作成 & テキスト書き込み
 const makeTable = (): void => {
 
-    let dataList: any[] = getToDoData();
-
-    // console.log(dataList);  /* debug */
-
-    if (dataList != null) {
+    if (tddm.toDoDataArray != null) {
 
         var rows: any[] = [], cell: any;
         var i: number, j: number;
         var table: HTMLTableElement = document.createElement("table");
-        let dataNum: number = dataList.length + 1;   // ヘッダ行を考慮
+        let dataNum: number = tddm.toDoDataArray.length + 1;   // ヘッダ行を考慮
 
         for (i = 0; i < dataNum; ++i) {
 
@@ -179,7 +168,7 @@ const makeTable = (): void => {
                         cell.appendChild($checkbox);
                     }
                     else
-                        cell.appendChild(document.createTextNode(returnColumnValue(j, dataList[i - 1])));
+                        cell.appendChild(document.createTextNode(returnColumnValue(j, tddm.toDoDataArray[i - 1])));
 
                 }
 
@@ -201,74 +190,44 @@ const makeTable = (): void => {
 
 
 // 列番号に従い、セルに代入するテキストを決定する
-const returnColumnValue = (columnIndex: number, data: any): string => {
+const returnColumnValue = (columnIndex: number, data: toDoData): string => {
 
     switch (columnIndex) {
         case 1:// today
-            if (data['today'])
+            if (data.getIsToday())
                 return "★";
             else
                 return "";
         case 2:// title
-            return data['title'];
+            return data.getTitle();
         case 3:// importance
-            return data['importance'];
+            return data.getImportance();
         case 4:// urgency
-            return String(data['urgency']);
+            return String(data.getUrgency());
         case 5:// manHour
-            if (0 < data['manHour'].year)
-                return String(data['manHour'].year) + "Y";
-            else if (0 < data['manHour'].month)
-                return String(data['manHour'].month) + "M";
-            else if (0 < data['manHour'].day)
-                return String(data['manHour'].day) + "D";
+            if (0 < data.getManHour().year)
+                return String(data.getManHour().year) + "Y";
+            else if (0 < data.getManHour().month)
+                return String(data.getManHour().month) + "M";
+            else if (0 < data.getManHour().day)
+                return String(data.getManHour().day) + "D";
             else
-                return String(data['manHour'].hour) + "h";
+                return String(data.getManHour().hour) + "h";
         case 6:// genre
-            let box: number = Number(data['genreId']);
-            if (0 <= box && box < GENRE_ARRAY.length)
-                return GENRE_ARRAY[box];
-            else
-                return "error";
+            let id: string = data.getGenreId();
+            let temp: genreData[] = sdm.settingsData.getGenreData();
+            let genre: string;
+            temp.forEach(elm => {
+                if (elm.getId() == id) {
+                    genre = elm.getName();
+                }
+            });
+            return genre;
         case 7://ID
-            return data['id'];
+            return data.getId();
         default:
             return "null";
     }
-
-    /* doDoData class */
-    // switch (columnIndex) {
-    //     case 1:// today
-    //         if (data.getIsToday())
-    //             return "★";
-    //         else
-    //             return "";
-    //     case 2:// title
-    //         return data.getTitle();
-    //     case 3:// importance
-    //         return data.getImportance();
-    //     case 4:// urgency
-    //         return String(data.getUrgency());
-    //     case 5:// manHour
-    //         if (0 < data.getManHour().year)
-    //             return String(data.getManHour().year) + "Y";
-    //         else if (0 < data.getManHour().month)
-    //             return String(data.getManHour().month) + "M";
-    //         else if (0 < data.getManHour().day)
-    //             return String(data.getManHour().day) + "D";
-    //         else
-    //             return String(data.getManHour().hour) + "h";
-    //     case 6:// genre
-    //         let box: number = data.getGenreId();
-    //         if (0 <= box && box < GENRE_ARRAY.length)
-    //             return GENRE_ARRAY[box];
-    //         else
-    //             return "error";
-    //     case 7://ID
-    //         return data.getId();
-    //     default:
-    //         return "null";
-    // }
 
 }
 
@@ -320,59 +279,6 @@ const subSortSetting_Changed = () => {
 }
 
 
-/* 要修正 */
-// 読み込んだデータをtoDoData型で取得する
-const getToDoData = (): any[] => {
-
-    return getToDoData_objects();
-    // var ToDoData_objects: any = getToDoData_objects();
-    // if (ToDoData_objects == null) return null;
-
-}
-
-
-// any型でデータ取得
-const getToDoData_objects = (): any => {
-    if (DEAL_TO_DO_DATA_LIST == 1) {
-        console.log("use localStorage.");
-        return getToDoDataFromlocalStorage();
-    }
-    else if (DEAL_TO_DO_DATA_LIST == 5) {
-        console.log("use JSON file.");
-        return getToDoDataFromJSON();
-    }
-}
-
-
-
-// jsonファイル読み出し
-const getToDoDataFromJSON = (): any => {
-    try {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, PATH_TO_DATA_FILE), 'utf8'));
-    } catch (ex) {
-        error_s = " :Error in Reading JSON File";
-        console.log(ex);
-    }
-    return null;
-}
-
-
-
-// localStorage読み込み
-const getToDoDataFromlocalStorage = (): any => {
-
-    let ls: my_LS = new my_LS();
-    try {
-        return JSON.parse(ls.getValue());
-    } catch (ex) {
-        error_s = " :Error in Reading localStorage";
-        console.log(ex);
-    }
-    return null;
-
-}
-
-
 
 // リスト削除モードオン
 const changeDeleteMode = (): void => {
@@ -392,8 +298,6 @@ const changeDeleteMode = (): void => {
 
 // リスト削除
 const toDoListDelete = (): void => {
-
-    if (IS_BACKUP) beforeToDoDelete();
 
     var deleteList: number[] = [];
     var deleteId: string[] = [];
@@ -422,11 +326,7 @@ const getDeleteList = (deleteList: number[]): string[] => {
         if (checkboxList[i].checked)
             deleteList.push(i);
 
-    if (DEAL_TO_DO_DATA_LIST == 1) {
-        return keepDeleteID(deleteList);
-    }
-
-    return null;
+    return keepDeleteID(deleteList);
 
 }
 
@@ -486,24 +386,6 @@ const init_Others = (): void => {
 
 
 
-const beforeToDoDelete = (): void => {
-
-    if (BACKUP_TO_DO_DATA_LIST == 1) {
-        // localStorageにbackup出力
-        let ms_ls: master_LS = new master_LS();
-        let temp: string = ms_ls.LS_GetValue("toDoDataArray");
-        ms_ls.LS_Write("backup", temp);
-    } else if (BACKUP_TO_DO_DATA_LIST == 5) {
-        // jsonファイルにbackup出力
-        let table_value: string[][] = setTableDataForString();
-        toJsonFile(JSON.stringify(table_value));
-    }
-
-    error_Check();
-}
-
-
-
 // 削除するタスクのID配列を返す
 const keepDeleteID = (index: number[]): string[] => {
 
@@ -521,56 +403,26 @@ const keepDeleteID = (index: number[]): string[] => {
 
 
 
+// データリストからデータを削除し、エクスポートする
 const afterToDoDelete = (deleteId: string[]): void => {
 
-    if (DEAL_TO_DO_DATA_LIST == 1) { // localstorageに保存
-        try {
-            if (deleteId == null) return;
+    try {
+        if (deleteId == null) return;
 
-            let ls: my_LS = new my_LS();
-            let temp_data: any[] = JSON.parse(ls.getValue());
-            console.log(temp_data);
+        // 削除したリストを取得してオブジェクトから削除する
+        deleteId.forEach(elm => {
+            tddm.delete(elm);
+        });
 
-            // 削除したリストを取得してオブジェクトから削除する
-            for (let j: number = 0; j < deleteId.length; ++j) {
-                for (let i: number = 0; i < temp_data.length; ++i) {
-                    let box: any = temp_data[i];
-                    if (deleteId[j] == box['id']) {
-                        temp_data.splice(i, 1);
-                        break;
-                    }
-                }
-            }
+        // データエクスポート
+        tddm.export();
 
-            ls.setValue(JSON.stringify(temp_data));
-        } catch (e) {
-            error_s = " :Error in writing localStorage";
-        }
-    }
-    else if (DEAL_TO_DO_DATA_LIST == 5) {   // jsonファイルに出力
-        let table_value: string[][] = setTableDataForString();
-        toJsonFile(JSON.stringify(table_value));
+    } catch (e) {
+        error_s = " :Error in writing localStorage";
     }
 
     error_Check();
 
-}
-
-
-
-const toJsonFile = (backupdata: string): void => {
-    try {
-        let today: Date = new Date();
-        let today_string: string = today.getFullYear() + ("00" + (today.getMonth() + 1)).slice(-2) + ("00" + today.getDate()).slice(-2)
-        fs.writeFile(backupFilePath + "ToDoList_" + today_string + Date.now().toString() + ".json", backupdata, function (err) {
-            if (err) throw err;
-            else console.log("exported backup JSON file");
-        });
-    }
-    catch (e) {
-        error_s = " :Error in Making JSON File"
-        console.log(e);
-    }
 }
 
 
