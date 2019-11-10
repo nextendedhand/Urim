@@ -84,9 +84,7 @@ class ToDoTip {
         // toDoDataの描画矩形の設定
         // ジャンルIDに応じた背景色に設定する
         ctx.rect(this.left, this.top, this.width, this.height);
-        ctx.fillStyle = settingsData.getGenreData().find(gd => {
-            return gd['id'] === this.toDoData.getGenreId();
-        })['color'];
+        ctx.fillStyle = settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
         ctx.fill();
 
         // toDoDataの文字描画開始

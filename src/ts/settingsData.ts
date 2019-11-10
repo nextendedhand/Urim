@@ -13,7 +13,8 @@ export default class settingsData {
     * @param void
     */
     constructor(genreArray: genreData[], urgencyScale: number) {
-        this.genreArray = genreArray;
+        this.genreArray = [];
+        genreArray.forEach(gd => this.genreArray.push(new genreData(gd['color'], gd['name'], gd['id'])));
         this.urgencyScale = urgencyScale;
     }
 
@@ -22,7 +23,7 @@ export default class settingsData {
     * @param void
     * @returns genreArray
     */
-    public getGenreData() {
+    public getGenreData(): genreData[] {
         return this.genreArray;
     }
 
@@ -31,7 +32,7 @@ export default class settingsData {
     * @param void
     * @returns urgencyScale
     */
-    public getUrgencyScale() {
+    public getUrgencyScale(): number {
         return this.urgencyScale;
     }
 
