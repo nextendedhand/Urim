@@ -42,8 +42,8 @@ var error_s: string = null;
 window.onload = (): void => {
 
     /* test */
-    tddm.resetDataForDebug();
-    sdm.resetDataForDebug();
+    // tddm.resetDataForDebug();
+    // sdm.resetDataForDebug();
 
     // データインポート
     dataSetting();
