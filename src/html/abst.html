@@ -9,12 +9,53 @@
 
 <body>
 
+    <!-- アブストメイン -->
     <input type="button" onclick="location.href = 'index.html'" value="Urimモード">
     <input type="button" class="modechange-button" id="modechange-button" value="削除">
     <input type="button" onclick="location.href = 'create.html'" value="TODO作成">
     <input type="button" class="return-button" id="return-button" value="中止">
     <input type="button" class="delete-button" id="delete-button" value="削除実行">
     <div id="ToDoList_TABLE"></div>
+    <!-- アブストメインここまで -->
+
+       <!-- 詳細画面モーダル -->
+       <dialog id="detail-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__actions">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="close-detail-dialog-button">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+        <div class="mdl-dialog__content">
+            <i id="detail-today-star" class="fas fa-star" style="display:none;"></i>
+            <i id="detail-not-today-star" class="far fa-star" style="display:none;"></i>
+            <div id="detail-title"></div>
+            <div id="detail-contents"></div>
+            <div id="detail-importance"></div>
+            <div id="detail-urgency"></div>
+            <div id="detail-deadline"></div>
+            <div id="detail-manHour"></div>
+            <div id="detail-genre"></div>
+            <div id="detail-place"></div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+            </div>
+        </div>
+
+
+    </dialog>
+    <!-- 詳細画面モーダルここまで -->
+
 
 </body>
 
