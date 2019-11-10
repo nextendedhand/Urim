@@ -9,9 +9,14 @@ var TODAY_LIST = ["★", ""];
 var MANHOUR_UNIT_LIST = ["Y", "M", "D", "h"];
 // sub sort setting
 exports.subSortSetting = [3, 4, 2];
+function tableInitialize() {
+    initializeSortSetting();
+    setRowClickSetting();
+}
+exports["default"] = tableInitialize;
 // ボタンのイベントハンドラ登録実行関数
 // テーブル作成後に呼び出す。
-function initializeSortSetting() {
+var initializeSortSetting = function () {
     // イベントハンドラ登録用定数
     var sort01_button = document.getElementById('sort01-button');
     var sort02_button = document.getElementById('sort02-button');
@@ -74,34 +79,53 @@ function initializeSortSetting() {
     else {
         console.log("event handler error: sort06 button");
     }
-}
-exports["default"] = initializeSortSetting;
+};
+// table event setting
+var setRowClickSetting = function () {
+    // 行ダブルクリック
+    var tbl = document.getElementById("ListTable");
+    var numofrow = tbl.rows.length;
+    var _loop_1 = function (i) {
+        tbl.rows[i].addEventListener('dblclick', function () {
+            abstRenderer_1.showDetailDialog(i);
+        });
+    };
+    for (var i = 1; i < numofrow; ++i) {
+        _loop_1(i);
+    }
+};
 // List sort
 var mySortToDoList = function (index) {
     switch (index) {
         case 1: // 本日
             mySort01(getSortOrder(index), true);
             console.log("sorted by 'today'.");
+            setRowClickSetting();
             break;
         case 2: // タイトル
             mySort02(getSortOrder(index));
             console.log("sorted by 'title'.");
+            setRowClickSetting();
             break;
         case 3: // 重要度
             mySort03(getSortOrder(index), true);
             console.log("sorted by 'importance'.");
+            setRowClickSetting();
             break;
         case 4: // 緊急度
             mySort04(getSortOrder(index));
             console.log("sorted by 'urgency'.");
+            setRowClickSetting();
             break;
         case 5: // 工数
             mySort05(getSortOrder(index));
             console.log("sorted by 'manHour'.");
+            setRowClickSetting();
             break;
         case 6: // ジャンル
             mySort06(getSortOrder(index), true);
             console.log("sorted by 'genre'.");
+            setRowClickSetting();
             break;
         default:
             // no case

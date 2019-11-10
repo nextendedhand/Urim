@@ -1,15 +1,17 @@
 // ヘッダ行はhtmlでやればよかったと後ほど気付いたが、修正が面倒なので放置している。
 
 /************************* imports *************************/
-import initializeSortSetting from './toDoDataSorter';
+import tableInitialize from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
 import toDoData from './toDoData';
 import genreData from './genreData';
 import toDoDataManager from './toDoDataManager';
 import settingDataManager from './settingsDataManager';
+import DetailDialogManager from './detailDialogManager';
 /************************* global instances *************************/
 const tddm = new toDoDataManager();
 const sdm = new settingDataManager();
+const ddlgm = new DetailDialogManager();
 /************************* variables & constances *************************/
 
 // テーブルの列数
@@ -49,8 +51,8 @@ window.onload = (): void => {
     // テーブルを作成し表示する
     makeTable();
 
-    // ソート用ボタンのイベントハンドラを登録する
-    initializeSortSetting();
+    // テーブルのイベントハンドラを登録する
+    tableInitialize();
 
     // イベントハンドラ登録
     my_addEventListener();
@@ -73,13 +75,6 @@ const dataSetting = (): void => {
     sdm.import();
     // console.log("settingData console out");
     // console.log(sdm.settingsData);
-    let genrearray: genreData[] = sdm.settingsData.getGenreData();
-    // console.log("genreData console out");
-    // console.log(genrearray);
-    console.log(genrearray[0].getId());
-    // genrearray.forEach(elm => {
-    //     GENRE_ARRAY.push(elm.getName());
-    // });
 }
 
 
@@ -147,7 +142,7 @@ const makeTable = (): void => {
                     // サブソートボタンを追加
                     if (j == 1 || j == 3 || j == 6) {
                         cell.appendChild(document.createElement('br'));
-                        cell.appendChild(document.createTextNode("subsort:"));
+                        // cell.appendChild(document.createTextNode("subsort:"));
                         cell.appendChild(createSelectBoxForSubSort(j));
                     }
 
@@ -173,6 +168,7 @@ const makeTable = (): void => {
                 }
 
             }
+
         }
 
         // id付与
@@ -194,37 +190,37 @@ const returnColumnValue = (columnIndex: number, data: toDoData): string => {
 
     switch (columnIndex) {
         case 1:// today
-            if (data.getIsToday())
+            if (data['isToday'])
                 return "★";
             else
                 return "";
         case 2:// title
-            return data.getTitle();
+            return data['title'];
         case 3:// importance
-            return data.getImportance();
+            return data['importance'];
         case 4:// urgency
-            return String(data.getUrgency());
+            return String(data['urgency']);
         case 5:// manHour
-            if (0 < data.getManHour().year)
-                return String(data.getManHour().year) + "Y";
-            else if (0 < data.getManHour().month)
-                return String(data.getManHour().month) + "M";
-            else if (0 < data.getManHour().day)
-                return String(data.getManHour().day) + "D";
+            if (0 < data['manHour'].year)
+                return String(data['manHour'].year) + "Y";
+            else if (0 < data['manHour'].month)
+                return String(data['manHour'].month) + "M";
+            else if (0 < data['manHour'].day)
+                return String(data['manHour'].day) + "D";
             else
-                return String(data.getManHour().hour) + "h";
+                return String(data['manHour'].hour) + "h";
         case 6:// genre
-            let id: string = data.getGenreId();
+            let id: string = data['genreId'];
             let temp: genreData[] = sdm.settingsData.getGenreData();
             let genre: string;
             temp.forEach(elm => {
-                if (elm.getId() == id) {
-                    genre = elm.getName();
+                if (elm['id'] == id) {
+                    genre = elm['name'];
                 }
             });
             return genre;
         case 7://ID
-            return data.getId();
+            return data['id'];
         default:
             return "null";
     }
@@ -427,35 +423,49 @@ const afterToDoDelete = (deleteId: string[]): void => {
 
 
 
-// tableから全てのセル値を取り出す
-const setTableDataForString = (): string[][] => {
-    var row_length: number;
-    var table_value: string[][] = [
-        [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6], TEABLE_HEADER_STRINGS[7]]
-    ];
+// // tableから全てのセル値を取り出す
+// const setTableDataForString = (): string[][] => {
+//     var row_length: number;
+//     var table_value: string[][] = [
+//         [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6], TEABLE_HEADER_STRINGS[7]]
+//     ];
 
-    let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    {
-        row_length = $listtable.rows.length - 1;
-    }
+//     let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
+//     {
+//         row_length = $listtable.rows.length - 1;
+//     }
 
-    let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
-    for (let i: number = 1; i <= row_length; ++i) { // ヘッダ行は不要
-        let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
-        let temp_row: string[] = [];
-        {
-            for (let j: number = 1; j < TABLE_COLUMN_NUM; ++j) {   // 削除用チェックリスト列は不要
-                temp_row.push(checkColumn[j].textContent);
-            }
-            table_value.push(temp_row);
+//     let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
+//     for (let i: number = 1; i <= row_length; ++i) { // ヘッダ行は不要
+//         let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
+//         let temp_row: string[] = [];
+//         {
+//             for (let j: number = 1; j < TABLE_COLUMN_NUM; ++j) {   // 削除用チェックリスト列は不要
+//                 temp_row.push(checkColumn[j].textContent);
+//             }
+//             table_value.push(temp_row);
+//         }
+//     }
+
+//     return table_value;
+
+// }
+
+// call dialog
+export function showDetailDialog(rowindex: number): void {
+    // get todo data id where clicked row
+    let row: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
+    let column: HTMLCollectionOf<HTMLTableDataCellElement> = row[rowindex].getElementsByTagName("td");
+    let id: string = column[TABLE_COLUMN_NUM - 1].textContent;
+    // get corresponding todo data
+    tddm.toDoDataArray.forEach(elm => {
+        if (elm['id'] == id) {
+            // show dialog
+            ddlgm.renderContents(elm);
         }
-    }
-
-    return table_value;
+    });
 
 }
-
-
 
 // エラーがあれば表示する
 const error_Check = (): void => {
