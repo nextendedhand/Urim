@@ -183,13 +183,15 @@ var mySort03 = function (order, subsorton, pos) {
     if (order) {
         for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
             posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST[i], pos);
+            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST[i], pos) == false)
+                posGR.pop();
         }
     }
     else {
         for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
             posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST.slice().reverse()[i], pos);
+            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST.slice().reverse()[i], pos) == false)
+                posGR.pop();
         }
     }
     if (subsorton) {
@@ -276,15 +278,15 @@ var subSort = function (index, order, pos) {
                 for (var i = 0; i < pos.length - 1; ++i)
                     mySort01(order, false, [pos[i], pos[i + 1] - 1, pos[i]]);
                 break;
-            case 2:
+            case 2: //NG
                 for (var i = 0; i < pos.length - 1; ++i)
                     mySort02(order, pos[i], pos[i + 1] - 1);
                 break;
-            case 4:
+            case 4: //NG
                 for (var i = 0; i < pos.length - 1; ++i)
                     mySort04(order, pos[i], pos[i + 1] - 1);
                 break;
-            case 5:
+            case 5: //NG
                 for (var i = 0; i < pos.length - 1; ++i)
                     mySort05(order, pos[i], pos[i + 1] - 1);
                 break;
@@ -473,20 +475,25 @@ var quickSort_JapaneseString = function (table, order, start_index, end_index) {
 // start_pos  : start position. normally 1.
 // end_pos    : end position. if it is -1, sort by array-end
 // change_pos : normally 1. if you sort this function with other char, this helps sorting.
+// id s_char is nothig in start ~ end, return false.
 var sortBySpecifiedCharacterPriority = function (index, s_char, pos) {
     var $listtable = document.getElementById("ListTable");
     if (pos[1] < 0)
         pos[1] = $listtable.rows.length - 1;
+    var isit = false;
     var checkRow = document.getElementById("ToDoList_TABLE").getElementsByTagName("tr");
     for (var i = pos[0]; i <= pos[1]; ++i) {
         var checkColumn = checkRow[i].getElementsByTagName("td");
         if (checkColumn[index].textContent == s_char) {
-            if (i != pos[2])
+            if (i != pos[2]) {
                 replaceRows($listtable, pos[2], i);
+                isit = true;
+            }
             ++pos[2];
         }
     }
     pos[0] = pos[2];
+    return isit;
 };
 // replace rows
 var replaceRows = function (table, row1_index, row2_index) {
