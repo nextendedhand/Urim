@@ -12,6 +12,7 @@ exports.subSortSetting = [3, 4, 2];
 function tableInitialize() {
     initializeSortSetting();
     setRowClickSetting();
+    abstRenderer_1.GENRE_ARRAY.sort();
 }
 exports["default"] = tableInitialize;
 // ボタンのイベントハンドラ登録実行関数

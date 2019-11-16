@@ -15,6 +15,7 @@ export var subSortSetting: number[] = [3, 4, 2];
 export default function tableInitialize(): void {
     initializeSortSetting();
     setRowClickSetting();
+    GENRE_LIST.sort();
 }
 
 // ボタンのイベントハンドラ登録実行関数

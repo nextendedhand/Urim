@@ -69,12 +69,18 @@ window.onload = (): void => {
 
 // データセッティング
 const dataSetting = (): void => {
+
+    // todo data
     tddm.import();
-    // console.log("toDoData console out");
-    // console.log(tddm.toDoDataArray);
+
+    // setting data
     sdm.import();
-    // console.log("settingData console out");
-    // console.log(sdm.settingsData);
+
+    // genre data
+    sdm.settingsData.getGenreData().forEach(elm => {
+        GENRE_ARRAY.push(elm['name']);
+    });
+
 }
 
 
