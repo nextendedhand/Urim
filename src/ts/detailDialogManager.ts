@@ -1,4 +1,5 @@
 import toDoData from './toDoData';
+import toDoDataManager from './toDoDataManager';
 import settingsDataManager from './settingsDataManager'
 
 /**
@@ -6,18 +7,62 @@ import settingsDataManager from './settingsDataManager'
  */
 class DetailDialogManager {
     private dialog: HTMLDialogElement;
+    private tddm: toDoDataManager;
     private sdm: settingsDataManager;
+    private req: boolean;
+    private id: string;
 
     /**
      * 詳細ダイアログの取得と、閉じるボタンを押した際にダイアログを閉じるイベント処理を追加する
      */
     constructor() {
         this.dialog = <HTMLDialogElement>document.getElementById('detail-dialog');
-        this.dialog.querySelector('#close-detail-dialog-button').addEventListener('click', () => {
-            this.dialog.close();
-        });
+        this.addEvent();
         this.sdm = new settingsDataManager();
+        this.req = false;
         this.sdm.import();
+        this.id = null;
+    }
+
+    /**
+     * Event Listener
+     */
+    private addEvent = (): void => {
+
+        // 閉じるボタン
+        this.dialog.querySelector('#close-detail-dialog-button').addEventListener('click', () => {
+            this.dClose();
+        });
+
+        // 設定ボタン
+
+
+        // 達成ボタン
+
+
+        // 削除ボタン
+        this.dialog.querySelector('#ddl_del_btn').addEventListener('click', () => {
+            this.tddm = new toDoDataManager();
+            this.tddm.import();
+            this.tddm.delete(this.id);
+            this.tddm.export();
+            this.req = true;
+            this.dClose();
+        });
+
+        // リロード要求：削除などでメインウィンドウの更新が必要な場合への対処
+        this.dialog.onclose = () => {
+            if (this.req) {
+                this.req = false;
+                window.location.reload();
+            }
+        };
+
+    }
+
+    private dClose = (): void => {
+        this.id = null;
+        this.dialog.close();
     }
 
     /**
@@ -70,6 +115,7 @@ class DetailDialogManager {
         if (!this.dialog.open)
             this.dialog.showModal();
         this.renderStar(toDoData);
+        this.id = toDoData.getId();
         this.dialog.querySelector('#detail-title').textContent = `作業名：${toDoData.getTitle()}`;
         this.dialog.querySelector('#detail-contents').textContent = `作業内容：${toDoData.getDetailData().getContents()}`;
         this.dialog.querySelector('#detail-importance').textContent = `重要度：${toDoData.getImportance()}`;

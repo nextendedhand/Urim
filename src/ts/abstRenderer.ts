@@ -41,6 +41,8 @@ var error_s: string = null;
 // ウィンドウオンロード時に初期化する
 window.onload = (): void => {
 
+    console.log("abst on load...");
+
     /* test */
     // tddm.resetDataForDebug();
     // sdm.resetDataForDebug();
@@ -62,6 +64,11 @@ window.onload = (): void => {
 
     // 残処理
     init_Others();
+
+    // 確認
+    error_Check();
+
+    console.log("Load complete");
 
 }
 
@@ -113,7 +120,10 @@ const my_addEventListener = (): void => {
 // テーブル作成 & テキスト書き込み
 const makeTable = (): void => {
 
-    if (tddm.toDoDataArray != null) {
+    if (tddm.toDoDataArray == null) {
+        error_s = "No todo data";
+    }
+    else {
 
         var rows: any[] = [], cell: any;
         var i: number, j: number;
@@ -422,6 +432,8 @@ const afterToDoDelete = (deleteId: string[]): void => {
     } catch (e) {
         error_s = " :Error in writing localStorage";
     }
+
+    tableInitialize();
 
     error_Check();
 

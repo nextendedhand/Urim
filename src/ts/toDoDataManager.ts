@@ -126,12 +126,15 @@ export default class toDoDataManager {
     public delete(id: string) {
         var isDeleted = false;
 
-        for (let index in this.toDoDataArray) {
-            if (this.toDoDataArray[index]['id'] == id) {
-                delete this.toDoDataArray[index];
-                isDeleted = true;
-            }
-        }
+        // for (let index in this.toDoDataArray) {
+        //     if (this.toDoDataArray[index]['id'] == id) {
+        //         delete this.toDoDataArray[index];
+        //         isDeleted = true;
+        //     }
+        // }
+        for (let i: number = 0; i < this.toDoDataArray.length; ++i)
+            if (this.toDoDataArray[i]['id'] == id)
+                this.toDoDataArray.splice(i, 1);
 
         if (!isDeleted) {
             console.log(`Cannot find todo data(id: ${id})`);
