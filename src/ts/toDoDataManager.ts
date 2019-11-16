@@ -133,8 +133,10 @@ export default class toDoDataManager {
         //     }
         // }
         for (let i: number = 0; i < this.toDoDataArray.length; ++i)
-            if (this.toDoDataArray[i]['id'] == id)
+            if (this.toDoDataArray[i]['id'] == id) {
+                delete this.toDoDataArray[i];
                 this.toDoDataArray.splice(i, 1);
+            }
 
         if (!isDeleted) {
             console.log(`Cannot find todo data(id: ${id})`);
