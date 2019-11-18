@@ -12,13 +12,9 @@ const MANHOUR_UNIT_LIST: string[] = ["Y", "M", "D", "h"];
 // sub sort setting
 export var subSortSetting: number[] = [3, 4, 2];
 
-// イベントハンドラ
-window.onload = () => {
-    initializeSortSetting();
-}
-
 // データ待ちがあるためonload関数では実行しない
 export default function tableInitialize(): void {
+    initializeSortSetting();
     setRowClickSetting();
     GENRE_LIST.sort();
 }

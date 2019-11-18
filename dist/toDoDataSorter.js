@@ -9,12 +9,9 @@ var TODAY_LIST = ["★", ""];
 var MANHOUR_UNIT_LIST = ["Y", "M", "D", "h"];
 // sub sort setting
 exports.subSortSetting = [3, 4, 2];
-// イベントハンドラ
-window.onload = function () {
-    initializeSortSetting();
-};
 // データ待ちがあるためonload関数では実行しない
 function tableInitialize() {
+    initializeSortSetting();
     setRowClickSetting();
     abstRenderer_1.GENRE_ARRAY.sort();
 }
