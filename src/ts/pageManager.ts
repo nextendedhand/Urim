@@ -33,6 +33,16 @@ class PageManager {
     }
 
     /**
+     * マウスが◀から▶の間にあるかどうかを判定する
+     * ひとまず枠内(◀から▶の間も含む)ならOKというガバ判定
+     * 
+     * @param p マウスのcanvas座標
+     */
+    public isOn(p: { x: number, y: number }) {
+        return (this.left <= p.x && p.x <= this.left + this.width) && (this.top <= p.y && p.y <= this.top + this.height)
+    }
+
+    /**
      * ◀をクリックしたかどうかを判定する
      * ひとまず枠内の左半分というガバ判定
      * 
