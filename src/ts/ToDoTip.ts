@@ -62,11 +62,11 @@ class ToDoTip {
     }
 
     /**
-     * todoチップ（自身）をクリックしたかどうかを判定する
+     * todoチップ（自身）を上にマウスが存在するかを判定する
      * 
-     * @param p クリック時のcanvas座標
+     * @param p マウスのcanvas座標
      */
-    public isClicked(p: { x: number, y: number }) {
+    public isOn(p: { x: number, y: number }) {
         if (!this.isOnPage) return false;
         return (this.left <= p.x && p.x <= this.right) && (this.top <= p.y && p.y <= this.bottom);
     }

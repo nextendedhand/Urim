@@ -46,7 +46,7 @@ canvas.addEventListener('contextmenu', e => {
     toDoTips.forEach(toDoTip => {
         // TODO: upmにページ判定関数として定義する
         if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
-            if (toDoTip.isClicked(point)) {
+            if (toDoTip.isOn(point)) {
                 toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
             }
         }
@@ -70,7 +70,7 @@ canvas.addEventListener('dblclick', e => {
 
     // クリック判定処理
     toDoTips.forEach(toDoTip => {
-        if (toDoTip.isClicked(point)) {
+        if (toDoTip.isOn(point)) {
             ddlgm.renderContents(toDoTip.toDoData);
         }
     });
@@ -114,6 +114,44 @@ canvas.addEventListener('click', e => {
         })
     })
 });
+
+/**
+ * todoか◀/▶上にマウスがある間、マウスアイコンを指にする
+ */
+canvas.addEventListener('mousemove', e => {
+    e.preventDefault();
+
+    const dpr = window.devicePixelRatio || 1;
+    const canvasRect = canvas.getBoundingClientRect();
+
+    const point = {
+        x: e.clientX * dpr - canvasRect.left * dpr,
+        y: e.clientY * dpr - canvasRect.top * dpr
+    };
+
+    let isOnToDoOrPm = false;
+
+    // クリック判定処理
+    toDoTips.forEach(toDoTip => {
+        if (toDoTip.isOn(point)) {
+            canvas.style.cursor = 'pointer';
+            isOnToDoOrPm = true;
+        }
+    });
+
+    upm.urimCell.forEach((imArray: UrimCell[]) => {
+        imArray.forEach((cell: UrimCell) => {
+            if (cell.pm.hasPages && cell.pm.isOn(point)) {
+                canvas.style.cursor = 'pointer';
+                isOnToDoOrPm = true;
+            }
+        });
+    });
+
+    if (!isOnToDoOrPm) {
+        canvas.style.cursor = 'default';
+    }
+})
 
 /**
  * html読み込み完了後、electron-storeからデータを読み込む
