@@ -10,7 +10,7 @@ const TODAY_LIST: string[] = ["★", ""];
 const MANHOUR_UNIT_LIST: string[] = ["Y", "M", "D", "h"];
 
 // sub sort setting
-export var subSortSetting: number[] = [3, 4, 2];
+export var subSortSetting: number[] = [3, 4, 2];    // 重要度、緊急度、タイトルが初期設定
 
 // データ待ちがあるためonload関数では実行しない
 export default function tableInitialize(): void {

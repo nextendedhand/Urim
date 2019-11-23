@@ -8,7 +8,7 @@ var TODAY_LIST = ["★", ""];
 // man hour unit
 var MANHOUR_UNIT_LIST = ["Y", "M", "D", "h"];
 // sub sort setting
-exports.subSortSetting = [3, 4, 2];
+exports.subSortSetting = [3, 4, 2]; // 重要度、緊急度、タイトルが初期設定
 // データ待ちがあるためonload関数では実行しない
 function tableInitialize() {
     initializeSortSetting();

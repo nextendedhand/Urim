@@ -4,18 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Abst View</title>
-    <link rel="stylesheet" type="text/css" href="../css/abstTableStyle.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/abstTableStyle.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body>
 
     <!-- アブストメイン -->
-    <input type="button" onclick="location.href = 'index.html'" value="Urimモード">
-    <input type="button" class="modechange-button" id="modechange-button" value="削除">
-    <input type="button" onclick="location.href = 'create.html'" value="TODO作成">
-    <input type="button" class="return-button" id="return-button" value="中止">
-    <input type="button" class="delete-button" id="delete-button" value="削除実行">
-    <div id="ToDoList_TABLE"></div>
+    <div class="mdl-grid">
+        <div class="mdl-layout-spacer">
+            <button type="button" id="urim-button" onclick="location.href = 'index.html'"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Urimモード</button>
+        </div>
+        <div class="mdl-layout-spacer">
+            <button type="button" id="modechange-button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+        </div>
+        <div class="mdl-layout-spacer">
+            <button type="button" id="create-button" onclick="location.href = 'create.html'"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">TODO作成</button>
+        </div>
+        <div class="mdl-layout-spacer">
+            <button type="button" id="return-button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">中止</button>
+        </div>
+        <div class="mdl-layout-spacer">
+            <button type="button" id="delete-button"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除実行</button>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s1"></div>
+                <div class="col s12">
+                    <div id="ToDoList_TABLE">
+
+                    </div>
+                </div>
+                <div class="col s1"></div>
+            </div>
+        </div>
+    </div>
     <!-- アブストメインここまで -->
 
     <!-- 詳細画面モーダル -->

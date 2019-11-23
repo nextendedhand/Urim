@@ -96,20 +96,20 @@ const dataSetting = (): void => {
 const my_addEventListener = (): void => {
 
     // モード変更ボタン(初期表示の削除ボタン)
-    let modechange_button: Element = document.querySelector('.modechange-button');
-    modechange_button.addEventListener('click', (clickEvent: Event): void => {
+    let modechange_button: Element = document.getElementById('modechange-button');
+    modechange_button.addEventListener('click', (): void => {
         changeDeleteMode()
     });
 
     // 中止ボタン
-    let return_button: Element = document.querySelector('.return-button');
-    return_button.addEventListener('click', (clickEvent: Event): void => {
+    let return_button: Element = document.getElementById('return-button');
+    return_button.addEventListener('click', (): void => {
         changeDeleteMode()
     });
 
     // 削除実行ボタン
-    let delete_button: Element = document.querySelector('.delete-button');
-    delete_button.addEventListener('click', (clickEvent: Event): void => {
+    let delete_button: Element = document.getElementById('delete-button');
+    delete_button.addEventListener('click', (): void => {
         toDoListDelete()
     });
 
@@ -157,10 +157,13 @@ const makeTable = (): void => {
 
                     // サブソートボタンを追加
                     if (j == 1 || j == 3 || j == 6) {
-                        cell.appendChild(document.createElement('br'));
+                        // cell.appendChild(document.createElement('br'));
                         // cell.appendChild(document.createTextNode("subsort:"));
-                        cell.appendChild(createSelectBoxForSubSort(j));
+                        cell.appendChild(createSelectBoxForSubSort(j)); //mdk, materializeでは表示されない
                     }
+
+                    // text align
+                    cell.style = "text-align: center";
 
                 }
 
@@ -173,14 +176,25 @@ const makeTable = (): void => {
 
                     // セルにテキストを追加
                     if (j == 0) {  // 削除用チェックボックス
+                        let $clabel: HTMLElement = document.createElement('label');
+                        let $cspan: HTMLElement = document.createElement('span');
                         let $checkbox: HTMLInputElement = document.createElement("input");
                         $checkbox.type = 'checkbox';
                         $checkbox.name = 'isDelete';
-                        cell.appendChild($checkbox);
+                        $checkbox.className = "filled-in";
+                        $clabel.appendChild($checkbox);
+                        $clabel.appendChild($cspan);
+                        cell.appendChild($clabel);
                     }
                     else
                         cell.appendChild(document.createTextNode(returnColumnValue(j, tddm.toDoDataArray[i - 1])));
 
+                    // text align
+                    cell.style = "text-align: center";
+                    // if (j == 1 || j == 2 || j == 3 || j == 6)
+                    //     cell.style = "text-align: center";
+                    // else if (j == 4 || j == 5)
+                    //     cell.style = "text-align: right";
                 }
 
             }
@@ -189,6 +203,9 @@ const makeTable = (): void => {
 
         // id付与
         table.id = "ListTable";
+
+        // highlight
+        table.className = "highlight";
 
         // テーブルをウィンドウに反映
         MY_TABLE_DIV.appendChild(table);
@@ -351,6 +368,12 @@ const changePartofDisplay = (isDiplay: boolean): void => {
         let modechange_button: HTMLElement = document.getElementById('modechange-button');
         modechange_button.style.display = "none";
 
+        let urim_button: HTMLElement = document.getElementById('urim-button');
+        urim_button.style.display = "none";
+
+        let create_button: HTMLElement = document.getElementById('create-button');
+        create_button.style.display = "none";
+
         // ボタン表示
         let deleteButton: HTMLElement = document.getElementById("delete-button");
         deleteButton.style.display = "block";
@@ -368,6 +391,12 @@ const changePartofDisplay = (isDiplay: boolean): void => {
         // ボタン表示
         let modechange_button: HTMLElement = document.getElementById('modechange-button');
         modechange_button.style.display = "block";
+
+        let urim_button: HTMLElement = document.getElementById('urim-button');
+        urim_button.style.display = "block";
+
+        let create_button: HTMLElement = document.getElementById('create-button');
+        create_button.style.display = "block";
 
         // ボタン非表示
         let deleteButton: HTMLElement = document.getElementById("delete-button");
