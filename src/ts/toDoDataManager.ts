@@ -126,12 +126,12 @@ export default class toDoDataManager {
     public delete(id: string) {
         var isDeleted = false;
 
-        for (let index in this.toDoDataArray) {
-            if (this.toDoDataArray[index]['id'] == id) {
-                delete this.toDoDataArray[index];
+        this.toDoDataArray = this.toDoDataArray.filter(todoData => {
+            if (todoData.getId() === id) {
                 isDeleted = true;
             }
-        }
+            return todoData.getId() !== id;
+        });
 
         if (!isDeleted) {
             console.log(`Cannot find todo data(id: ${id})`);

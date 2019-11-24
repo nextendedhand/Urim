@@ -31,6 +31,7 @@ class ToDoTip {
     public urgencyNumber: number;
     public importanceNumber: number;
     public fontScale: number;
+    public isDeleteCandidate: boolean;
 
     /**
      * todoデータをコピーする
@@ -39,6 +40,7 @@ class ToDoTip {
      */
     constructor(toDoData: ToDoData) {
         this.toDoData = toDoData;
+        this.isDeleteCandidate = false;
     }
 
     /**
@@ -79,28 +81,60 @@ class ToDoTip {
      */
     public toggleToday(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, settingsData: settingsData) {
         this.toDoData.setToday(!this.toDoData.getIsToday());
+        this.render(canvas, ctx, settingsData);
+    }
+
+    public toggleBackgroundColor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, settingsData: settingsData) {
+        this.isDeleteCandidate = !this.isDeleteCandidate;
+        this.render(canvas, ctx, settingsData);
+    }
+
+    public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, settingsData: settingsData) {
+        // toDoDataの矩形描画開始
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
-        // ジャンルIDに応じた背景色に設定する
         ctx.rect(this.left, this.top, this.width, this.height);
-        ctx.fillStyle = settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
+
+        // toDoDataの色設定
+        // ジャンルIDに応じた背景色に設定する
+        ctx.fillStyle = this.isDeleteCandidate ? '#f00' : settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
         ctx.fill();
+
 
         // toDoDataの文字描画開始
         ctx.beginPath();
         let fontSize = canvas.height * this.fontScale / this.importanceNumber;
 
+        // today用の星描画
         let todayIcon = '\uf005';
 
         ctx.font = this.toDoData.getIsToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
 
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
+        ctx.textBaseline = 'top';
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
         ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
+
+        let title = this.toDoData.getTitle();
+        this.shortTitle = title;
+
+        if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(title).width >= this.width) {
+            console.log('超えた', this.shortTitle);
+            while (true) {
+                if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(`${title}..`).width < this.width) {
+                    this.shortTitle = title + '..';
+                    break;
+                }
+                title = title.slice(0, -1);
+            }
+        }
+
+        ctx.textBaseline = 'top';
         ctx.fillText(this.shortTitle, this.getTextPosition().x + ctx.measureText(todayIcon).width * 1.25, this.getTextPosition().y);
+
     }
 }
 

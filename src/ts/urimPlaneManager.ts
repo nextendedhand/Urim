@@ -4,6 +4,7 @@ import ToDoTip from './ToDoTip';
 import Common from './common';
 import PageManager from './pageManager';
 import settingsDataManager from './settingsDataManager';
+import toDoDataManager from './toDoDataManager';
 
 export interface UrimCell {
     ids: string[],
@@ -28,11 +29,12 @@ export class UrimPlaneManager {
     private urgencyNumber: number;
     private fontScale: number;
     private widthScale: number;
+    public toDoTips: ToDoTip[];
 
     /**
      * 4 * 20のセルを作成する
      */
-    constructor() {
+    constructor(toDoDatas: ToDoData[]) {
         this.sdm = new settingsDataManager();
         this.sdm.import();
         this.urgencySpans = [21, 33, 81, 240];
@@ -53,6 +55,12 @@ export class UrimPlaneManager {
                 }
             }
         }
+
+        this.toDoTips = new Array();
+        toDoDatas.forEach((toDoData: ToDoData) => {
+            let toDoTip = new ToDoTip(toDoData);
+            this.toDoTips.push(toDoTip);
+        });
     }
 
     /**
@@ -61,7 +69,7 @@ export class UrimPlaneManager {
      * @param canvas 
      * @param toDoDatas 全todoデータ
      */
-    public setupCanvas(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]) {
+    public setupCanvas(canvas: HTMLCanvasElement) {
         const common = new Common();
         const ctx = canvas.getContext('2d');
 
@@ -90,7 +98,7 @@ export class UrimPlaneManager {
             }
         }
 
-        this.createUrimCell(toDoDatas);
+        this.createUrimCell();
 
         return ctx;
     }
@@ -142,15 +150,15 @@ export class UrimPlaneManager {
      * 
      * @param toDoDatas 全todoデータ
      */
-    private createUrimCell(toDoDatas: ToDoData[]) {
+    private createUrimCell() {
         const common = new Common();
         // urimCellにデータ格納する
         // ToDO: UtimCellクラス作るかどうか考える
-        toDoDatas.forEach((toDoData: ToDoData) => {
-            if (this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].ids[0] !== '') {
-                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].ids.push(toDoData.getId());
+        this.toDoTips.forEach((toDoTip: ToDoTip) => {
+            if (this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].ids[0] !== '') {
+                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].ids.push(toDoTip.toDoData.getId());
             } else {
-                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].ids = [toDoData.getId()];
+                this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].ids = [toDoTip.toDoData.getId()];
             }
         });
     }
@@ -161,31 +169,28 @@ export class UrimPlaneManager {
      * @param canvas 
      * @param toDoDatas 全todoデータ
      */
-    public createToDoTips(canvas: HTMLCanvasElement, toDoDatas: ToDoData[]): ToDoTip[] {
+    public createToDoTips(canvas: HTMLCanvasElement) {
         const common = new Common();
-        let toDoTips: ToDoTip[] = new Array();
 
         this.urimCell.forEach((imArray: UrimCell[]) => {
             imArray.forEach((cell: UrimCell) => {
                 if (cell.ids[0] !== '') {
                     cell.ids.forEach((id: string, index: number) => {
                         // urimCellに格納されたidと一致するtoDoDataを検索して代入
-                        const toDoData: ToDoData = (id => {
-                            return toDoDatas.find(tDD => tDD.getId() === id);
+                        const toDoTip: ToDoTip = (id => {
+                            return this.toDoTips.find(tDT => tDT.toDoData.getId() === id);
                         })(id);
 
-                        // toDoTipの作成
                         // - left
                         // - right
                         // - top
                         // - bottom
                         // を計算する
-                        let toDoTip = new ToDoTip(toDoData);
 
                         toDoTip.width = canvas.width * this.widthScale / this.urgencyNumber;
                         toDoTip.height = canvas.height / this.importanceNumber;
-                        toDoTip.left = this.calcUrCoord(canvas, toDoData.getUrgency()) + (canvas.width / this.urgencyNumber - toDoTip.width) / 2;
-                        toDoTip.top = this.calcImCoord(canvas, toDoData.getImportance()) + (index % (this.heightPartitionPerImportance - 2)) * toDoTip.height;
+                        toDoTip.left = this.calcUrCoord(canvas, toDoTip.toDoData.getUrgency()) + (canvas.width / this.urgencyNumber - toDoTip.width) / 2;
+                        toDoTip.top = this.calcImCoord(canvas, toDoTip.toDoData.getImportance()) + (index % (this.heightPartitionPerImportance - 2)) * toDoTip.height;
                         toDoTip.bottom = toDoTip.top + toDoTip.height;
 
                         toDoTip.page = Math.floor(index / (this.heightPartitionPerImportance - 2));
@@ -197,12 +202,12 @@ export class UrimPlaneManager {
                         }
 
                         // 最大ページを求める
-                        this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.maxPage = Math.max(this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.maxPage, toDoTip.page);
+                        this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.maxPage = Math.max(this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.maxPage, toDoTip.page);
 
                         if (index > (this.heightPartitionPerImportance - 2)) {
-                            this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.hasPages = true;
+                            this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.hasPages = true;
                         } else if (index <= (this.heightPartitionPerImportance - 2)) {
-                            this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoData.getImportance()]][this.urToCoord(toDoData.getUrgency())].pm.hasPages = false;
+                            this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.hasPages = false;
                         }
 
                         toDoTip.right = toDoTip.left + toDoTip.width;
@@ -211,14 +216,20 @@ export class UrimPlaneManager {
                         toDoTip.urgencyNumber = this.urgencyNumber;
                         toDoTip.importanceNumber = this.importanceNumber;
                         toDoTip.fontScale = this.fontScale;
-
-                        toDoTips.push(toDoTip);
                     });
                 }
             });
         });
+    }
 
-        return toDoTips;
+    public deleteToDoTips(tddm: toDoDataManager) {
+        this.toDoTips.forEach(toDoTip => {
+            if (toDoTip.isDeleteCandidate) {
+                tddm.delete(toDoTip.toDoData.getId());
+            }
+        });
+
+        this.toDoTips = this.toDoTips.filter(toDoTip => !toDoTip.isDeleteCandidate);
     }
 
     /**
@@ -263,60 +274,6 @@ export class UrimPlaneManager {
         };
 
         vFillText(ctx, '緊急度', canvas.width, canvas.height / 2);
-    }
-
-    /**
-     * 各todoを描画する
-     * 
-     * @param toDoTip todoチップ（canvas上に配置するためのデータ構造）
-     * @param canvas 
-     * @param ctx 
-     */
-    private renderToDo(toDoTip: ToDoTip, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        // toDoDataの矩形描画開始
-        ctx.beginPath();
-
-        // toDoDataの描画矩形の設定
-        ctx.rect(toDoTip.left, toDoTip.top, toDoTip.width, toDoTip.height);
-
-        // toDoDataの色設定
-        // ジャンルIDに応じた背景色に設定する
-        ctx.fillStyle = this.sdm.settingsData.getGenreData().find(gd => gd.getId() === toDoTip.toDoData.getGenreId()).getColor();
-        ctx.fill();
-
-
-        // toDoDataの文字描画開始
-        ctx.beginPath();
-        let fontSize = canvas.height * this.fontScale / this.importanceNumber;
-
-        // today用の星描画
-        let todayIcon = '\uf005';
-
-        ctx.font = toDoTip.toDoData.getIsToday() ? `900 ${fontSize}px 'Font Awesome 5 Free'` : `400 ${fontSize}px 'Font Awesome 5 Free'`;
-
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-
-        ctx.textBaseline = 'top';
-        ctx.fillText(todayIcon, toDoTip.getTextPosition().x, toDoTip.getTextPosition().y);
-
-        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-
-        let title = toDoTip.toDoData.getTitle();
-        toDoTip.shortTitle = title;
-
-        if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(title).width >= toDoTip.width) {
-            console.log('超えた', toDoTip.shortTitle);
-            while (true) {
-                if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(`${title}..`).width < toDoTip.width) {
-                    toDoTip.shortTitle = title + '..';
-                    break;
-                }
-                title = title.slice(0, -1);
-            }
-        }
-
-        ctx.textBaseline = 'top';
-        ctx.fillText(toDoTip.shortTitle, toDoTip.getTextPosition().x + ctx.measureText(todayIcon).width * 1.25, toDoTip.getTextPosition().y);
     }
 
     /**
@@ -366,7 +323,7 @@ export class UrimPlaneManager {
      * @param ctx 
      * @param toDoTips 全todoチップ（canvas上に配置するためのデータ構造）
      */
-    public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, toDoTips: ToDoTip[]) {
+    public render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         const common = new Common();
 
         canvas.height = this.height;
@@ -375,9 +332,9 @@ export class UrimPlaneManager {
         this.renderImBackground(canvas, ctx);
         this.renderAxis(canvas, ctx);
 
-        toDoTips.forEach(toDoTip => {
+        this.toDoTips.forEach(toDoTip => {
             if (toDoTip.page == this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
-                this.renderToDo(toDoTip, canvas, ctx);
+                toDoTip.render(canvas, ctx, this.sdm.settingsData)
                 toDoTip.isOnPage = true;
             } else {
                 toDoTip.isOnPage = false;
