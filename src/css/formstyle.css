@@ -3,12 +3,19 @@ label, input[type=text]{
     display:block;
 }
 
-section[class=button_sec]{
-    display:block;
+div[class=formlist]{
     text-align: center;
-    padding: 15px;
 }
 
-section[class=button_sec] button{
-    margin: 0px 20px;
+table {
+    width: 60%;
+}
+
+table td[class=mdl-data-table__cell--non-numeric] {
+    width: 10%;
+}
+
+table td[class=i_contents]{
+    width: 90%;
+    text-align: left;
 }
