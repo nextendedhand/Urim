@@ -198,7 +198,7 @@ const addEventListners = () => {
     document.getElementById('create-btn').addEventListener('click', () => {
         tddm.export();
         sdm.export();
-        location.href = '../html/form.html';
+        location.href = '../html/register_form.html';
     }, false);
 
     /**
