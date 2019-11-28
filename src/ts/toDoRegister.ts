@@ -1,4 +1,4 @@
-import FormInfoManager from './toDoCreator';
+import FormInfoManager from './formInfoManager';
 
 window.onload = () => {
     const fim = new FormInfoManager();
