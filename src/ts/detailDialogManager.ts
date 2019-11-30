@@ -40,6 +40,7 @@ class DetailDialogManager {
             const selectedDataMgr = new selectedDataManager();
             selectedDataMgr.setSelectedId(this.id);
             location.href = '../html/edit_form.html';
+            this.dClose();
         });
 
         // 達成ボタン
