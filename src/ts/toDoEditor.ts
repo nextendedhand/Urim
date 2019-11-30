@@ -13,7 +13,7 @@ createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
     if (fim.checkInputFilled()) {
         fim.expireTask(fim.getTaskInfo());
-        location.href = '../html/index.html';
+        history.back();
     } else {
         // "入力が不足しています"
     }
@@ -21,7 +21,7 @@ createBtn.addEventListener("click", () => {
 
 let cancelBtn = document.getElementById("cancel_btn");
 cancelBtn.addEventListener("click", () => {
-    location.href = '../html/index.html';
+    history.back();
 }, false);
 
 
