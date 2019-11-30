@@ -55,10 +55,6 @@ export default class FormInfoManager {
                     tdDataObj[i]["manHour"], tdDataObj[i]["genreId"], tdDataObj[i]["detailData"]["deadline"],
                     tdDataObj[i]["detailData"]["contents"], tdDataObj[i]["detailData"]["place"], tdDataObj[i]["isToday"], tdDataObj[i]["id"]);
         }
-        
-        // temp
-        task_id = tdArray[0].getId()
-        //
 
         let target_index = tdArray.length;
         for (let i = 0; i < tdArray.length; i++) {
