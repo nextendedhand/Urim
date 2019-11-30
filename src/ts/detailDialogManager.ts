@@ -1,6 +1,7 @@
 import toDoData from './toDoData';
 import toDoDataManager from './toDoDataManager';
 import settingsDataManager from './settingsDataManager'
+import selectedDataManager from './selectedDataManager';
 
 /**
  * 詳細ダイアログに表示するコンテンツを生成するクラス
@@ -35,7 +36,11 @@ class DetailDialogManager {
         });
 
         // 設定ボタン
-
+        this.dialog.querySelector('#ddl_edit_btn').addEventListener('click', () => {
+            const selectedDataMgr = new selectedDataManager();
+            selectedDataMgr.setSelectedId(this.id);
+            location.href = '../html/edit_form.html';
+        });
 
         // 達成ボタン
 
