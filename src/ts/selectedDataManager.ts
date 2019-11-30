@@ -13,7 +13,7 @@ export default class selectedDataManager {
         this.common = new Common();
     }
 
-    public getSelectedId(): String {
+    public getSelectedId(): string {
         try {
             console.log('Loading settings data by electron-store...');
             let selectedId = this.store.get(this.common.key.selectedId);
@@ -25,7 +25,7 @@ export default class selectedDataManager {
         }
     }
 
-    public setSelectedId(selectedId: String) {
+    public setSelectedId(selectedId: string) {
         try {
             this.store.set(this.common.key.selectedId, selectedId);
         }
