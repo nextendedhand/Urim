@@ -24,7 +24,7 @@ const resetAllDataForDebug = () => {
  * 必要に応じてコメントをつけたり外したりしてください
  * electron-storeで管理するデータをローカルjsonの値にリセットする関数を呼び出している
  */
-// app.on("will-finish-launching", resetAllDataForDebug);
+ app.on("will-finish-launching", resetAllDataForDebug);
 
 function createWindow() {
     // Create the browser window.
