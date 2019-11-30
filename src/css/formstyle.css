@@ -1,0 +1,21 @@
+@charset "utf-8";
+label, input[type=text]{
+    display:block;
+}
+
+div[class=formlist]{
+    text-align: center;
+}
+
+table {
+    width: 60%;
+}
+
+table td[class=mdl-data-table__cell--non-numeric] {
+    width: 10%;
+}
+
+table td[class=i_contents]{
+    width: 90%;
+    text-align: left;
+}

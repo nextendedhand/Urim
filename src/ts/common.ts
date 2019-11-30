@@ -11,7 +11,8 @@ class Common {
     };
     public key = {
         toDoData: 'toDoDataArray',
-        settingsData: 'settingsData'
+        settingsData: 'settingsData',
+        selectedId: 'selectedId'
     };
 }
 

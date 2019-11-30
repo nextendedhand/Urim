@@ -1,3 +1,6 @@
 node_modules/
+*.pptx
 dist/
 memo/
+.vscode/
+.DS_Store

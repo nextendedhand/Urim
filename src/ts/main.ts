@@ -1,31 +1,54 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
+import ToDoDataManager from './toDoDataManager';
+import settingsDataManager from './settingsDataManager';
 
 let mainWindow: Electron.BrowserWindow;
 
+/**
+ * [ForDebugFunction]
+ * [デバッグ用関数]
+ * electron-storeで管理しているtodoデータとsettingsデータをdata/*.jsonファイルの値にリセットする
+ */
+const resetAllDataForDebug = () => {
+    const tddm = new ToDoDataManager();
+    const sdm = new settingsDataManager();
+
+    tddm.resetDataForDebug();
+    sdm.resetDataForDebug();
+}
+
+/**
+ * アプリ起動後（readyイベントよりも先に呼ばれる）の処理
+ * [以下デバッグ用]
+ * 必要に応じてコメントをつけたり外したりしてください
+ * electron-storeで管理するデータをローカルjsonの値にリセットする関数を呼び出している
+ */
+// app.on("will-finish-launching", resetAllDataForDebug);
+
 function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  });
+    // Create the browser window.
+    mainWindow = new BrowserWindow({
+        height: 600,
+        width: 800,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, '../src/html/index.html'));
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, '../src/html/index.html'));
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+    // Emitted when the window is closed.
+    mainWindow.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        mainWindow = null;
+    });
 }
 
 // This method will be called when Electron has finished
@@ -35,19 +58,19 @@ app.on("ready", createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
-  // On OS X it"s common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+    // On OS X it"s common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+        createWindow();
+    }
 });
 
 // In this file you can include the rest of your app"s specific main process

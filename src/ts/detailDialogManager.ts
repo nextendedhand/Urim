@@ -119,12 +119,10 @@ class DetailDialogManager {
         this.dialog.querySelector('#detail-title').textContent = `作業名：${toDoData.getTitle()}`;
         this.dialog.querySelector('#detail-contents').textContent = `作業内容：${toDoData.getDetailData().getContents()}`;
         this.dialog.querySelector('#detail-importance').textContent = `重要度：${toDoData.getImportance()}`;
-        this.dialog.querySelector('#detail-urgency').textContent = `緊急度：${toDoData.getUrgency()}`;
+        this.dialog.querySelector('#detail-urgency').textContent = `残日数：${toDoData.getUrgency()}日`;
         this.dialog.querySelector('#detail-deadline').textContent = `〆切：${toDoData.getDetailData().getDeadLine().year}/${toDoData.getDetailData().getDeadLine().month}/${toDoData.getDetailData().getDeadLine().day}`;
         this.dialog.querySelector('#detail-manHour').textContent = `工数：${this.formatManHour(toDoData.getManHour())}`;
-        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${this.sdm.settingsData.getGenreData().find(gd => {
-            return gd['id'] === toDoData.getGenreId();
-        })['name']} `;
+        this.dialog.querySelector('#detail-genre').textContent = `ジャンル：${this.sdm.settingsData.getGenreData().find(gd => gd.getId() === toDoData.getGenreId()).getName()}`;
         this.dialog.querySelector('#detail-place').textContent = `場所：${toDoData.getDetailData().getPlace()} `;
     }
 };
