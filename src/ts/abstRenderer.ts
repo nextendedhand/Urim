@@ -361,6 +361,20 @@ const getDeleteList = (deleteList: number[]): string[] => {
 
 
 
+
+const Uncheck = (): void => {
+
+    var checkboxList: NodeListOf<HTMLInputElement> = <NodeListOf<HTMLInputElement>>document.getElementsByName("isDelete");
+    let i: number;
+    const last: number = checkboxList.length;
+    for (i = 0; i < last; ++i)
+        if (checkboxList[i].checked)
+            checkboxList[i].checked = false;
+
+}
+
+
+
 // ボタンとカラムの表示/非表示切り替え
 const changePartofDisplay = (isDiplay: boolean): void => {
     if (isDiplay) {
@@ -404,6 +418,9 @@ const changePartofDisplay = (isDiplay: boolean): void => {
 
         let returnButton: HTMLElement = document.getElementById("return-button");
         returnButton.style.display = "none";
+
+        // 案チェック
+        Uncheck();
 
         // カラム非表示
         let checkRow: HTMLCollectionOf<HTMLTableRowElement> = MY_TABLE_DIV.getElementsByTagName("tr");
