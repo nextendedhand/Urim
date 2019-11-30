@@ -1,9 +1,11 @@
 import FormInfoManager from './formInfoManager';
+import selectedDataManager from './selectedDataManager';
 
 window.onload = () => {
     const fim = new FormInfoManager();
+    const selectDataMng = new selectedDataManager();
     fim.expireForm();
-    fim.setPlaceHolder("temp");
+    fim.setPlaceHolder(selectDataMng.getSelectedId());
 };
 
 let createBtn = document.getElementById("expire_btn");
