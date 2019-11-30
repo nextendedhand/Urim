@@ -32,7 +32,7 @@ export default class FormInfoManager {
 
     }
 
-    public expireForm() {
+    public expireRegisterForm() {
         // 最新のgenreDataを取得
         const sdm = new settingsDataManager();
         sdm.import();
@@ -40,34 +40,119 @@ export default class FormInfoManager {
         let gArray = new Array();
         const gDataObj = sdm.settingsData.getGenreData();
         for (let i = 0; i < gDataObj.length; i++) {
-            gArray[i] = new genreData(gDataObj[i]["color"], gDataObj[i]["name"], gDataObj[i]["id"]);
+            gArray[i] = new genreData(gDataObj[i]["color"],
+                                gDataObj[i]["name"], gDataObj[i]["id"]);
         }
         this.updateGenreData(gArray);
     }
 
-    public setPlaceHolder(task_id: String) {
+    public expireEditForm(selected_id: string) {
         const tddm = new ToDoDataManager();
         tddm.import();
         let tdArray = new Array();
         const tdDataObj = tddm.toDoDataArray;
         for (let i = 0; i < tdDataObj.length; i++) {
-            tdArray[i] = new toDoData(tdDataObj[i]["title"], tdDataObj[i]["importance"],
-                    tdDataObj[i]["manHour"], tdDataObj[i]["genreId"], tdDataObj[i]["detailData"]["deadline"],
-                    tdDataObj[i]["detailData"]["contents"], tdDataObj[i]["detailData"]["place"], tdDataObj[i]["isToday"], tdDataObj[i]["id"]);
+            tdArray[i] = new toDoData(tdDataObj[i]["title"],
+                            tdDataObj[i]["importance"],
+                            tdDataObj[i]["manHour"],
+                            tdDataObj[i]["genreId"],
+                            tdDataObj[i]["detailData"]["deadline"],
+                            tdDataObj[i]["detailData"]["contents"],
+                            tdDataObj[i]["detailData"]["place"],
+                            tdDataObj[i]["isToday"],
+                            tdDataObj[i]["id"]);
         }
 
         let target_index = tdArray.length;
         for (let i = 0; i < tdArray.length; i++) {
-            if (task_id == tdArray[i].getId()) {
+            if (selected_id == tdArray[i].getId()) {
                 target_index = i;
             }
         }
 
-        document.getElementById("title").setAttribute("value", tdArray[target_index].getTitle());
-        document.getElementById("contents").setAttribute("value", tdArray[target_index].detailData.getContents());
-        document.getElementById("place").setAttribute("value", tdArray[target_index].detailData.getPlace());
-        document.getElementById("man_hour").setAttribute("value", tdArray[target_index].getManHour()); // キャスト
+        const target = tdArray[target_index];
+        const details = target.getDetailData();
 
+        // ***titleの書き込み
+        document.getElementById("title")
+                .setAttribute("value", target.getTitle());
+        
+
+        // ***detailの書き込み
+        const detailTextForm = document.getElementById("detail_text");
+        detailTextForm.textContent = details.getContents();
+
+
+        // ***importanceの選択
+        document.getElementById(target.getImportance())
+                .setAttribute("checked", "yes");
+        
+
+        // ***placeの書き込み
+        document.getElementById("place")
+                .setAttribute("value", details.getPlace());
+        
+        
+        // ***genreのoptionの動的な設定と選択
+        const sdm = new settingsDataManager();
+        sdm.import();
+        let gArray = new Array();
+        const gDataObj = sdm.settingsData.getGenreData();
+        for (let i = 0; i < gDataObj.length; i++) {
+            gArray[i] = new genreData(gDataObj[i]["color"],
+                                gDataObj[i]["name"], gDataObj[i]["id"]);
+        }
+
+        let genre_list = document.getElementById("genre");
+        for (let i = 0; i < gArray.length; i++) {
+            let option = document.createElement("option");
+            option.setAttribute("value", gArray[i].getId());
+            if (gArray[i].getId() == target.getGenreId()) {
+                option.setAttribute("selected", "yes");
+            }
+            option.innerHTML = gArray[i].getName();
+            genre_list.appendChild(option);
+        }
+
+
+        // ***deadlineの設定
+        const deadlineObj = details.getDeadLine();
+        let deadline_month;
+        if (Number(deadlineObj["month"]) <= 9) {
+            deadline_month = "0" + deadlineObj["month"];
+        } else {
+            deadline_month = deadlineObj["month"];
+        }
+
+        let deadline_day;
+        if (Number(deadlineObj["day"]) <= 9) {
+            deadline_day = "0" + deadlineObj["day"];
+        } else {
+            deadline_day = deadlineObj["day"];
+        }
+
+        const deadlineStr = deadlineObj["year"] + "-"
+                            + deadline_month + "-" + deadline_day;
+
+        document.getElementById("deadline")
+                .setAttribute("value", deadlineStr);
+
+
+        // ***manHourの書き込み
+        // TODO: データ形式の変更
+        const manHourObj = target.getManHour();
+        document.getElementById("man_hour")
+                .setAttribute("value", manHourObj["hour"]);
+
+        
+        // ***isTodayの選択
+        if (target.getIsToday()) {
+            document.getElementById("today")
+                    .setAttribute("checked", "yes");
+        } else {
+            document.getElementById("notoday")
+                    .setAttribute("checked", "yes");
+        }
     }
 
     public getTaskInfo(): FormItems {
@@ -103,23 +188,42 @@ export default class FormInfoManager {
         return items;
     }
     
+    // toDoDataArrayの末尾にtoDoDataを追加しexport
     public registerTask(items: FormItems) {
-        console.log(items);
+        const tddm = new ToDoDataManager();
+        tddm.import();
+
         // TODO: ここのas anyの無い版
         const toDoDataItems = new toDoData(
             items.title, items.importance,
             items.manHour as any, items.genreId, items.deadline as any,
             items.contents, items.place, items.isToday);
     
-        // toDoDataArrayの末尾にtoDoDataを追加しexport
-        const tddm = new ToDoDataManager();
-        tddm.import();
         tddm.toDoDataArray.push(toDoDataItems);
         tddm.export();
     }
 
-    public expireTask(items: FormItems) {
+    // toDoDataArrayの対象のtoDoDataを更新しexport
+    public expireTask(items: FormItems, selected_id: string) {
+        const tddm = new ToDoDataManager();
+        tddm.import();
 
+        let target_index = tddm.toDoDataArray.length;
+        for (let i = 0; i < tddm.toDoDataArray.length; i++) {
+            if (tddm.toDoDataArray[i].getId() == selected_id) {
+                target_index = i;
+            }
+        }
+
+        // TODO: ここのas anyの無い版
+        const toDoDataItems = new toDoData(
+            items.title, items.importance,
+            items.manHour as any, items.genreId, items.deadline as any,
+            items.contents, items.place, items.isToday,
+            selected_id);
+
+        tddm.toDoDataArray.splice(target_index, 1, toDoDataItems);
+        tddm.export();
     }
 
     // TODO:getTaskInfo内にもエラー必要
@@ -180,7 +284,7 @@ export default class FormInfoManager {
     }
     
     private getContents(): string {
-        return (document.getElementById("contents") as HTMLInputElement).value;
+        return (document.getElementById("detail_text") as HTMLInputElement).value;
     }
     
     private getDeadline(): Deadline {

@@ -2,7 +2,7 @@ import FormInfoManager from './formInfoManager';
 
 window.onload = () => {
     const fim = new FormInfoManager();
-    fim.expireForm();
+    fim.expireRegisterForm();
 };
 
 let createBtn = document.getElementById("create_btn");
