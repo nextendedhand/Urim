@@ -74,7 +74,7 @@ export class UrimPlaneManager {
         const ctx = canvas.getContext('2d');
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 5, -20, 5, -20, 15]);
+        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 15, -30, 15, -30, 30]);
         this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 5, -20, 5, -20, 15]);
 
 
@@ -248,8 +248,8 @@ export class UrimPlaneManager {
         this.imAxis.endX = canvas.width / 2;
         this.imAxis.endY = canvas.height / 30;
 
-        this.urAxis.create(ctx);
-        this.imAxis.create(ctx);
+        this.urAxis.create(ctx, 'gradient');
+        this.imAxis.create(ctx, 'fill');
 
         // 軸名の描画
         ctx.beginPath();
