@@ -316,6 +316,19 @@ export class UrimPlaneManager {
         }
     }
 
+    private renderLineDash(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 10]);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgb(100, 100, 100)'
+        ctx.moveTo(canvas.width / 8, 0);
+        for (let i = 1; i < 8; i++) {
+            ctx.lineTo(canvas.width * i / 8, canvas.height);
+            ctx.moveTo(canvas.width * (i + 1) / 8, 0);
+        }
+        ctx.stroke();
+    }
+
     /**
      * 描画に関する関数を呼び出す
      * 
@@ -331,6 +344,7 @@ export class UrimPlaneManager {
 
         this.renderImBackground(canvas, ctx);
         this.renderAxis(canvas, ctx);
+        this.renderLineDash(canvas, ctx);
 
         this.toDoTips.forEach(toDoTip => {
             if (toDoTip.page == this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
