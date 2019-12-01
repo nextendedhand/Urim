@@ -18,17 +18,19 @@
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="abst-btn">
             概要モード
         </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="delete-mode-change-btn">
+            削除
+        </button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="create-btn">
             TODO作成
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" disabled="" id="delete-btn">
-            削除
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="visibility:hidden;" id="cancel-btn">
+            中止
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="visibility:hidden;" id="delete-btn">
+            削除実行
         </button>
         <input type="image" src="../img/settings.svg" alt="設定画面を開く" class="mdl-button mdl-js-button" id="setting-btn">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="visibility:hidden;"
-            id="cancel-btn">
-            キャンセル
-        </button>
     </div>
 
     <!-- All of the Node.js APIs are available in this renderer process. -->
@@ -93,16 +95,13 @@
         </div>
         <div class="mdl-grid">
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_edit_btn"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
+                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_del_btn"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
             </div>
         </div>
 

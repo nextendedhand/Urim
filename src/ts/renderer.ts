@@ -39,32 +39,6 @@ const render = () => {
 
 const addEventListners = () => {
     /**
-     * toDoを右クリック時に、todayの星の色がトグルする
-     */
-    canvas.addEventListener('contextmenu', e => {
-        e.preventDefault();
-
-        const dpr = window.devicePixelRatio || 1;
-        const canvasRect = canvas.getBoundingClientRect();
-
-        const point = {
-            x: e.clientX * dpr - canvasRect.left * dpr,
-            y: e.clientY * dpr - canvasRect.top * dpr
-        };
-
-        // クリック判定処理
-        upm.toDoTips.forEach(toDoTip => {
-            // TODO: upmにページ判定関数として定義する
-            if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
-                if (toDoTip.isOn(point)) {
-                    toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
-                }
-            }
-        });
-
-    });
-
-    /**
      * todoをダブルクリックすると、詳細画面に遷移する
      */
     canvas.addEventListener('dblclick', e => {
@@ -126,18 +100,30 @@ const addEventListners = () => {
         })
 
         // todoのクリック判定処理
-        // クリックすると、削除機能が有効化される
-        upm.toDoTips.forEach(toDoTip => {
-            if (toDoTip.isOn(point)) {
-                // 削除ボタンを有効化する
-                document.getElementById('delete-btn').removeAttribute('disabled');
-                // キャンセルボタンの追加
-                document.getElementById('cancel-btn').style.visibility = 'visible';
-                // 背景色を変更する
-                toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
-                // 削除リストに追加する
-            }
-        });
+        if (document.getElementById('delete-btn').style.visibility == 'visible') {
+            // 削除モード時では、削除リストに追加される
+            upm.toDoTips.forEach(toDoTip => {
+                if (toDoTip.isOn(point)) {
+                    // 削除ボタンを有効化する
+                    document.getElementById('delete-btn').removeAttribute('disabled');
+                    // キャンセルボタンの追加
+                    document.getElementById('cancel-btn').style.visibility = 'visible';
+                    // 背景色を変更する
+                    toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
+                    // 削除リストに追加する
+                }
+            });
+        } else if (document.getElementById('delete-btn').style.visibility == 'hidden') {
+            // 通常モードでは、☆をtoggleする
+            upm.toDoTips.forEach(toDoTip => {
+                // TODO: upmにページ判定関数として定義する
+                if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
+                    if (toDoTip.isOn(point)) {
+                        toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
+                    }
+                }
+            });
+        }
     });
 
     /**
@@ -204,9 +190,26 @@ const addEventListners = () => {
     /**
     * 削除ボタンを押下時に、削除候補を削除、削除ボタンを無効化、キャンセルボタンの消去、レンダリングし直しをする
     */
+    document.getElementById('delete-mode-change-btn').addEventListener('click', () => {
+        document.getElementById('abst-btn').style.visibility = 'hidden';
+        document.getElementById('create-btn').style.visibility = 'hidden';
+        document.getElementById('setting-btn').style.visibility = 'hidden';
+        document.getElementById('cancel-btn').style.visibility = 'visible';
+        document.getElementById('delete-btn').style.visibility = 'visible';
+        document.getElementById('delete-mode-change-btn').style.visibility = 'hidden';
+    });
+
+    /**
+    * 削除ボタンを押下時に、削除候補を削除、削除ボタンを無効化、キャンセルボタンの消去、レンダリングし直しをする
+    */
     document.getElementById('delete-btn').addEventListener('click', () => {
-        document.getElementById('delete-btn').setAttribute('disabled', '');
+        document.getElementById('abst-btn').style.visibility = 'visible';
+        document.getElementById('create-btn').style.visibility = 'visible';
+        document.getElementById('setting-btn').style.visibility = 'visible';
         document.getElementById('cancel-btn').style.visibility = 'hidden';
+        document.getElementById('delete-btn').style.visibility = 'hidden';
+        document.getElementById('delete-mode-change-btn').style.visibility = 'visible';
+
         upm.deleteToDoTips(tddm);
         render();
     });
@@ -215,8 +218,13 @@ const addEventListners = () => {
      * キャンセルボタンを押下時に、削除ボタンを無効化、todoの色をもとに戻す、削除候補のリセット、キャンセルボタンの消去をする
      */
     document.getElementById('cancel-btn').addEventListener('click', () => {
-        document.getElementById('delete-btn').setAttribute('disabled', '');
+        document.getElementById('abst-btn').style.visibility = 'visible';
+        document.getElementById('create-btn').style.visibility = 'visible';
+        document.getElementById('setting-btn').style.visibility = 'visible';
         document.getElementById('cancel-btn').style.visibility = 'hidden';
+        document.getElementById('delete-btn').style.visibility = 'hidden';
+        document.getElementById('delete-mode-change-btn').style.visibility = 'visible';
+
         upm.toDoTips.forEach(toDoTip => {
             if (toDoTip.isDeleteCandidate) {
                 toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
