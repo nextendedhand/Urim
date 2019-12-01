@@ -1,3 +1,4 @@
+// import
 import { enableDeleteList as IS_DELETE_MODE, GENRE_ARRAY as GENRE_LIST, showDetailDialog as showDetailDialog } from './abstRenderer';
 
 // importance list
@@ -10,87 +11,36 @@ const TODAY_LIST: string[] = ["★", ""];
 const MANHOUR_UNIT_LIST: string[] = ["Y", "M", "D", "h"];
 
 // sub sort setting
-export var subSortSetting: number[] = [3, 4, 2];    // 重要度、緊急度、タイトルが初期設定
+export var subSortSetting: number[] = [3, 4, 2];    // initial settings: importance, urgency, title
 
-// データ待ちがあるためonload関数では実行しない
+/**
+ * This function needs to work after data settings of abstRenderer.
+ * Don't execute onload function. 
+ */
 export default function tableInitialize(): void {
     initializeSortSetting();
     setRowClickSetting();
     GENRE_LIST.sort();
 }
 
-// ボタンのイベントハンドラ登録実行関数
-// テーブル作成後に呼び出す。
+/**
+ * Event Handler function
+ * Need to be called after drawing table.
+ */
 const initializeSortSetting = (): void => {
-
-    // イベントハンドラ登録用定数
-    const sort01_button: Element = document.getElementById('sort01-button');
-    const sort02_button: Element = document.getElementById('sort02-button');
-    const sort03_button: Element = document.getElementById('sort03-button');
-    const sort04_button: Element = document.getElementById('sort04-button');
-    const sort05_button: Element = document.getElementById('sort05-button');
-    const sort06_button: Element = document.getElementById('sort06-button');
-
-    // イベントハンドラ登録
-    if (sort01_button != null) {
-        sort01_button.addEventListener('click', (clickEvent: Event): void => {
+    for (let i = 1; i < 7; ++i) {
+        document.getElementById(`sort0${i}-button`).addEventListener('click', (): void => {
             if (!IS_DELETE_MODE)
-                mySortToDoList(1)
+                mySortToDoList(i)
         });
-    } else {
-        console.log("event handler error: sort01 button");
     }
-
-    if (sort02_button != null) {
-        sort02_button.addEventListener('click', (clickEvent: Event): void => {
-            if (!IS_DELETE_MODE)
-                mySortToDoList(2)
-        });
-    } else {
-        console.log("event handler error: sort02 button");
-    }
-
-    if (sort03_button != null) {
-        sort03_button.addEventListener('click', (clickEvent: Event): void => {
-            if (!IS_DELETE_MODE)
-                mySortToDoList(3)
-        });
-    } else {
-        console.log("event handler error: sort03 button");
-    }
-
-    if (sort04_button != null) {
-        sort04_button.addEventListener('click', (clickEvent: Event): void => {
-            if (!IS_DELETE_MODE)
-                mySortToDoList(4)
-        });
-    } else {
-        console.log("event handler error: sort04 button");
-    }
-
-    if (sort05_button != null) {
-        sort05_button.addEventListener('click', (clickEvent: Event): void => {
-            if (!IS_DELETE_MODE)
-                mySortToDoList(5)
-        });
-    } else {
-        console.log("event handler error: sort05 button");
-    }
-
-    if (sort06_button != null) {
-        sort06_button.addEventListener('click', (clickEvent: Event): void => {
-            if (!IS_DELETE_MODE)
-                mySortToDoList(6)
-        });
-    } else {
-        console.log("event handler error: sort06 button");
-    }
-
 }
 
-// table event setting
+/**
+ * Setting for showing detail dialog.
+ * Add "double click" event to each row.
+ */
 const setRowClickSetting = (): void => {
-    // 行ダブルクリック
     let tbl: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
     const numofrow: number = tbl.rows.length
     for (let i: number = 1; i < numofrow; ++i) {
@@ -100,54 +50,50 @@ const setRowClickSetting = (): void => {
     }
 }
 
-// List sort
+/**
+ * Select sort function and re-setting
+ * @param index - index of sort target, that is pressed button
+ */
 const mySortToDoList = (index: number): void => {
     switch (index) {
         case 1: // 本日
             mySort01(getSortOrder(index), true);
             console.log("sorted by 'today'.");
-            setRowClickSetting();
             break;
         case 2: // タイトル
             mySort02(getSortOrder(index));
             console.log("sorted by 'title'.");
-            setRowClickSetting();
             break;
         case 3: // 重要度
             mySort03(getSortOrder(index), true);
             console.log("sorted by 'importance'.");
-            setRowClickSetting();
             break;
         case 4: // 緊急度
             mySort04(getSortOrder(index));
             console.log("sorted by 'urgency'.");
-            setRowClickSetting();
             break;
         case 5: // 工数
             mySort05(getSortOrder(index));
             console.log("sorted by 'manHour'.");
-            setRowClickSetting();
             break;
         case 6: // ジャンル
             mySort06(getSortOrder(index), true);
             console.log("sorted by 'genre'.");
-            setRowClickSetting();
             break;
         default:
             // no case
-            break;
+            return;
     }
+    setRowClickSetting();
 }
 
-// ascending or descending order?
+/**
+ * Return sort order
+ * Also change button innerText
+ * @param index - index of pressed button
+ */
 const getSortOrder = (index: Number): boolean => {
-    return changeButtonText(index);
-}
-
-// change button display
-// return value --> true:ascending order, false:descending order
-const changeButtonText = (index: Number): boolean => {
-    var $sort_button: HTMLElement = document.getElementById('sort0' + String(index) + "-button");
+    var $sort_button: HTMLElement = document.getElementById(`sort0${index}-button`);
     if ($sort_button.textContent == "▲") {
         $sort_button.textContent = "▼";
         console.log("sort in ascending order.");
@@ -159,96 +105,109 @@ const changeButtonText = (index: Number): boolean => {
     }
 }
 
-// sort function 1
-// true:ascending order, false:descending order
+/**
+ * Sort by Today
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton - execute sub-sort. default is false.
+ * @param pos - sort position. default is all. array is [start, end, change], 
+ * "change" is the first position of exchanging.
+ */
 const mySort01 = (order: boolean, subsorton: boolean = false, pos: number[] = [1, -1, 1]): void => {
+    if (order) sortBySpecifiedCharacterPriority(1, TODAY_LIST[0], pos);
+    else sortBySpecifiedCharacterPriority(1, TODAY_LIST[1], pos);
 
-    if (order)
-        sortBySpecifiedCharacterPriority(1, TODAY_LIST[0], pos);
-    else
-        sortBySpecifiedCharacterPriority(1, TODAY_LIST[1], pos);
-
-    if (subsorton)
-        subSort(0, order, pos);
-
+    if (subsorton) subSort(0, order, pos);
 }
 
-// sort function 2
-// true:ascending order, false:descending order
+/**
+ * Sort by Title
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 const mySort02 = (order: boolean, start_index: number = 1, end_index: number = -1): void => {
     var $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    if (end_index < 0)
-        end_index = $listtable.rows.length - 1;
+    if (end_index < 0) end_index = $listtable.rows.length - 1;
     quickSort_JapaneseString($listtable, order, start_index, end_index);
 }
 
-// sort function 3
-// true:ascending order, false:descending order
+/**
+ * Sort by importance
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton -execute sub-sort. default is false;
+ * @param pos - sort position. default is all. array is [start, end, change], 
+ * "change" is the first position of exchanging.
+ */
 const mySort03 = (order: boolean, subsorton: boolean = false, pos: number[] = [1, -1, 1]): void => {
     var i: number, posGR: number[] = [];
-    if (order) {
-        for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST[i], pos) == false)
-                posGR.pop();
-        }
-    } else {
-        for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST.slice().reverse()[i], pos) == false)
-                posGR.pop();
-        }
+    var list: string[] = IMPORTANCE_LIST;
+    if (!order) list = IMPORTANCE_LIST.slice().reverse();
+    for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
+        posGR.push(pos[0]);
+        if (sortBySpecifiedCharacterPriority(3, list[i], pos) == false) posGR.pop();
     }
 
     if (subsorton) {
-        posGR.push(-1);
+        posGR.push(-1); // last item was pushed in above roop, and it is unnecessary.
         subSort(1, order, posGR);
     }
 
 }
 
-// sort function 4
-// true:ascending order, false:descending order
+/**
+ * Sort by urgency
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 const mySort04 = (order: boolean, start_index: number = 1, end_index: number = -1): void => {
     var $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    if (end_index < 0)
-        end_index = $listtable.rows.length - 1;
+    if (end_index < 0) end_index = $listtable.rows.length - 1;
     quickSort_Number($listtable, order, 4, start_index, end_index);
 }
 
-// sort function 5
-// true:ascending order, false:descending order
+/**
+ * Sort by manhour
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 const mySort05 = (order: boolean, start_index: number = 1, end_index: number = -1): void => {
     var $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    if (end_index < 0)
-        end_index = $listtable.rows.length - 1;
+    if (end_index < 0) end_index = $listtable.rows.length - 1;
     quickSort_Number($listtable, order, 5, start_index, end_index);
 }
 
-// sort function 6
-// true:ascending order, false:descending order
+/**
+ * Sort by genre
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton -execute sub-sort. default is false;
+ * @param pos - sort position. default is all. array is [start, end, change], 
+ * "change" is the first position of exchanging.
+ */
 const mySort06 = (order: boolean, subsorton: boolean = false, pos: number[] = [1, -1, 1]): void => {
     var i: number, posGR: number[] = [];
-    if (order) {
-        for (i = 0; i < GENRE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, GENRE_LIST[i], pos);
-        }
-    } else {
-        for (i = 0; i < GENRE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, GENRE_LIST.slice().reverse()[i], pos);
-        }
+    var list: string[] = GENRE_LIST;
+    if (!order) list = GENRE_LIST.slice().reverse();
+    for (i = 0; i < GENRE_LIST.length; ++i) {
+        posGR.push(pos[0]);
+        sortBySpecifiedCharacterPriority(6, list[i], pos);
     }
 
     if (subsorton) {
-        posGR.push(-1);
+        posGR.push(-1); // last item was pushed in above roop, and it is unnecessary.
         subSort(2, order, posGR);
     }
 
 }
 
-// sub sort
+/**
+ * Execute sub sort
+ * @param index - what to sort by?
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param pos - sort position. default is all. array is [start, end, change], 
+ * "change" is the first position of exchanging.
+ */
 const subSort = (index: number, order: boolean, pos: number[]): void => {
     if (index == 0) { // today:
         switch (subSortSetting[0]) {
@@ -332,8 +291,15 @@ const subSort = (index: number, order: boolean, pos: number[]): void => {
     }
 }
 
-// general quick sort ver.table1
-// sort by number, not string.
+/**
+ * General quick sort
+ * sort by number not string.
+ * @param table - sort target table
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param index - column index, this is provided by what to sort by.
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 const quickSort_Number = (table: HTMLTableElement, order: boolean, index: number, start_index: number, end_index: number) => {
 
     var left: number = start_index, right: number = end_index;
@@ -358,8 +324,7 @@ const quickSort_Number = (table: HTMLTableElement, order: boolean, index: number
                 --right;
             }
 
-            if (right <= left)
-                break;
+            if (right <= left) break;
 
             replaceRows(table, left, right);
             ++left;
@@ -385,8 +350,7 @@ const quickSort_Number = (table: HTMLTableElement, order: boolean, index: number
                 --right;
             }
 
-            if (right <= left)
-                break;
+            if (right <= left) break;
 
             replaceRows(table, left, right);
             ++left;
@@ -403,8 +367,11 @@ const quickSort_Number = (table: HTMLTableElement, order: boolean, index: number
 
 }
 
-// get number.
-// used in quick sort function
+/**
+ * Return manhour by type number. used in quick sort function
+ * @param row_index - row index of target cell
+ * @param column_index - column index of target cell
+ */
 const getNumber = (row_index: number, column_index: number): number => {
     if (column_index == 4) {
         return Number(document.getElementById("ToDoList_TABLE").getElementsByTagName("tr")[row_index].getElementsByTagName("td")[4].textContent);
@@ -428,8 +395,14 @@ const getNumber = (row_index: number, column_index: number): number => {
     }
 }
 
-// general quick sort ver.table2
-// sort by string(japanese), not number.
+/**
+ * General quick sort
+ * sort by string, not number.
+ * @param table - sort target table
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 const quickSort_JapaneseString = (table: HTMLTableElement, order: boolean, start_index: number, end_index: number): void => {
 
     var left: number = start_index, right: number = end_index;
@@ -454,8 +427,7 @@ const quickSort_JapaneseString = (table: HTMLTableElement, order: boolean, start
                 --right;
             }
 
-            if (right <= left)
-                break;
+            if (right <= left) break;
 
             replaceRows(table, left, right);
             ++left;
@@ -481,8 +453,7 @@ const quickSort_JapaneseString = (table: HTMLTableElement, order: boolean, start
                 --right;
             }
 
-            if (right <= left)
-                break;
+            if (right <= left) break;
 
             replaceRows(table, left, right);
             ++left;
@@ -499,19 +470,19 @@ const quickSort_JapaneseString = (table: HTMLTableElement, order: boolean, start
 
 }
 
-// Sort by Specified Character priority
-// index      : target column index
-// s_char     : specified character
-// pos[start_pos, end_pos, change_pos]
-// start_pos  : start position. normally 1.
-// end_pos    : end position. if it is -1, sort by array-end
-// change_pos : normally 1. if you sort this function with other char, this helps sorting.
-// id s_char is nothig in start ~ end, return false.
+/**
+ * 2-divide sort
+ * @param index - target column index
+ * @param s_char - specified character
+ * @param pos - pos[start_pos, end_pos, change_pos]
+ * start_pos  : start position. normally 1.
+ * end_pos    : end position. if it is -1, sort by array-end
+ * change_pos : normally 1. if you sort this function with other char, this helps sorting.
+ */
 const sortBySpecifiedCharacterPriority = (index: number, s_char: string, pos: number[]): boolean => {
 
     var $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-    if (pos[1] < 0)
-        pos[1] = $listtable.rows.length - 1;
+    if (pos[1] < 0) pos[1] = $listtable.rows.length - 1;
 
     var isit: boolean = false;
     let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById("ToDoList_TABLE").getElementsByTagName("tr");
@@ -530,7 +501,12 @@ const sortBySpecifiedCharacterPriority = (index: number, s_char: string, pos: nu
     return isit;
 }
 
-// replace rows
+/**
+ * replace two rows
+ * @param table - target table 
+ * @param row1_index - target 1
+ * @param row2_index - target 2
+ */
 const replaceRows = (table: HTMLTableElement, row1_index: number, row2_index: number): void => {
     let clone1 = table.rows[row1_index].cloneNode(true);
     let clone2 = table.rows[row2_index].cloneNode(true);

@@ -1,5 +1,3 @@
-// ヘッダ行はhtmlでやればよかったと後ほど気付いたが、修正が面倒なので放置している。
-
 /************************* imports *************************/
 import tableInitialize from './toDoDataSorter';
 import { subSortSetting as SUB_SORT_MODE } from './toDoDataSorter';
@@ -14,23 +12,23 @@ const sdm = new settingDataManager();
 const ddlgm = new DetailDialogManager();
 /************************* variables & constances *************************/
 
-// テーブルの列数
+// column number 
 const TABLE_COLUMN_NUM: number = 8;
 
-// テーブルのヘッダ行
+// Header
 const TEABLE_HEADER_STRINGS: string[] =
     ["削除", "本日", "タイトル", "重要度", "緊急度(残日数)", "工数", "ジャンル", "ID"];
 
-// ジャンルデータ
+// Genre array
 export var GENRE_ARRAY: string[] = [];
 
-// テーブル名
+// table name
 const TABLE_NAME: string = "ToDoList_TABLE";
 
-// テーブル領域取得 ※テーブルではない
+// div name of table region in html
 const MY_TABLE_DIV: HTMLElement = document.getElementById(TABLE_NAME);
 
-// リスト削除モードの判定フラグ
+// delete mode flag
 export var enableDeleteList: boolean = false;
 
 //error number: ex) " : XXX Error"
@@ -38,43 +36,48 @@ var error_s: string = null;
 
 /************************* functions *************************/
 
-// ウィンドウオンロード時に初期化する
+/**
+ * Called in loading window.
+ * All initialization must be executed in this function.
+ */
 window.onload = (): void => {
 
+    /* start message */
     console.log("abst on load...");
 
     /* test */
     // tddm.resetDataForDebug();
     // sdm.resetDataForDebug();
 
-    // データインポート
+    // date import
     dataSetting();
 
-    // テーブルを作成し表示する
+    // make and show table
     makeTable();
 
-    // テーブルのイベントハンドラを登録する
+    // register each event of table
     tableInitialize();
 
-    // イベントハンドラ登録
+    // additional registering to table
     my_addEventListener();
 
-    // 一部のボタンとカラムを非表示にする
+    // Initial table settings
     changePartofDisplay(false);
 
-    // 残処理
+    // residual processing
     init_Others();
 
-    // 確認
+    // error display
     error_Check();
 
+    // end message
     console.log("Load complete");
 
 }
 
-
-
-// データセッティング
+/**
+ * Import todo-data and setting data
+ */
 const dataSetting = (): void => {
 
     // todo data
@@ -90,24 +93,24 @@ const dataSetting = (): void => {
 
 }
 
-
-
-// イベントハンドラ登録
+/**
+ * Table action event
+ */
 const my_addEventListener = (): void => {
 
-    // モード変更ボタン(初期表示の削除ボタン)
+    // delete function button
     let modechange_button: Element = document.getElementById('modechange-button');
     modechange_button.addEventListener('click', (): void => {
         changeDeleteMode()
     });
 
-    // 中止ボタン
+    // cancel button
     let return_button: Element = document.getElementById('return-button');
     return_button.addEventListener('click', (): void => {
         changeDeleteMode()
     });
 
-    // 削除実行ボタン
+    // execute delete button
     let delete_button: Element = document.getElementById('delete-button');
     delete_button.addEventListener('click', (): void => {
         toDoListDelete()
@@ -115,9 +118,9 @@ const my_addEventListener = (): void => {
 
 }
 
-
-
-// テーブル作成 & テキスト書き込み
+/**
+ * Make and show table
+ */
 const makeTable = (): void => {
 
     if (tddm.toDoDataArray == null) {
@@ -128,38 +131,35 @@ const makeTable = (): void => {
         var rows: any[] = [], cell: any;
         var i: number, j: number;
         var table: HTMLTableElement = document.createElement("table");
-        let dataNum: number = tddm.toDoDataArray.length + 1;   // ヘッダ行を考慮
+        let dataNum: number = tddm.toDoDataArray.length + 1;   // consideration on header
 
         for (i = 0; i < dataNum; ++i) {
 
             rows.push(table.insertRow(-1));
 
-            if (i == 0) {    // ヘッダ行
+            if (i == 0) {    // header
 
                 for (j = 0; j < TABLE_COLUMN_NUM; ++j) {
 
-                    // 列にセルを追加
+                    // add new cell
                     cell = rows[i].insertCell(-1);
 
-                    // セルにテキストを追加
-                    if (j == 0)  // 削除用チェックボックス
-                        cell.appendChild(document.createTextNode(TEABLE_HEADER_STRINGS[0]));
-                    else
-                        cell.appendChild(document.createTextNode("　" + TEABLE_HEADER_STRINGS[j]));
+                    if (j == 0) cell.appendChild(document.createTextNode(TEABLE_HEADER_STRINGS[0]));    // checkbox for delete function
+                    else cell.appendChild(document.createTextNode("　" + TEABLE_HEADER_STRINGS[j]));    // head title
 
-                    // ソートボタン"sort01"~"sort06"を追加
+                    // add sort button
                     if (j != 0) {
                         let $button: HTMLButtonElement = document.createElement("button");
-                        $button.textContent = "▲";  // 初期は昇順ソートを提供する
+                        $button.textContent = "▲";
                         $button.id = "sort0" + String(j) + "-button";
                         cell.appendChild($button);
                     }
 
-                    // サブソートボタンを追加
+                    // add subsort button
                     if (j == 1 || j == 3 || j == 6) {
                         // cell.appendChild(document.createElement('br'));
                         // cell.appendChild(document.createTextNode("subsort:"));
-                        cell.appendChild(createSelectBoxForSubSort(j)); //mdk, materializeでは表示されない
+                        cell.appendChild(createSelectBoxForSubSort(j)); //Note: not display in case of using mdl, materialize
                     }
 
                     // text align
@@ -171,11 +171,11 @@ const makeTable = (): void => {
 
                 for (j = 0; j < TABLE_COLUMN_NUM; ++j) {
 
-                    // 列にセルを追加
+                    // addnew cell
                     cell = rows[i].insertCell(-1);
 
-                    // セルにテキストを追加
-                    if (j == 0) {  // 削除用チェックボックス
+                    // set
+                    if (j == 0) {  //checkbox for delete function
                         let $clabel: HTMLElement = document.createElement('label');
                         let $cspan: HTMLElement = document.createElement('span');
                         let $checkbox: HTMLInputElement = document.createElement("input");
@@ -201,13 +201,13 @@ const makeTable = (): void => {
 
         }
 
-        // id付与
+        // give id
         table.id = "ListTable";
 
-        // highlight
+        // highlight setting
         table.className = "highlight";
 
-        // テーブルをウィンドウに反映
+        // show table
         MY_TABLE_DIV.appendChild(table);
 
     }
@@ -216,17 +216,17 @@ const makeTable = (): void => {
 
 }
 
-
-
-// 列番号に従い、セルに代入するテキストを決定する
+/**
+ * Return content to set cell
+ * @param columnIndex - column index. attention hidden column.
+ * @param data - todo-data to set
+ */
 const returnColumnValue = (columnIndex: number, data: toDoData): string => {
 
     switch (columnIndex) {
         case 1:// today
-            if (data['isToday'])
-                return "★";
-            else
-                return "";
+            if (data['isToday']) return "★";
+            else return "";
         case 2:// title
             return data['title'];
         case 3:// importance
@@ -234,22 +234,17 @@ const returnColumnValue = (columnIndex: number, data: toDoData): string => {
         case 4:// urgency
             return String(data['urgency']);
         case 5:// manHour
-            if (0 < data['manHour'].year)
-                return String(data['manHour'].year) + "Y";
-            else if (0 < data['manHour'].month)
-                return String(data['manHour'].month) + "M";
-            else if (0 < data['manHour'].day)
-                return String(data['manHour'].day) + "D";
-            else
-                return String(data['manHour'].hour) + "h";
+            if (0 < data['manHour'].year) return String(data['manHour'].year) + "Y";
+            else if (0 < data['manHour'].month) return String(data['manHour'].month) + "M";
+            else if (0 < data['manHour'].day) return String(data['manHour'].day) + "D";
+            else return String(data['manHour'].hour) + "h";
         case 6:// genre
             let id: string = data['genreId'];
             let temp: genreData[] = sdm.settingsData.getGenreData();
             let genre: string;
             temp.forEach(elm => {
-                if (elm['id'] == id) {
-                    genre = elm['name'];
-                }
+                if (elm['id'] == id) genre = elm['name'];
+
             });
             return genre;
         case 7://ID
@@ -260,9 +255,10 @@ const returnColumnValue = (columnIndex: number, data: toDoData): string => {
 
 }
 
-
-
-// add selector
+/**
+ * Selector in subsort compornent
+ * @param index - column index
+ */
 const createSelectBoxForSubSort = (index: number): HTMLSelectElement => {
     var $select: HTMLSelectElement = document.createElement("select");
     $select.name = "ss-selector";
@@ -291,8 +287,9 @@ const createSelectBoxForSubSort = (index: number): HTMLSelectElement => {
     return $select;
 }
 
-
-
+/**
+ * Subsort setting when changed select target
+ */
 const subSortSetting_Changed = () => {
     let ss: NodeListOf<HTMLElement> = document.getElementsByName("ss-selector");
     let columnm1: HTMLSelectElement = <HTMLSelectElement>ss[0];
@@ -307,25 +304,18 @@ const subSortSetting_Changed = () => {
     SUB_SORT_MODE[2] = columnm6.selectedIndex + 1;
 }
 
-
-
-// リスト削除モードオン
+/**
+ * Mode change to delete/normal mode.
+ * Flag reset and display/hide some buttons column.
+ */
 const changeDeleteMode = (): void => {
-    if (enableDeleteList) {
-        // 削除モード終了
-        changePartofDisplay(false);
-        enableDeleteList = false;
-    }
-    else {
-        // 削除モードへ移行
-        changePartofDisplay(true);
-        enableDeleteList = true;
-    }
+    changePartofDisplay(!enableDeleteList);
+    enableDeleteList = !changePartofDisplay;
 }
 
-
-
-// リスト削除
+/**
+ * Execute todo-data delete
+ */
 const toDoListDelete = (): void => {
 
     var deleteList: number[] = [];
@@ -335,17 +325,18 @@ const toDoListDelete = (): void => {
     if (0 < last) {
         let i: number;
         let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-        for (i = last - 1; -1 < i; --i) {
-            $listtable.deleteRow(1 + deleteList[i]);    // ヘッダ行を考慮
-        }
+        for (i = last - 1; -1 < i; --i)
+            $listtable.deleteRow(1 + deleteList[i]);    // consideration on header
     }
     changeDeleteMode();
     afterToDoDelete(deleteId);
 }
 
-
-
-// 削除するリストのindex配列を返す
+/**
+ * Serach and collect delete target.
+ * @param deleteList - array of index which should be deleted. Use empty array.
+ * Return id array of deleteList.
+ */
 const getDeleteList = (deleteList: number[]): string[] => {
 
     var checkboxList: NodeListOf<HTMLInputElement> = <NodeListOf<HTMLInputElement>>document.getElementsByName("isDelete");
@@ -359,9 +350,9 @@ const getDeleteList = (deleteList: number[]): string[] => {
 
 }
 
-
-
-
+/**
+ * uncheck checklist when cacncel delete mode.
+ */
 const Uncheck = (): void => {
 
     var checkboxList: NodeListOf<HTMLInputElement> = <NodeListOf<HTMLInputElement>>document.getElementsByName("isDelete");
@@ -373,56 +364,41 @@ const Uncheck = (): void => {
 
 }
 
-
-
-// ボタンとカラムの表示/非表示切り替え
+/**
+ * Display and hide buttons and columns
+ * @param isDiplay 
+ */
 const changePartofDisplay = (isDiplay: boolean): void => {
     if (isDiplay) {
-        // ボタン非表示
-        let modechange_button: HTMLElement = document.getElementById('modechange-button');
-        modechange_button.style.display = "none";
+        // hide buttons
+        document.getElementById('modechange-button').style.display = "none";
+        document.getElementById('urim-button').style.display = "none";
+        document.getElementById('create-button').style.display = "none";
 
-        let urim_button: HTMLElement = document.getElementById('urim-button');
-        urim_button.style.display = "none";
+        // display buttons
+        document.getElementById("delete-button").style.display = "block";
+        document.getElementById("return-button").style.display = "block";
 
-        let create_button: HTMLElement = document.getElementById('create-button');
-        create_button.style.display = "none";
-
-        // ボタン表示
-        let deleteButton: HTMLElement = document.getElementById("delete-button");
-        deleteButton.style.display = "block";
-
-        let returnButton: HTMLElement = document.getElementById("return-button");
-        returnButton.style.display = "block";
-
-        // カラム表示
+        // display columns
         let checkRow: HTMLCollectionOf<HTMLTableRowElement> = MY_TABLE_DIV.getElementsByTagName("tr");
         for (let i: number = 0; i < checkRow.length; ++i) {
             let checkColumn = checkRow[i].getElementsByTagName("td");
             checkColumn[0].style.display = "block";
         }
     } else {
-        // ボタン表示
-        let modechange_button: HTMLElement = document.getElementById('modechange-button');
-        modechange_button.style.display = "block";
+        // display buttons
+        document.getElementById('modechange-button').style.display = "block";
+        document.getElementById('urim-button').style.display = "block";
+        document.getElementById('create-button').style.display = "block";
 
-        let urim_button: HTMLElement = document.getElementById('urim-button');
-        urim_button.style.display = "block";
+        // hide buttons
+        document.getElementById("delete-button").style.display = "none";
+        document.getElementById("return-button").style.display = "none";
 
-        let create_button: HTMLElement = document.getElementById('create-button');
-        create_button.style.display = "block";
-
-        // ボタン非表示
-        let deleteButton: HTMLElement = document.getElementById("delete-button");
-        deleteButton.style.display = "none";
-
-        let returnButton: HTMLElement = document.getElementById("return-button");
-        returnButton.style.display = "none";
-
-        // 案チェック
+        // uncheck all checkboxes
         Uncheck();
 
-        // カラム非表示
+        // hide columns
         let checkRow: HTMLCollectionOf<HTMLTableRowElement> = MY_TABLE_DIV.getElementsByTagName("tr");
         for (let i: number = 0; i < checkRow.length; ++i) {
             let checkColumn = checkRow[i].getElementsByTagName("td");
@@ -431,10 +407,11 @@ const changePartofDisplay = (isDiplay: boolean): void => {
     }
 }
 
-
-
+/**
+ * hide id column.
+ */
 const init_Others = (): void => {
-    // IDカラム非表示
+    // hide id column
     let checkRow: HTMLCollectionOf<HTMLTableRowElement> = MY_TABLE_DIV.getElementsByTagName("tr");
     for (let i: number = 0; i < checkRow.length; ++i) {
         let checkColumn = checkRow[i].getElementsByTagName("td");
@@ -442,9 +419,10 @@ const init_Others = (): void => {
     }
 }
 
-
-
-// 削除するタスクのID配列を返す
+/**
+ * Return array of id which intend to delete
+ * @param index - array of row index which intend to delete
+ */
 const keepDeleteID = (index: number[]): string[] => {
 
     var isDeleteID: string[] = [];
@@ -459,20 +437,21 @@ const keepDeleteID = (index: number[]): string[] => {
 
 }
 
-
-
-// データリストからデータを削除し、エクスポートする
+/**
+ * data save after deleting data.
+ * @param deleteId - array of row index which intend to delete
+ */
 const afterToDoDelete = (deleteId: string[]): void => {
 
     try {
         if (deleteId == null) return;
 
-        // 削除したリストを取得してオブジェクトから削除する
+        // delete object
         deleteId.forEach(elm => {
             tddm.delete(elm);
         });
 
-        // データエクスポート
+        // data save
         tddm.export();
 
     } catch (e) {
@@ -485,37 +464,10 @@ const afterToDoDelete = (deleteId: string[]): void => {
 
 }
 
-
-
-// // tableから全てのセル値を取り出す
-// const setTableDataForString = (): string[][] => {
-//     var row_length: number;
-//     var table_value: string[][] = [
-//         [TEABLE_HEADER_STRINGS[1], TEABLE_HEADER_STRINGS[2], TEABLE_HEADER_STRINGS[3], TEABLE_HEADER_STRINGS[4], TEABLE_HEADER_STRINGS[5], TEABLE_HEADER_STRINGS[6], TEABLE_HEADER_STRINGS[7]]
-//     ];
-
-//     let $listtable: HTMLTableElement = <HTMLTableElement>document.getElementById("ListTable");
-//     {
-//         row_length = $listtable.rows.length - 1;
-//     }
-
-//     let checkRow: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
-//     for (let i: number = 1; i <= row_length; ++i) { // ヘッダ行は不要
-//         let checkColumn: HTMLCollectionOf<HTMLTableDataCellElement> = checkRow[i].getElementsByTagName("td");
-//         let temp_row: string[] = [];
-//         {
-//             for (let j: number = 1; j < TABLE_COLUMN_NUM; ++j) {   // 削除用チェックリスト列は不要
-//                 temp_row.push(checkColumn[j].textContent);
-//             }
-//             table_value.push(temp_row);
-//         }
-//     }
-
-//     return table_value;
-
-// }
-
-// call dialog
+/**
+ * Show detail dialog
+ * @param rowindex - target data, table row
+ */
 export function showDetailDialog(rowindex: number): void {
     // get todo data id where clicked row
     let row: HTMLCollectionOf<HTMLTableRowElement> = document.getElementById(TABLE_NAME).getElementsByTagName("tr");
@@ -531,7 +483,7 @@ export function showDetailDialog(rowindex: number): void {
 
 }
 
-// エラーがあれば表示する
+// diaplay error message
 const error_Check = (): void => {
     if (error_s != null) {
         alert(error_s);

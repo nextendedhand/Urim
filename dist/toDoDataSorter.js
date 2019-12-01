@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+// import
 var abstRenderer_1 = require("./abstRenderer");
 // importance list
 var IMPORTANCE_LIST = ["S", "A", "B", "C", "D"];
@@ -8,92 +9,53 @@ var TODAY_LIST = ["★", ""];
 // man hour unit
 var MANHOUR_UNIT_LIST = ["Y", "M", "D", "h"];
 // sub sort setting
-exports.subSortSetting = [3, 4, 2]; // 重要度、緊急度、タイトルが初期設定
-// データ待ちがあるためonload関数では実行しない
+exports.subSortSetting = [3, 4, 2]; // initial settings: importance, urgency, title
+/**
+ * This function needs to work after data settings of abstRenderer.
+ * Don't execute onload function.
+ */
 function tableInitialize() {
     initializeSortSetting();
     setRowClickSetting();
     abstRenderer_1.GENRE_ARRAY.sort();
 }
 exports["default"] = tableInitialize;
-// ボタンのイベントハンドラ登録実行関数
-// テーブル作成後に呼び出す。
+/**
+ * Event Handler function
+ * Need to be called after drawing table.
+ */
 var initializeSortSetting = function () {
-    // イベントハンドラ登録用定数
-    var sort01_button = document.getElementById('sort01-button');
-    var sort02_button = document.getElementById('sort02-button');
-    var sort03_button = document.getElementById('sort03-button');
-    var sort04_button = document.getElementById('sort04-button');
-    var sort05_button = document.getElementById('sort05-button');
-    var sort06_button = document.getElementById('sort06-button');
-    // イベントハンドラ登録
-    if (sort01_button != null) {
-        sort01_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(1);
-        });
-    }
-    else {
-        console.log("event handler error: sort01 button");
-    }
-    if (sort02_button != null) {
-        sort02_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(2);
-        });
-    }
-    else {
-        console.log("event handler error: sort02 button");
-    }
-    if (sort03_button != null) {
-        sort03_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(3);
-        });
-    }
-    else {
-        console.log("event handler error: sort03 button");
-    }
-    if (sort04_button != null) {
-        sort04_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(4);
-        });
-    }
-    else {
-        console.log("event handler error: sort04 button");
-    }
-    if (sort05_button != null) {
-        sort05_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(5);
-        });
-    }
-    else {
-        console.log("event handler error: sort05 button");
-    }
-    if (sort06_button != null) {
-        sort06_button.addEventListener('click', function (clickEvent) {
-            if (!abstRenderer_1.enableDeleteList)
-                mySortToDoList(6);
-        });
-    }
-    else {
-        console.log("event handler error: sort06 button");
+    var sort_btn;
+    var _loop_1 = function (i) {
+        sort_btn = document.getElementById("sort0" + i + "-button");
+        if (sort_btn != null) {
+            sort_btn.addEventListener('click', function () {
+                if (!abstRenderer_1.enableDeleteList)
+                    mySortToDoList(i);
+            });
+        }
+        else {
+            console.log("event handler error: sort0" + i + " button");
+        }
+    };
+    for (var i = 1; i < 7; ++i) {
+        _loop_1(i);
     }
 };
-// table event setting
+/**
+ * Setting for showing detail dialog.
+ * Add "double click" event to each row.
+ */
 var setRowClickSetting = function () {
-    // 行ダブルクリック
     var tbl = document.getElementById("ListTable");
     var numofrow = tbl.rows.length;
-    var _loop_1 = function (i) {
+    var _loop_2 = function (i) {
         tbl.rows[i].addEventListener('dblclick', function () {
             abstRenderer_1.showDetailDialog(i);
         });
     };
     for (var i = 1; i < numofrow; ++i) {
-        _loop_1(i);
+        _loop_2(i);
     }
 };
 // List sort

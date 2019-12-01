@@ -1,23 +1,68 @@
 
-/* ソートボタンのみ対象 */
+/* sort button position */
 #sort-01, #sort-02, #sort-03, #sort-04, #sort-05, #sort-06{
     border-style: none;
     position: relative;
     left: 5%;
 }
 
-/* テーブルの調整 */
-table{
-    width: 100%;
-    text-align: center;
-    margin-top: 15px;
-}
-
-/* 背景の着色 */
-table tr:nth-child(odd){
-    background-color: rgb(180, 180, 180)
-}
-
+/* header design */
 table tr:nth-child(1){
     border-bottom-style: double;
+}
+
+/* button region  */
+#btn_region{
+    position: fixed;
+    top:5%;
+    left:2.5%;
+}
+
+/*  button position*/
+#j_btn,#act_btn{
+    position: relative;
+    left:1%;
+}
+
+/* table region */
+#tbl_region{
+    position: fixed;
+    top:5%;
+    left:18%;
+}
+
+/* button margin */
+#urim-button,#create-button,#modechange-button,#return-button,#delete-button{
+    margin-bottom: 3%;
+    position: relative;
+    top:5%;
+}
+
+/* table position */
+#ToDoList_TABLE{
+    position: relative;
+}
+
+/* modal window setting */
+#modal-content{
+    /* ボックスの重なりの順序を指定 */
+    z-index:2;
+    /* divをブロック表示します。何も表示しないときは、none */
+    display:none;
+    /* 位置の固定 */
+    position:fixed;
+    /* 位置 */
+    top:10%;
+    left:25%;
+    /* 幅・高さ */
+    width:50%;
+    height:auto;
+    /* 外側の余白 */
+    margin:auto;
+    /* 内側の余白 */
+    padding:10px 20px;
+    /* 線 */
+    border:2px solid #aaa;
+    /* 背景の色 */
+    background:#fff;
 }
