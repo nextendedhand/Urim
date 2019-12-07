@@ -11,24 +11,18 @@ table tr:nth-child(1){
     border-bottom-style: double;
 }
 
-/* button region  */
-#btn_region{
-    position: fixed;
-    top:5%;
-    left:2.5%;
+/* window button region */
+#abst_btn{
+    display: contents;
 }
-
-/*  button position*/
-#j_btn,#act_btn{
-    position: relative;
-    left:1%;
+.btn-region{
+    position: absolute;
+    left: 15%;
 }
 
 /* table region */
-#tbl_region{
-    position: fixed;
-    top:5%;
-    left:18%;
+#ToDoList_TABLE{
+    margin-top: 12%;
 }
 
 /* button margin */

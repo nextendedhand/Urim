@@ -25,18 +25,11 @@ exports["default"] = tableInitialize;
  * Need to be called after drawing table.
  */
 var initializeSortSetting = function () {
-    var sort_btn;
     var _loop_1 = function (i) {
-        sort_btn = document.getElementById("sort0" + i + "-button");
-        if (sort_btn != null) {
-            sort_btn.addEventListener('click', function () {
-                if (!abstRenderer_1.enableDeleteList)
-                    mySortToDoList(i);
-            });
-        }
-        else {
-            console.log("event handler error: sort0" + i + " button");
-        }
+        document.getElementById("sort0" + i + "-button").addEventListener('click', function () {
+            if (!abstRenderer_1.enableDeleteList)
+                mySortToDoList(i);
+        });
     };
     for (var i = 1; i < 7; ++i) {
         _loop_1(i);
@@ -58,52 +51,49 @@ var setRowClickSetting = function () {
         _loop_2(i);
     }
 };
-// List sort
+/**
+ * Select sort function and re-setting
+ * @param index - index of sort target, that is pressed button
+ */
 var mySortToDoList = function (index) {
     switch (index) {
         case 1: // 本日
             mySort01(getSortOrder(index), true);
             console.log("sorted by 'today'.");
-            setRowClickSetting();
             break;
         case 2: // タイトル
             mySort02(getSortOrder(index));
             console.log("sorted by 'title'.");
-            setRowClickSetting();
             break;
         case 3: // 重要度
             mySort03(getSortOrder(index), true);
             console.log("sorted by 'importance'.");
-            setRowClickSetting();
             break;
         case 4: // 緊急度
             mySort04(getSortOrder(index));
             console.log("sorted by 'urgency'.");
-            setRowClickSetting();
             break;
         case 5: // 工数
             mySort05(getSortOrder(index));
             console.log("sorted by 'manHour'.");
-            setRowClickSetting();
             break;
         case 6: // ジャンル
             mySort06(getSortOrder(index), true);
             console.log("sorted by 'genre'.");
-            setRowClickSetting();
             break;
         default:
             // no case
-            break;
+            return;
     }
+    setRowClickSetting();
 };
-// ascending or descending order?
+/**
+ * Return sort order
+ * Also change button innerText
+ * @param index - index of pressed button
+ */
 var getSortOrder = function (index) {
-    return changeButtonText(index);
-};
-// change button display
-// return value --> true:ascending order, false:descending order
-var changeButtonText = function (index) {
-    var $sort_button = document.getElementById('sort0' + String(index) + "-button");
+    var $sort_button = document.getElementById("sort0" + index + "-button");
     if ($sort_button.textContent == "▲") {
         $sort_button.textContent = "▼";
         console.log("sort in ascending order.");
@@ -115,8 +105,13 @@ var changeButtonText = function (index) {
         return false;
     }
 };
-// sort function 1
-// true:ascending order, false:descending order
+/**
+ * Sort by Today
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton - execute sub-sort. default is false.
+ * @param pos - sort position. default is all. array is [start, end, change],
+ * "change" is the first position of exchanging.
+ */
 var mySort01 = function (order, subsorton, pos) {
     if (subsorton === void 0) { subsorton = false; }
     if (pos === void 0) { pos = [1, -1, 1]; }
@@ -127,8 +122,12 @@ var mySort01 = function (order, subsorton, pos) {
     if (subsorton)
         subSort(0, order, pos);
 };
-// sort function 2
-// true:ascending order, false:descending order
+/**
+ * Sort by Title
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 var mySort02 = function (order, start_index, end_index) {
     if (start_index === void 0) { start_index = 1; }
     if (end_index === void 0) { end_index = -1; }
@@ -137,33 +136,36 @@ var mySort02 = function (order, start_index, end_index) {
         end_index = $listtable.rows.length - 1;
     quickSort_JapaneseString($listtable, order, start_index, end_index);
 };
-// sort function 3
-// true:ascending order, false:descending order
+/**
+ * Sort by importance
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton -execute sub-sort. default is false;
+ * @param pos - sort position. default is all. array is [start, end, change],
+ * "change" is the first position of exchanging.
+ */
 var mySort03 = function (order, subsorton, pos) {
     if (subsorton === void 0) { subsorton = false; }
     if (pos === void 0) { pos = [1, -1, 1]; }
     var i, posGR = [];
-    if (order) {
-        for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST[i], pos) == false)
-                posGR.pop();
-        }
-    }
-    else {
-        for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
-            posGR.push(pos[0]);
-            if (sortBySpecifiedCharacterPriority(3, IMPORTANCE_LIST.slice().reverse()[i], pos) == false)
-                posGR.pop();
-        }
+    var list = IMPORTANCE_LIST;
+    if (!order)
+        list = IMPORTANCE_LIST.slice().reverse();
+    for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
+        posGR.push(pos[0]);
+        if (sortBySpecifiedCharacterPriority(3, list[i], pos) == false)
+            posGR.pop();
     }
     if (subsorton) {
-        posGR.push(-1);
+        posGR.push(-1); // last item was pushed in above roop, and it is unnecessary.
         subSort(1, order, posGR);
     }
 };
-// sort function 4
-// true:ascending order, false:descending order
+/**
+ * Sort by urgency
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 var mySort04 = function (order, start_index, end_index) {
     if (start_index === void 0) { start_index = 1; }
     if (end_index === void 0) { end_index = -1; }
@@ -172,8 +174,12 @@ var mySort04 = function (order, start_index, end_index) {
         end_index = $listtable.rows.length - 1;
     quickSort_Number($listtable, order, 4, start_index, end_index);
 };
-// sort function 5
-// true:ascending order, false:descending order
+/**
+ * Sort by manhour
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 var mySort05 = function (order, start_index, end_index) {
     if (start_index === void 0) { start_index = 1; }
     if (end_index === void 0) { end_index = -1; }
@@ -182,30 +188,36 @@ var mySort05 = function (order, start_index, end_index) {
         end_index = $listtable.rows.length - 1;
     quickSort_Number($listtable, order, 5, start_index, end_index);
 };
-// sort function 6
-// true:ascending order, false:descending order
+/**
+ * Sort by genre
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param subsorton -execute sub-sort. default is false;
+ * @param pos - sort position. default is all. array is [start, end, change],
+ * "change" is the first position of exchanging.
+ */
 var mySort06 = function (order, subsorton, pos) {
     if (subsorton === void 0) { subsorton = false; }
     if (pos === void 0) { pos = [1, -1, 1]; }
     var i, posGR = [];
-    if (order) {
-        for (i = 0; i < abstRenderer_1.GENRE_ARRAY.length; ++i) {
-            posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, abstRenderer_1.GENRE_ARRAY[i], pos);
-        }
-    }
-    else {
-        for (i = 0; i < abstRenderer_1.GENRE_ARRAY.length; ++i) {
-            posGR.push(pos[0]);
-            sortBySpecifiedCharacterPriority(6, abstRenderer_1.GENRE_ARRAY.slice().reverse()[i], pos);
-        }
+    var list = abstRenderer_1.GENRE_ARRAY;
+    if (!order)
+        list = abstRenderer_1.GENRE_ARRAY.slice().reverse();
+    for (i = 0; i < abstRenderer_1.GENRE_ARRAY.length; ++i) {
+        posGR.push(pos[0]);
+        sortBySpecifiedCharacterPriority(6, list[i], pos);
     }
     if (subsorton) {
-        posGR.push(-1);
+        posGR.push(-1); // last item was pushed in above roop, and it is unnecessary.
         subSort(2, order, posGR);
     }
 };
-// sub sort
+/**
+ * Execute sub sort
+ * @param index - what to sort by?
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param pos - sort position. default is all. array is [start, end, change],
+ * "change" is the first position of exchanging.
+ */
 var subSort = function (index, order, pos) {
     if (index == 0) { // today:
         switch (exports.subSortSetting[0]) {
@@ -290,8 +302,15 @@ var subSort = function (index, order, pos) {
         }
     }
 };
-// general quick sort ver.table1
-// sort by number, not string.
+/**
+ * General quick sort
+ * sort by number not string.
+ * @param table - sort target table
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param index - column index, this is provided by what to sort by.
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 var quickSort_Number = function (table, order, index, start_index, end_index) {
     var left = start_index, right = end_index;
     var pivot = getNumber(Math.floor((left + right) / 2), index);
@@ -346,8 +365,11 @@ var quickSort_Number = function (table, order, index, start_index, end_index) {
     if (right + 1 < end_index)
         quickSort_Number(table, order, index, right + 1, end_index);
 };
-// get number.
-// used in quick sort function
+/**
+ * Return manhour by type number. used in quick sort function
+ * @param row_index - row index of target cell
+ * @param column_index - column index of target cell
+ */
 var getNumber = function (row_index, column_index) {
     if (column_index == 4) {
         return Number(document.getElementById("ToDoList_TABLE").getElementsByTagName("tr")[row_index].getElementsByTagName("td")[4].textContent);
@@ -375,8 +397,14 @@ var getNumber = function (row_index, column_index) {
         return -1;
     }
 };
-// general quick sort ver.table2
-// sort by string(japanese), not number.
+/**
+ * General quick sort
+ * sort by string, not number.
+ * @param table - sort target table
+ * @param order - sort order: true is ascending order, false is descending order
+ * @param start_index - first item of sort range
+ * @param end_index - last item of sort range
+ */
 var quickSort_JapaneseString = function (table, order, start_index, end_index) {
     var left = start_index, right = end_index;
     var pivot = document.getElementById("ToDoList_TABLE").getElementsByTagName("tr")[Math.floor((left + right) / 2)].getElementsByTagName("td")[2].textContent;
@@ -431,14 +459,15 @@ var quickSort_JapaneseString = function (table, order, start_index, end_index) {
     if (right + 1 < end_index)
         quickSort_JapaneseString(table, order, right + 1, end_index);
 };
-// Sort by Specified Character priority
-// index      : target column index
-// s_char     : specified character
-// pos[start_pos, end_pos, change_pos]
-// start_pos  : start position. normally 1.
-// end_pos    : end position. if it is -1, sort by array-end
-// change_pos : normally 1. if you sort this function with other char, this helps sorting.
-// id s_char is nothig in start ~ end, return false.
+/**
+ * 2-divide sort
+ * @param index - target column index
+ * @param s_char - specified character
+ * @param pos - pos[start_pos, end_pos, change_pos]
+ * start_pos  : start position. normally 1.
+ * end_pos    : end position. if it is -1, sort by array-end
+ * change_pos : normally 1. if you sort this function with other char, this helps sorting.
+ */
 var sortBySpecifiedCharacterPriority = function (index, s_char, pos) {
     var $listtable = document.getElementById("ListTable");
     if (pos[1] < 0)
@@ -458,7 +487,12 @@ var sortBySpecifiedCharacterPriority = function (index, s_char, pos) {
     pos[0] = pos[2];
     return isit;
 };
-// replace rows
+/**
+ * replace two rows
+ * @param table - target table
+ * @param row1_index - target 1
+ * @param row2_index - target 2
+ */
 var replaceRows = function (table, row1_index, row2_index) {
     var clone1 = table.rows[row1_index].cloneNode(true);
     var clone2 = table.rows[row2_index].cloneNode(true);

@@ -24,36 +24,29 @@
 <!-- abst window main code -->
 
 <body>
-    <!-- button region -->
     <div class="mdl-grid">
-        <div id="btn_region">
-            <!-- jump button -->
-            <div id="j_btn">
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="urim-button" onclick="location.href = 'index.html'"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Urimモード</button>
-                </div>
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="create-button" onclick="location.href = 'create.html'"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">TODO作成</button>
-                </div>
-            </div>
-
-            <!-- button delete -->
-            <div id="act_btn">
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="modechange-button"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除機能</button>
-                </div>
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="return-button"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">中止</button>
-                </div>
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="delete-button"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除実行</button>
-                </div>
-            </div>
+        <!-- button region -->
+        <div class="btn-region">
+            <table id="abst_btn">
+                <tr>
+                    <td>
+                        <button type="button" id="urim-button" onclick="location.href = 'index.html'"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Urimモード</button>
+                        <button type="button" id="return-button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">中止</button>
+                    </td>
+                    <td>
+                        <button type="button" id="create-button" onclick="location.href = 'create.html'"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">TODO作成</button>
+                        <button type="button" id="delete-button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除実行</button>
+                    </td>
+                    <td>
+                        <button type="button" id="modechange-button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除機能</button>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- abst table -->
