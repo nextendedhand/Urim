@@ -196,6 +196,9 @@ const makeTable = (): void => {
                     else
                         cell.appendChild(document.createTextNode(returnColumnValue(j, tddm.toDoDataArray[i - 1])));
 
+                    if (j == 2) {   // title
+                        cell.className = "title_cell";
+                    }
                     // text align
                     cell.style = "text-align: center";
                     // if (j == 1 || j == 2 || j == 3 || j == 6)

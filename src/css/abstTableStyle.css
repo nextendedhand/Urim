@@ -37,6 +37,12 @@ table tr:nth-child(1){
     position: relative;
 }
 
+/* table text design */
+.title_cell{
+    max-width: 450px;
+    overflow-wrap: break-word;
+}
+
 /* modal window setting */
 #modal-content{
     /* ボックスの重なりの順序を指定 */
