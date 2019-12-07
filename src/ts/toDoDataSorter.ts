@@ -94,12 +94,14 @@ const mySortToDoList = (index: number): void => {
  */
 const getSortOrder = (index: Number): boolean => {
     var $sort_button: HTMLElement = document.getElementById(`sort0${index}-button`);
-    if ($sort_button.textContent == "▲") {
-        $sort_button.textContent = "▼";
+    var cld: HTMLElement = $sort_button.lastChild as HTMLElement;
+    var cname: string = cld.className;
+    if (cname.indexOf('up') != -1) {
+        cld.className = cname.replace('up', 'down');
         console.log("sort in ascending order.");
         return true;
-    } else {
-        $sort_button.textContent = "▲";
+    } else if (cname.indexOf('down') != -1) {
+        cld.className = cname.replace('down', 'up');
         console.log("sort in descending order.");
         return false;
     }

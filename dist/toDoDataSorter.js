@@ -94,13 +94,15 @@ var mySortToDoList = function (index) {
  */
 var getSortOrder = function (index) {
     var $sort_button = document.getElementById("sort0" + index + "-button");
-    if ($sort_button.textContent == "▲") {
-        $sort_button.textContent = "▼";
+    var cld = $sort_button.lastChild;
+    var cname = cld.className;
+    if (cname.indexOf('up') != -1) {
+        cld.className = cname.replace('up', 'down');
         console.log("sort in ascending order.");
         return true;
     }
-    else {
-        $sort_button.textContent = "▲";
+    else if (cname.indexOf('down') != -1) {
+        cld.className = cname.replace('down', 'up');
         console.log("sort in descending order.");
         return false;
     }

@@ -148,11 +148,16 @@ const makeTable = (): void => {
                     else cell.appendChild(document.createTextNode("　" + TEABLE_HEADER_STRINGS[j]));    // head title
 
                     // add sort button
-                    if (j != 0) {
-                        let $button: HTMLButtonElement = document.createElement("button");
-                        $button.textContent = "▲";
-                        $button.id = "sort0" + String(j) + "-button";
-                        cell.appendChild($button);
+                    if (0 < j && j < 7) {
+                        var sortbtn: HTMLElement = document.createElement("button");
+                        sortbtn.id = "sort0" + String(j) + "-button";
+                        sortbtn.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect";
+                        var sortIcon: HTMLElement = document.createElement("i");
+                        if (j == 2 || j == 3 || j == 6) sortIcon.className = "fas fa-sort-alpha-up";
+                        else if (j == 4 || j == 5) sortIcon.className = "fas fa-sort-numeric-up";
+                        else if (j == 1) sortIcon.className = "fas fa-sort-up";
+                        sortbtn.appendChild(sortIcon);
+                        cell.appendChild(sortbtn);
                     }
 
                     // add subsort button
@@ -186,6 +191,8 @@ const makeTable = (): void => {
                         $clabel.appendChild($cspan);
                         cell.appendChild($clabel);
                     }
+                    else if (j == 1)
+                        cell.appendChild(returnColumnStar(tddm.toDoDataArray[i - 1]));
                     else
                         cell.appendChild(document.createTextNode(returnColumnValue(j, tddm.toDoDataArray[i - 1])));
 
@@ -217,6 +224,20 @@ const makeTable = (): void => {
 }
 
 /**
+ * Return content to set today cell.
+ * Use star icon.
+ * @param data - todo-data to set
+ */
+const returnColumnStar = (data: toDoData): any => {
+    if (data['isToday']) {
+        let sIcon: HTMLElement = document.createElement("i");
+        sIcon.className = "fas fa-star"
+        return sIcon;
+    }
+    else return document.createElement("p");
+}
+
+/**
  * Return content to set cell
  * @param columnIndex - column index. attention hidden column.
  * @param data - todo-data to set
@@ -224,9 +245,6 @@ const makeTable = (): void => {
 const returnColumnValue = (columnIndex: number, data: toDoData): string => {
 
     switch (columnIndex) {
-        case 1:// today
-            if (data['isToday']) return "★";
-            else return "";
         case 2:// title
             return data['title'];
         case 3:// importance
