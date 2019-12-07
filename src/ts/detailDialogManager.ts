@@ -38,7 +38,14 @@ class DetailDialogManager {
 
 
         // 達成ボタン
-
+        this.dialog.querySelector('#ddl_comp_btn').addEventListener('click', () => {
+            this.tddm = new toDoDataManager();
+            this.tddm.import();
+            this.tddm.delete(this.id);
+            this.tddm.export();
+            this.req = true;
+            this.dClose();
+        });
 
         // 削除ボタン
         this.dialog.querySelector('#ddl_del_btn').addEventListener('click', () => {
