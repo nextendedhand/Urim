@@ -61,5 +61,8 @@
     background-color:rgba(51,51,51,0.6);
     /* 外側の余白 */
     margin-top:0px;
-    
+}
+.mdl-dialog__content{
+    /* テキスト折り返し */
+    overflow-wrap: break-word;
 }

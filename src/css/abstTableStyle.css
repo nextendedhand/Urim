@@ -60,3 +60,7 @@ table tr:nth-child(1){
     /* 背景の色 */
     background:#fff;
 }
+.mdl-dialog__content{
+    /* テキスト折り返し */
+    overflow-wrap: break-word;
+}
