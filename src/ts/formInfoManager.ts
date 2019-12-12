@@ -229,10 +229,6 @@ export default class FormInfoManager {
     // TODO:getTaskInfo内にもエラー必要
     public checkInputFilled(): boolean {
         let is_filled = true;
-        if ((document.getElementById("title") as HTMLInputElement).value == "") {
-            console.log("title is none");
-            is_filled = false;
-        }
         if ((document.getElementById("deadline") as HTMLInputElement).value == "") {
             console.log("deadline is none");
             is_filled = false;
