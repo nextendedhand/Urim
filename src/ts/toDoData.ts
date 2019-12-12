@@ -37,10 +37,10 @@ export default class toDoData {
         deadline: { [s: string]: number }, contents: string, place: string, isToday: boolean, id?: string) {
         if (id === undefined) {
             this.id = this.generateId();
-            console.log('todoID生成');
+            //console.log('todoID生成');
         } else {
             this.id = id;
-            console.log('todoID読み込み');
+            //console.log('todoID読み込み');
         }
         this.title = title;
         this.importance = importance;

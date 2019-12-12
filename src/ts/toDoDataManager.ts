@@ -33,7 +33,7 @@ export default class toDoDataManager {
         try {
             console.log('Loading todo data by electron-store...');
             let toDoDataArray = this.store.get(this.common.key.toDoData);
-            console.log(toDoDataArray)
+            //console.log(toDoDataArray)
 
             for (let index in toDoDataArray) {
                 let tmpToDoData = toDoDataArray[index];
@@ -41,7 +41,7 @@ export default class toDoDataManager {
                 this.toDoDataArray.push(data);
             }
 
-            console.log('toDoDataArray: ', this.toDoDataArray);
+            //console.log('toDoDataArray: ', this.toDoDataArray);
         }
         catch (e) {
             console.log(e);

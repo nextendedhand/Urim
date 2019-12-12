@@ -12,8 +12,6 @@ settingBtn.addEventListener('click', () => {
     document.getElementById("modal-content").style.display = "block";
     document.getElementById("modal-overlay").style.display = "block";  
 
-    console.log("addEventListener click")
-    console.log(sdm.settingsData);
     let genreArray = sdm.settingsData.getGenreData();
     let urgencyScale = sdm.settingsData.getUrgencyScale();
 
@@ -63,18 +61,24 @@ genreAddBtn.addEventListener('click',()=>{
 
 function generateId(): string {
         // characters which is used as id
-        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         // Number of digits
-        var len = 10;
+        let len = 10;
 
         // generate id
-        var id = "";
-        for (var i = 0; i < len; i++) {
+        let id = "";
+        for (let i = 0; i < len; i++) {
             id += str.charAt(Math.floor(Math.random() * str.length));
         }
 
         return id;
+}
+
+function onClickDeleteNode(randnum:string):void{
+    let elem = document.getElementById(randnum);
+    let elem2 = elem.parentNode.parentNode;
+    elem2.parentNode.removeChild(elem2);
 }
 
 // ジャンルの追加
@@ -85,12 +89,13 @@ function createGenreData(color:string,label:string, id?: string):void {
     }else{
         var randnum = id;
     }
+    console.log(randnum);
     // div 要素の作成と属性の指定
     const divElement = document.createElement("div");
-	divElement.innerHTML = '<p name="genre" id='+ randnum +'><input type="color" id='+ randnum +' value='+color+' name='+label+'> <label for="colorpallet" id='+ randnum +'>'+
-							label+'</label> <a href="javascript:void(0);" class="button-link" id='+ randnum
-                            +' onclick="(function(){let elem = document.getElementById('+ randnum +'); elem2=elem.parentNode.parentNode; elem2.parentNode.removeChild(elem2);})()">削除</a></p>';    
-
+	divElement.innerHTML = `<p name="genre" id=${randnum}><input type="color" id=${randnum} value=${color} name=${label}> <label for="colorpallet" id=${randnum}>`
+							+`${label}</label> <a href="javascript:void(0);" class="button-link" id=${randnum}`
+                            +` onclick="window.onClickDeleteNode(${randnum});">削除</a></p>`;
+       
     // li 要素の作成
     var newLi = document.createElement("li");
     newLi.appendChild ( divElement );
@@ -98,6 +103,14 @@ function createGenreData(color:string,label:string, id?: string):void {
     // リストに追加
     var list = document.getElementById("genreList");
     list.appendChild( newLi );   
+
+    // debug
+    let elem = document.getElementById(randnum);
+    console.log(elem);
+    console.log(elem.parentNode);
+    let elem2=elem.parentNode.parentNode;
+    console.log(elem2);
+    console.log(elem2.parentNode);
 }
 
 function writeDataToElectronStore():void {
