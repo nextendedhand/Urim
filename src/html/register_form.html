@@ -15,14 +15,14 @@
   <div class=formlist>
     <div class=inner>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" align="center">
-      <h3>Create Task</h3>
+      <h3>TODO作成</h3>
       <tbody>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">Title</td>
+          <td class="mdl-data-table__cell--non-numeric">タイトル</td>
           <td class="i_contents">
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield">
-                <input class="mdl-textfield__input" name="title" type="text" id="title" value="">
+                <input required class="mdl-textfield__input" name="title" type="text" id="title" value="">
                 <label class="mdl-textfield__label" for="title">Text...</label>
               </div>
             </form>
@@ -30,7 +30,7 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">Detail</td>
+            <td class="mdl-data-table__cell--non-numeric">内容</td>
             <td class="i_contents">
               <form action="#">
                 <div class="mdl-textfield mdl-js-textfield">
@@ -42,7 +42,7 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">Place</td>
+            <td class="mdl-data-table__cell--non-numeric">場所</td>
             <td class="i_contents">
               <form action="#">
                 <div class="mdl-textfield mdl-js-textfield">
@@ -54,7 +54,7 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">Importance</td>
+            <td class="mdl-data-table__cell--non-numeric">重要度</td>
             <td class="i_contents">
                 <ul class="mdl-list">
                     <li class="mdl-list__item">
@@ -84,7 +84,7 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">ManHour</td>
+            <td class="mdl-data-table__cell--non-numeric">工数</td>
             <td class="i_contents">
                 <ul class="mdl-list">
                     <li class="mdl-list__item">
@@ -98,7 +98,7 @@
                           </form>
                       </span>
                       <span class="mdl-list__item-primary-content">
-                          hour
+                          時間
                       </span>
                     </li>
                 </ul>
@@ -106,7 +106,7 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">Genre</td>
+            <td class="mdl-data-table__cell--non-numeric">ジャンル</td>
             <td class="i_contents">
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield">
@@ -116,29 +116,29 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">Deadline</td>
+            <td class="mdl-data-table__cell--non-numeric">締切</td>
             <td class="i_contents">
               <form action="#">
                 <div class="mdl-textfield mdl-js-textfield">
-                  <input class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
+                  <input required class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
                 </div>
               </form>
             </td>
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">within Today</td>
+            <td class="mdl-data-table__cell--non-numeric">いつやるの？</td>
             <td class="i_contents">
               <ul class="mdl-list">
                   <li class="mdl-list__item">
                     <span class="mdl-list__item-primary-content">
                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="today">
-                            <input type="radio" id="today" class="mdl-radio__button" name="istoday" value="yes" checked>Today
+                            <input type="radio" id="today" class="mdl-radio__button" name="istoday" value="yes" checked>今日でしょ
                         </label>
                     </span>
                     <span class="mdl-list__item-primary-content">
                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="notoday">
-                            <input type="radio" id="notoday" class="mdl-radio__button" name="istoday" value="no">Not
+                            <input type="radio" id="notoday" class="mdl-radio__button" name="istoday" value="no">明日以降
                         </label>
                     </span>
                   </li>
@@ -153,11 +153,11 @@
                 <li class="mdl-list__item">
                   <span class="mdl-list__item-primary-content">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                    value="create" id="create_btn">OK</button>
+                    value="create" id="create_btn">作成</button>
                   </span>
                   <span class="mdl-list__item-primary-content">
                     <button class="mdl-button mdl-js-button mdl-button--raised"
-                    value="cancel" id="cancel_btn">Cancel</button>
+                    value="cancel" id="cancel_btn">キャンセル</button>
                   </span>
                 </li>
               </ul>
