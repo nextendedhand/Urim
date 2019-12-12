@@ -33,7 +33,6 @@ class SettingsDialogManager {
 
         // 閉じるボタン
         this.dialog.querySelector('#close-settings-dialog-button').addEventListener('click', () => {
-            console.log("close");
             this.writeDataToElectronStore();
 
             setTimeout(function(){
@@ -60,6 +59,14 @@ class SettingsDialogManager {
             genreColor.value = "#e66465";
             genreLabel.value = "";
         },false);
+
+        // リロード要求：削除などでメインウィンドウの更新が必要な場合への対処
+        this.dialog.onclose = () => {
+            if (this.req) {
+                this.req = false;
+                window.location.reload();
+            }
+        };
     }
 
     private dClose = (): void => {
@@ -117,7 +124,6 @@ class SettingsDialogManager {
         let divElement = document.createElement("div");
         divElement.innerHTML = `<p name="genre" id=${randnum}><input type="color" id=${randnum} value=${color} name=${label}>`
                                 +`<label for="colorpallet" id=${randnum}>${label}</label>`
-                                //+`<a href="javascript:void(0);" class="button-link" id=${randnum}>削除</a>`
                                 +`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">delete</button>`;
                                 +`</p>`
            
@@ -165,8 +171,8 @@ class SettingsDialogManager {
 
         // ジャンルデータの取得・登録
         let genreElements = document.getElementsByName( "genre" ) ;
-        //console.log(genreElements);
         this.sdm.settingsData.deleteAllGenreData();
+        console.log(genreElements.length);
 
         for (let oneGenreElement="", i = genreElements.length; i--;){
             let oneGenreElements = genreElements[i];
@@ -190,11 +196,11 @@ class SettingsDialogManager {
         if ( checkedValue === "" ) {
             // 未選択状態
         } else {
-            // aには選択状態の値が代入されている
             this.sdm.settingsData.setUrgencyScale(parseInt(checkedValue));
         }
 
         this.sdm.export();
+        this.req = true;
     }
 };
 
