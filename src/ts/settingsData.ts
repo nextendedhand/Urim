@@ -63,16 +63,23 @@ export default class settingsData {
     */
     public deleteGenreData(id: string) {
         var isDeleted = false;
-
-        for (let index in this.genreArray) {
-            if (this.genreArray[index]['id'] == id) {
-                delete this.genreArray[index];
-                isDeleted = true;
+        this.genreArray = this.genreArray.filter(genreData => {
+            if(genreData.getId() === id){
+                isDeleted = true;               
             }
-        }
+
+            return genreData.getId() != id;            
+        });
 
         if (!isDeleted) {
             console.log("Cannot find todo data(id: " + id + " )")
         }
     }
-}
+    /**
+    * This is a function to delete all genre data from genreDataArray.
+    * @param id
+    * @returns void
+    */
+    public deleteAllGenreData():void {
+        this.genreArray = [];
+    }}

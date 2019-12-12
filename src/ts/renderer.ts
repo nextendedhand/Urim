@@ -3,6 +3,7 @@ import ToDoDataManager from './toDoDataManager';
 import Common from './common';
 import settingsDataManager from './settingsDataManager';
 import DetailDialogManager from './detailDialogManager';
+import SettingsDialogManager from './settingsDialogManager';
 
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('urim-plain');
@@ -18,6 +19,8 @@ let upm: UrimPlaneManager;
 const common = new Common();
 
 let ctx: CanvasRenderingContext2D;
+
+const sdlgm = new SettingsDialogManager();
 
 /**
 * html読み込み完了後、electron-storeからデータを読み込む
@@ -215,6 +218,13 @@ const addEventListners = () => {
     });
 
     /**
+    * 歯車ボタンを押下時に、設定画面の表示
+    */
+    document.getElementById('setting-btn').addEventListener('click', () => {
+        sdlgm.renderContents();
+    });
+
+    /**
      * キャンセルボタンを押下時に、削除ボタンを無効化、todoの色をもとに戻す、削除候補のリセット、キャンセルボタンの消去をする
      */
     document.getElementById('cancel-btn').addEventListener('click', () => {
@@ -232,3 +242,10 @@ const addEventListners = () => {
         })
     });
 };
+
+function onClickDeleteNode(randnum:string):void{
+    let elem = document.getElementById(randnum);
+    let elem2 = elem.parentNode.parentNode;
+    elem2.parentNode.removeChild(elem2);
+};
+
