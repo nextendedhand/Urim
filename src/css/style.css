@@ -2,11 +2,18 @@
     user-select: none;
 }
 
+body{
+    background: #2E2E2E;
+}
+
 #urim-plain-container{
     position: relative;
     height: 0;
     overflow: hidden;
     padding-top: 56.25%;
+    margin-top: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 #urim-plain{

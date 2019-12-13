@@ -77,12 +77,12 @@ class AxisManager {
 
 
         ctx.beginPath();
-        let fillColor = 'rgb(0,0,0)';
+        let fillColor = 'rgb(191,172,114)';
         ctx.fillStyle = fillColor;
         if (style === 'gradient') {
             let fillColor = ctx.createLinearGradient(this.startX, this.startY, this.endX, this.endY);
-            fillColor.addColorStop(0.0, 'rgb(220,220,220)');
-            fillColor.addColorStop(1.0, 'rgb(0,0,0)');
+            fillColor.addColorStop(0.0, 'rgb(159,159,150)');
+            fillColor.addColorStop(1.0, 'rgb(245,195,68)');
             ctx.fillStyle = fillColor;
         }
 
