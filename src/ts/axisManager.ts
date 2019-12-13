@@ -47,7 +47,7 @@ class AxisManager {
      *
      * @returns void
      */
-    public create(ctx: CanvasRenderingContext2D) {
+    public create(ctx: CanvasRenderingContext2D, style: string) {
         let dx = this.endX - this.startX;
         let dy = this.endY - this.startY;
         let len: number = Math.sqrt(dx * dx + dy * dy);
@@ -77,7 +77,14 @@ class AxisManager {
 
 
         ctx.beginPath();
-        ctx.fillStyle = 'rgb(0, 0, 0)';
+        let fillColor = 'rgb(191,172,114)';
+        ctx.fillStyle = fillColor;
+        if (style === 'gradient') {
+            let fillColor = ctx.createLinearGradient(this.startX, this.startY, this.endX, this.endY);
+            fillColor.addColorStop(0.0, 'rgb(159,159,150)');
+            fillColor.addColorStop(1.0, 'rgb(245,195,68)');
+            ctx.fillStyle = fillColor;
+        }
 
         for (let i = 0; i < pathPoints.length; i += 2) {
             let x = pathPoints[i] * cos - pathPoints[i + 1] * sin + this.startX;

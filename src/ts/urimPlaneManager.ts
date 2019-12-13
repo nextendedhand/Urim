@@ -43,7 +43,7 @@ export class UrimPlaneManager {
         this.importanceNumber = 4 * this.heightPartitionPerImportance;
         this.urgencyNumber = this.widthPartitionPerSpan * this.urgencySpans.length;
         this.fontScale = 0.6;
-        this.widthScale = 0.9;
+        this.widthScale = 0.8;
 
         this.urimCell = new Array(this.importanceNumber);
         for (let iIm = 0; iIm < this.importanceNumber; iIm++) {
@@ -74,8 +74,8 @@ export class UrimPlaneManager {
         const ctx = canvas.getContext('2d');
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 5, -20, 5, -20, 15]);
-        this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 5, -20, 5, -20, 15]);
+        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 15, -30, 15, -30, 30]);
+        this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 15, -30, 15, -30, 30]);
 
 
         const dpr = window.devicePixelRatio || 1;
@@ -248,8 +248,8 @@ export class UrimPlaneManager {
         this.imAxis.endX = canvas.width / 2;
         this.imAxis.endY = canvas.height / 30;
 
-        this.urAxis.create(ctx);
-        this.imAxis.create(ctx);
+        this.urAxis.create(ctx, 'gradient');
+        this.imAxis.create(ctx, 'fill');
 
         // 軸名の描画
         ctx.beginPath();
@@ -257,7 +257,7 @@ export class UrimPlaneManager {
 
         ctx.font = `900 ${fontSize}pt 'Font Awesome 5 Free'`
 
-        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillStyle = 'rgb(223, 223, 223)';
         ctx.textAlign = 'center';
 
         ctx.fillText('重要度', canvas.width / 2, parseInt(ctx.font));
@@ -287,7 +287,7 @@ export class UrimPlaneManager {
 
         common.backgroundColor.forEach((color, index) => {
             ctx.fillStyle = color;
-            ctx.fillRect(0, canvas.height / 4 * index, canvas.width, canvas.height / 4);
+            ctx.fillRect(canvas.width / 2 * (index % 2), canvas.height / 4 * Math.floor(index / 2), canvas.width / 2, canvas.height / 4);
         })
     }
 
@@ -316,6 +316,21 @@ export class UrimPlaneManager {
         }
     }
 
+    private renderLineDash(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 10]);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgb(100, 100, 100)'
+        ctx.moveTo(canvas.width / 8, 0);
+        for (let i = 1; i < 8; i++) {
+            if (i !== 4) {
+                ctx.lineTo(canvas.width * i / 8, canvas.height);
+            }
+            ctx.moveTo(canvas.width * (i + 1) / 8, 0);
+        }
+        ctx.stroke();
+    }
+
     /**
      * 描画に関する関数を呼び出す
      * 
@@ -331,6 +346,7 @@ export class UrimPlaneManager {
 
         this.renderImBackground(canvas, ctx);
         this.renderAxis(canvas, ctx);
+        this.renderLineDash(canvas, ctx);
 
         this.toDoTips.forEach(toDoTip => {
             if (toDoTip.page == this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
