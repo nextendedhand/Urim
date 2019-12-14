@@ -2,7 +2,6 @@ import ToDoDataManager from './toDoDataManager';
 import settingsDataManager from './settingsDataManager';
 import genreData from './genreData';
 import toDoData from './toDoData';
-import { Interface } from 'readline';
 
 export interface ManHour {
     "year": number;
@@ -167,7 +166,6 @@ export default class FormInfoManager {
         // isToday: タスクが本日中かどうか
         const isToday = this.getIsToday();
     
-        // TODO: error判定: deadlineが今日より前の場合もerror
         const items: FormItems = {
             title: title,
             importance: importance,
@@ -217,13 +215,25 @@ export default class FormInfoManager {
         tddm.export();
     }
 
-    public checkInputFilled(): boolean {
-        let is_filled = true;
-        if ((document.getElementById("deadline") as HTMLInputElement).value == "") {
-            console.log("deadline is none");
-            is_filled = false;
+    public IsDeadlineFuture(): boolean {
+        const deadline = this.getDeadline();
+        const now_date = new Date();
+
+        if (deadline["year"] != now_date.getFullYear()) {
+            return deadline["year"] > now_date.getFullYear();
         }
-        return is_filled;
+
+        // yearが等しいのでmonthを比較
+        if (deadline["month"] != (now_date.getMonth()+1)) {
+            return deadline["month"] > now_date.getMonth();
+        }
+
+        // monthが等しいのでdateを比較
+        return deadline["day"] >= now_date.getDate();
+    }
+
+    public printDeadlineMsg(): void {
+
     }
     
     private updateGenreData(genreDataArray: genreData[]) {

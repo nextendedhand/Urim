@@ -8,11 +8,11 @@ window.onload = () => {
 let createBtn = document.getElementById("create_btn");
 createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
-    if (fim.checkInputFilled()) {
+    if (fim.IsDeadlineFuture()) {
         fim.registerTask(fim.getTaskInfo());
         history.back();
     } else {
-        // "入力が不足しています"
+        console.log("deadline is past");
     }
 }, false);
 
