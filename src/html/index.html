@@ -12,25 +12,36 @@
     <link rel="stylesheet" type="text/css" href="../css/settingsStyle.css">
 
 <body>
-    <div id="menu">
-        <i class="fas fa-star" style="visibility:hidden;"></i>
-        <i class="far fa-star" style="visibility:hidden;"></i>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="abst-btn" style="background: #E2C25F;">
-            概要モード
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="delete-mode-change-btn" style="background: #E2C25F;">
-            削除
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="create-btn" style="background: #E2C25F;">
-            TODO作成
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="visibility:hidden; background: #E2C25F;" id="cancel-btn">
-            中止
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="visibility:hidden; background: #E2C25F;" id="delete-btn">
-            削除実行
-        </button>
-        <input type="image" src="../img/settings.svg" alt="設定画面を開く" class="mdl-button mdl-js-button mdl-button--icon" id="setting-btn">
+    <i class="fas fa-star" style="visibility:hidden;"></i>
+    <i class="far fa-star" style="visibility:hidden;"></i>
+    <div id="menu" class="mdl-grid">
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="abst-btn">
+                <i class="fas fa-toggle-on"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="delete-mode-change-btn">
+                <i class="fas fa-minus-circle"></i>
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--icon" style="visibility:hidden;" id="cancel-btn">
+                <i class="fas fa-chevron-circle-left"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="create-btn">
+                <i class="fas fa-plus-circle"></i>
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--icon" style="visibility:hidden;" id="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--4-col-tablet mdl-cell--hide-phone"></div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="setting-btn">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
     </div>
 
     <!-- All of the Node.js APIs are available in this renderer process. -->
@@ -50,33 +61,32 @@
                 <h3 class="mdl-card__title-text">Settings</h2>
             </div>
             <h4>Genre List</h5>
-            <ul id="genreList">
-            </ul>
+                <ul id="genreList">
+                </ul>
 
-            <h6>Create a genre node</h6>
-            <form name="form1" id="newGenre" action="">
-                <input type="color" id="newGenreColorPallet" name="createGenre" value="#e66465">
-                <input type="text" id="newGenreLabel" name="createGenre">
-                <div class="mdl-layout-spacer">
-                    <button type="button" id="genreAdd"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">登録</button>
-                </div>
-            </form>
+                <h6>Create a genre node</h6>
+                <form name="form1" id="newGenre" action="">
+                    <input type="color" id="newGenreColorPallet" name="createGenre" value="#e66465">
+                    <input type="text" id="newGenreLabel" name="createGenre">
+                    <div class="mdl-layout-spacer">
+                        <button type="button" id="genreAdd" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">登録</button>
+                    </div>
+                </form>
 
-            <h4>Set urgency scale</h5>
+                <h4>Set urgency scale</h5>
 
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
-                <span class="mdl-radio__label">1 year</span>
-            </label>
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-                <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
-                <span class="mdl-radio__label">1 month</span>
-            </label>
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-                <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
-                <span class="mdl-radio__label">1 week</span>
-            </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                        <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                        <span class="mdl-radio__label">1 year</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                        <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                        <span class="mdl-radio__label">1 month</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                        <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+                        <span class="mdl-radio__label">1 week</span>
+                    </label>
         </div>
     </dialog>
 

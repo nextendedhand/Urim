@@ -200,6 +200,18 @@ const addEventListners = () => {
         document.getElementById('cancel-btn').style.visibility = 'visible';
         document.getElementById('delete-btn').style.visibility = 'visible';
         document.getElementById('delete-mode-change-btn').style.visibility = 'hidden';
+
+        let deleteModeChangeBtn = document.getElementById('delete-mode-change-btn');
+        let cancelBtn = document.getElementById('cancel-btn');
+        let tmp = cancelBtn.nextSibling;
+        deleteModeChangeBtn.parentNode.insertBefore(cancelBtn, deleteModeChangeBtn);
+        cancelBtn.parentNode.insertBefore(deleteModeChangeBtn, tmp);
+
+        let createBtn = document.getElementById('create-btn');
+        let deleteBtn = document.getElementById('delete-btn');
+        tmp = deleteBtn.nextSibling;
+        createBtn.parentNode.insertBefore(deleteBtn, createBtn);
+        deleteBtn.parentNode.insertBefore(createBtn, tmp);
     });
 
     /**
@@ -212,6 +224,18 @@ const addEventListners = () => {
         document.getElementById('cancel-btn').style.visibility = 'hidden';
         document.getElementById('delete-btn').style.visibility = 'hidden';
         document.getElementById('delete-mode-change-btn').style.visibility = 'visible';
+
+        let cancelBtn = document.getElementById('cancel-btn');
+        let deleteModeChangeBtn = document.getElementById('delete-mode-change-btn');
+        let tmp = deleteModeChangeBtn.nextSibling;
+        cancelBtn.parentNode.insertBefore(deleteModeChangeBtn, cancelBtn);
+        deleteModeChangeBtn.parentNode.insertBefore(cancelBtn, tmp);
+
+        let deleteBtn = document.getElementById('delete-btn');
+        let createBtn = document.getElementById('create-btn');
+        tmp = createBtn.nextSibling;
+        deleteBtn.parentNode.insertBefore(createBtn, deleteBtn);
+        createBtn.parentNode.insertBefore(deleteBtn, tmp);
 
         upm.deleteToDoTips(tddm);
         render();
@@ -235,6 +259,18 @@ const addEventListners = () => {
         document.getElementById('delete-btn').style.visibility = 'hidden';
         document.getElementById('delete-mode-change-btn').style.visibility = 'visible';
 
+        let cancelBtn = document.getElementById('cancel-btn');
+        let deleteModeChangeBtn = document.getElementById('delete-mode-change-btn');
+        let tmp = deleteModeChangeBtn.nextSibling;
+        cancelBtn.parentNode.insertBefore(deleteModeChangeBtn, cancelBtn);
+        deleteModeChangeBtn.parentNode.insertBefore(cancelBtn, tmp);
+
+        let deleteBtn = document.getElementById('delete-btn');
+        let createBtn = document.getElementById('create-btn');
+        tmp = createBtn.nextSibling;
+        deleteBtn.parentNode.insertBefore(createBtn, deleteBtn);
+        createBtn.parentNode.insertBefore(deleteBtn, tmp);
+
         upm.toDoTips.forEach(toDoTip => {
             if (toDoTip.isDeleteCandidate) {
                 toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
@@ -243,9 +279,8 @@ const addEventListners = () => {
     });
 };
 
-function onClickDeleteNode(randnum:string):void{
+function onClickDeleteNode(randnum: string): void {
     let elem = document.getElementById(randnum);
     let elem2 = elem.parentNode.parentNode;
     elem2.parentNode.removeChild(elem2);
 };
-
