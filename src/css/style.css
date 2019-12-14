@@ -27,3 +27,28 @@ body{
 #abst-btn,#create-btn,#delete-btn,#setting-btn{
     margin-bottom: 1%;
 }
+
+.fa-plus-circle{
+    color: #E2C25F;
+}
+
+.fa-minus-circle{
+    color: #E2C25F;
+}
+
+.fa-chevron-circle-left{
+    color: #E2C25F;
+}
+
+.fa-toggle-on{
+    color: #E2C25F;
+}
+
+.fa-trash-alt{
+    color: #E2C25F;
+}
+
+.fa-cog{
+    color: #E2C25F;
+    margin:0 0 0 auto;
+}
