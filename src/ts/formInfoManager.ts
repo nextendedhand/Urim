@@ -2,6 +2,7 @@ import ToDoDataManager from './toDoDataManager';
 import settingsDataManager from './settingsDataManager';
 import genreData from './genreData';
 import toDoData from './toDoData';
+import { Interface } from 'readline';
 
 export interface ManHour {
     "year": number;
@@ -76,22 +77,18 @@ export default class FormInfoManager {
         // ***titleの書き込み
         document.getElementById("title")
                 .setAttribute("value", target.getTitle());
-        
 
         // ***detailの書き込み
         const detailTextForm = document.getElementById("detail_text");
         detailTextForm.textContent = details.getContents();
 
-
         // ***importanceの選択
         document.getElementById(target.getImportance())
                 .setAttribute("checked", "yes");
-        
 
         // ***placeの書き込み
         document.getElementById("place")
                 .setAttribute("value", details.getPlace());
-        
         
         // ***genreのoptionの動的な設定と選択
         const sdm = new settingsDataManager();
@@ -114,7 +111,6 @@ export default class FormInfoManager {
             genre_list.appendChild(option);
         }
 
-
         // ***deadlineの設定
         const deadlineObj = details.getDeadLine();
         let deadline_month;
@@ -123,27 +119,25 @@ export default class FormInfoManager {
         } else {
             deadline_month = deadlineObj["month"];
         }
-
         let deadline_day;
         if (Number(deadlineObj["day"]) <= 9) {
             deadline_day = "0" + deadlineObj["day"];
         } else {
             deadline_day = deadlineObj["day"];
         }
-
         const deadlineStr = deadlineObj["year"] + "-"
                             + deadline_month + "-" + deadline_day;
-
         document.getElementById("deadline")
                 .setAttribute("value", deadlineStr);
 
-
         // ***manHourの書き込み
-        // TODO: データ形式の変更
         const manHourObj = target.getManHour();
-        document.getElementById("man_hour")
+        document.getElementById("man_hour_m")
+                .setAttribute("value", manHourObj["month"]);
+        document.getElementById("man_hour_d")
+                .setAttribute("value", manHourObj["day"]);
+        document.getElementById("man_hour_h")
                 .setAttribute("value", manHourObj["hour"]);
-
         
         // ***isTodayの選択
         if (target.getIsToday()) {
@@ -174,7 +168,6 @@ export default class FormInfoManager {
         const isToday = this.getIsToday();
     
         // TODO: error判定: deadlineが今日より前の場合もerror
-        // TODO: 定義域check
         const items: FormItems = {
             title: title,
             importance: importance,
@@ -193,7 +186,6 @@ export default class FormInfoManager {
         const tddm = new ToDoDataManager();
         tddm.import();
 
-        // TODO: ここのas anyの無い版
         const toDoDataItems = new toDoData(
             items.title, items.importance,
             items.manHour as any, items.genreId, items.deadline as any,
@@ -215,7 +207,6 @@ export default class FormInfoManager {
             }
         }
 
-        // TODO: ここのas anyの無い版
         const toDoDataItems = new toDoData(
             items.title, items.importance,
             items.manHour as any, items.genreId, items.deadline as any,
@@ -226,14 +217,12 @@ export default class FormInfoManager {
         tddm.export();
     }
 
-    // TODO:getTaskInfo内にもエラー必要
     public checkInputFilled(): boolean {
         let is_filled = true;
         if ((document.getElementById("deadline") as HTMLInputElement).value == "") {
             console.log("deadline is none");
             is_filled = false;
         }
-    
         return is_filled;
     }
     
@@ -264,12 +253,17 @@ export default class FormInfoManager {
     }
     
     private getManHour(): ManHour {
-        const hour = (document.getElementById("man_hour") as HTMLInputElement).value;
-        // TODO: other form
+        let month = (document.getElementById("man_hour_m") as HTMLInputElement).value;
+        let day = (document.getElementById("man_hour_d") as HTMLInputElement).value;
+        let hour = (document.getElementById("man_hour_h") as HTMLInputElement).value;
+        month = month ? month : "0";
+        day = day ? day : "0";
+        hour = hour ? hour : "0";
+
         const manHour: ManHour = {
             year: 0,
-            month: 0,
-            day: 0,
+            month: parseInt(month),
+            day: parseInt(day),
             hour: parseInt(hour),
         }
         return manHour;
@@ -285,7 +279,7 @@ export default class FormInfoManager {
     
     private getDeadline(): Deadline {
         const date = (document.getElementById("deadline") as HTMLInputElement).value;
-        // TODO: 格納をよりスマートにできるか
+        
         const dateInfo = date.split('-');
         const deadLine: Deadline = {
             year: parseInt(dateInfo[0]),
