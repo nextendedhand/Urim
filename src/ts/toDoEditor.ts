@@ -11,11 +11,14 @@ let createBtn = document.getElementById("expire_btn");
 createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
     const selectDataMng = new selectedDataManager();
-    if (fim.IsDeadlineFuture()) {
+    if (!fim.IsNeededItemFilled()) {
+        // input is needed
+    } else if(!fim.IsDeadlineFuture()) {
+        console.log("deadline is past");
+    } else {
+        // successfully input
         fim.expireTask(fim.getTaskInfo(), selectDataMng.getSelectedId());
         history.back();
-    } else {
-        console.log("deadline is past");
     }
 }, false);
 
