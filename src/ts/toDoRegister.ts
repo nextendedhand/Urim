@@ -8,11 +8,14 @@ window.onload = () => {
 let createBtn = document.getElementById("create_btn");
 createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
-    if (fim.IsDeadlineFuture()) {
+    if (!fim.IsNeededItemFilled()) {
+        // input is needed
+    } else if(!fim.IsDeadlineFuture()) {
+        console.log("deadline is past");
+    } else {
+        // successfully input
         fim.registerTask(fim.getTaskInfo());
         history.back();
-    } else {
-        console.log("deadline is past");
     }
 }, false);
 

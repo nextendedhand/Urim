@@ -17,40 +17,34 @@
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" align="center">
       <h3>TODO編集</h3>
       <tbody>
+      <form action="#">
         <tr>
           <td class="mdl-data-table__cell--non-numeric">タイトル</td>
           <td class="i_contents">
-            <form action="#">
               <div class="mdl-textfield mdl-js-textfield">
                 <input required class="mdl-textfield__input" name="title" type="text" id="title" value="">
                 <label class="mdl-textfield__label" for="title">Text...</label>
               </div>
-            </form>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">内容</td>
+          <td class="i_contents">
+              <div class="mdl-textfield mdl-js-textfield">
+                <textarea id="detail_text" class="mdl-textfield__input" rows= "5" value=""></textarea>
+                <label class="mdl-textfield__label" for="detail_text">Text...</label>
+              </div>
           </td>
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">内容</td>
-            <td class="i_contents">
-              <form action="#">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <textarea id="detail_text" class="mdl-textfield__input" rows= "5" value=""></textarea>
-                  <label class="mdl-textfield__label" for="detail_text">Text...</label>
-                </div>
-              </form>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">場所</td>
-            <td class="i_contents">
-              <form action="#">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <input class="mdl-textfield__input" name="place" type="text" id="place" value="">
-                  <label class="mdl-textfield__label" for="place">Text...</label>
-                </div>
-              </form>
-            </td>
+          <td class="mdl-data-table__cell--non-numeric">場所</td>
+          <td class="i_contents">
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" name="place" type="text" id="place" value="">
+                <label class="mdl-textfield__label" for="place">Text...</label>
+              </div>
+          </td>
         </tr>
 
         <tr>
@@ -89,13 +83,11 @@
                 <ul class="mdl-list">
                     <li class="mdl-list__item">
                       <span class="mdl-list__item-primary-content">
-                          <form action="#">
-                              <div class="mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="number" name="man_hour_m" id="man_hour_m" value="">
-                                <label class="mdl-textfield__label" for="man_hour_m">Number...</label>
-                                <span class="mdl-textfield__error">not number</span>
-                              </div>
-                          </form>
+                          <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="number" name="man_hour_m" id="man_hour_m" value="">
+                            <label class="mdl-textfield__label" for="man_hour_m">Number...</label>
+                            <span class="mdl-textfield__error">not number</span>
+                          </div>
                       </span>
                       <span class="mdl-list__item-primary-content">
                           ヶ月
@@ -103,13 +95,11 @@
                     </li>
                     <li class="mdl-list__item">
                       <span class="mdl-list__item-primary-content">
-                          <form action="#">
-                              <div class="mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="number" name="man_hour_d" id="man_hour_d" value="">
-                                <label class="mdl-textfield__label" for="man_hour_d">Number...</label>
-                                <span class="mdl-textfield__error">not number</span>
-                              </div>
-                          </form>
+                          <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="number" name="man_hour_d" id="man_hour_d" value="">
+                            <label class="mdl-textfield__label" for="man_hour_d">Number...</label>
+                            <span class="mdl-textfield__error">not number</span>
+                          </div>
                       </span>
                       <span class="mdl-list__item-primary-content">
                           日
@@ -117,13 +107,11 @@
                     </li>
                     <li class="mdl-list__item">
                       <span class="mdl-list__item-primary-content">
-                          <form action="#">
-                              <div class="mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="number" name="man_hour_h" id="man_hour_h" value="">
-                                <label class="mdl-textfield__label" for="man_hour_h">Number...</label>
-                                <span class="mdl-textfield__error">not number</span>
-                              </div>
-                          </form>
+                          <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="number" name="man_hour_h" id="man_hour_h" value="">
+                            <label class="mdl-textfield__label" for="man_hour_h">Number...</label>
+                            <span class="mdl-textfield__error">not number</span>
+                          </div>
                       </span>
                       <span class="mdl-list__item-primary-content">
                           時間
@@ -136,7 +124,6 @@
         <tr>
             <td class="mdl-data-table__cell--non-numeric">ジャンル</td>
             <td class="i_contents">
-            <form action="#">
               <div class="mdl-textfield mdl-js-textfield">
                   <select class="mdl-textfield__input" name="genre" id="genre"></select>
               </div>
@@ -146,11 +133,9 @@
         <tr>
             <td class="mdl-data-table__cell--non-numeric">締切</td>
             <td class="i_contents">
-              <form action="#">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <input required class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
-                </div>
-              </form>
+              <div class="mdl-textfield mdl-js-textfield">
+                <input required class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
+              </div>
             </td>
         </tr>
 
@@ -191,6 +176,7 @@
               </ul>
             </td>        
         </tr>
+      </form>
       </tbody>
     </table>
     
