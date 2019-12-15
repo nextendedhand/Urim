@@ -11,11 +11,11 @@ let createBtn = document.getElementById("expire_btn");
 createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
     const selectDataMng = new selectedDataManager();
-    if (fim.checkInputFilled()) {
+    if (fim.IsDeadlineFuture()) {
         fim.expireTask(fim.getTaskInfo(), selectDataMng.getSelectedId());
         history.back();
     } else {
-        // "入力が不足しています"
+        console.log("deadline is past");
     }
 }, false);
 
