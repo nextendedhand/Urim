@@ -14,6 +14,10 @@ input, textarea{
 	justify-content: flex-start;
 }
 
+.flex .delete_btn{
+	background-color: #2F2F2F;
+}
+
 .genre_contents{
 	margin-top: 1%;
 	margin-left: 5%;

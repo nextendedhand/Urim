@@ -33,6 +33,7 @@ class SettingsDialogManager {
 
         // 閉じるボタン
         this.dialog.querySelector('#close-settings-dialog-button').addEventListener('click', () => {
+            console.log("testtesttest")
             this.writeDataToElectronStore();
 
             setTimeout(function(){
@@ -62,6 +63,7 @@ class SettingsDialogManager {
 
         // リロード要求：削除などでメインウィンドウの更新が必要な場合への対処
         this.dialog.onclose = () => {
+            console.log("testtesttest")
             if (this.req) {
                 this.req = false;
                 window.location.reload();
@@ -124,9 +126,9 @@ class SettingsDialogManager {
         let divElement = document.createElement("div");
         divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
                                 +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
-                                +`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`;
+                                //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
+                                +`<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
                                 +`</p>`
-           
         // li 要素の作成
         let newLi = document.createElement("li");
         newLi.appendChild ( divElement );
