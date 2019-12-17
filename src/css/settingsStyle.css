@@ -2,6 +2,19 @@
 input, textarea{
 	background-color: #DFDFDF;
 }
+#newGenreform{
+	width:100%;
+}
+
+#newGenreLabel{
+	width:60%;
+}
+
+.newGenreContents{
+	margin-top: 1%;
+	margin-left: 5%;
+	margin-bottom: 1%;
+}
 
 #deleteGenre {
   width: 40px;
