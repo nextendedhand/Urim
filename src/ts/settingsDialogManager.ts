@@ -33,7 +33,6 @@ class SettingsDialogManager {
 
         // 閉じるボタン
         this.dialog.querySelector('#close-settings-dialog-button').addEventListener('click', () => {
-            console.log("testtesttest")
             this.writeDataToElectronStore();
 
             setTimeout(function(){
@@ -59,11 +58,10 @@ class SettingsDialogManager {
             // 初期値に戻す
             genreColor.value = "#e66465";
             genreLabel.value = "";
-        },false);
+        });
 
         // リロード要求：削除などでメインウィンドウの更新が必要な場合への対処
         this.dialog.onclose = () => {
-            console.log("testtesttest")
             if (this.req) {
                 this.req = false;
                 window.location.reload();
