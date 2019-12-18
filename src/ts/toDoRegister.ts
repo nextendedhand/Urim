@@ -8,14 +8,23 @@ window.onload = () => {
 let createBtn = document.getElementById("create_btn");
 createBtn.addEventListener("click", () => {
     const fim = new FormInfoManager();
-    if (!fim.IsNeededItemFilled()) {
-        // input is needed
+    const titleAlarm = document.getElementById("title_alarm") as HTMLInputElement;
+    const deadlineAlarm = document.getElementById("deadline_alarm") as HTMLInputElement;
+    titleAlarm.innerText="";
+    deadlineAlarm.innerText="";
+    if (!fim.IsTitleFilled() || !fim.IsDeadlineFilled()){
+        if (!fim.IsTitleFilled()) {
+            titleAlarm.innerText="入力必須の項目です";
+        }
+        if (!fim.IsDeadlineFilled()) {
+            deadlineAlarm.innerText="入力必須の項目です";
+        }
     } else if(!fim.IsDeadlineFuture()) {
-        console.log("deadline is past");
+        deadlineAlarm.innerText="締切には過去の日付を設定できません";
     } else {
-        // successfully input
-        fim.registerTask(fim.getTaskInfo());
-        history.back();
+       // successfully input
+       fim.registerTask(fim.getTaskInfo());
+       history.back();
     }
 }, false);
 

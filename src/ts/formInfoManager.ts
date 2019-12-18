@@ -232,18 +232,12 @@ export default class FormInfoManager {
         return deadline["day"] >= now_date.getDate();
     }
 
-    public IsNeededItemFilled(): boolean {
-        if ((document.getElementById("title") as HTMLInputElement).value == "") {
-            return false;
-        }
-        if ((document.getElementById("deadline") as HTMLInputElement).value == "") {
-            return false;
-        }
-        return true;
+    public IsTitleFilled(): boolean {
+        return (document.getElementById("title") as HTMLInputElement).value != "";
     }
 
-    public printDeadlineMsg(): void {
-
+    public IsDeadlineFilled(): boolean {
+        return (document.getElementById("deadline") as HTMLInputElement).value != "";
     }
     
     private updateGenreData(genreDataArray: genreData[]) {
