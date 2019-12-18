@@ -19,10 +19,11 @@
       <tbody>
       <form action="#">
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">タイトル</td>
+          <td class="mdl-data-table__cell--non-numeric">タイトル ※</td>
           <td class="i_contents">
+              <div class="alarmtxt" id="title_alarm"></div>
               <div class="mdl-textfield mdl-js-textfield">
-                <input required class="mdl-textfield__input" name="title" type="text" id="title" value="">
+                <input class="mdl-textfield__input" name="title" type="text" id="title" value="">
                 <label class="mdl-textfield__label" for="title">Text...</label>
               </div>
           </td>
@@ -131,11 +132,12 @@
         </tr>
 
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">締切</td>
+            <td class="mdl-data-table__cell--non-numeric">締切 ※</td>
             <td class="i_contents">
-              <div class="mdl-textfield mdl-js-textfield">
-                <input required class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
-              </div>
+                <div class="alarmtxt" id="deadline_alarm"></div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
+                </div>
             </td>
         </tr>
 
