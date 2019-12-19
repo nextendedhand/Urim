@@ -114,9 +114,11 @@ class ToDoTip {
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
         ctx.textBaseline = 'top';
+        ctx.textAlign = 'start';
+
         ctx.fillText(todayIcon, this.getTextPosition().x, this.getTextPosition().y);
 
-        ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
+        ctx.font = `500 ${fontSize}px 'Font Awesome 5 Free'`;
 
         let title = this.toDoData.getTitle();
         this.shortTitle = title;

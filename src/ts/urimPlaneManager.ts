@@ -37,7 +37,8 @@ export class UrimPlaneManager {
     constructor(toDoDatas: ToDoData[]) {
         this.sdm = new settingsDataManager();
         this.sdm.import();
-        this.urgencySpans = [21, 33, 81, 240];
+        this.urgencySpans = [2, 4, 14, 30];
+
         this.widthPartitionPerSpan = 2;
         this.heightPartitionPerImportance = 5;
         this.importanceNumber = 4 * this.heightPartitionPerImportance;
@@ -74,8 +75,6 @@ export class UrimPlaneManager {
         const ctx = canvas.getContext('2d');
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, 15, -30, 15, -30, 30]);
-        this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, 15, -30, 15, -30, 30]);
 
 
         const dpr = window.devicePixelRatio || 1;
@@ -85,6 +84,9 @@ export class UrimPlaneManager {
         this.height = canvas.height = rect.height * dpr;
 
         ctx.scale(dpr, dpr);
+
+        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, canvas.height / 50, -canvas.height / 25, canvas.height / 50, -canvas.height / 25, canvas.height / 25]);
+        this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, canvas.height / 50, -canvas.height / 25, canvas.height / 50, -canvas.height / 25, canvas.height / 25]);
 
         for (let iIm = 0; iIm < this.importanceNumber; iIm++) {
             for (let iUr = 0; iUr < this.urgencyNumber; iUr++) {
@@ -104,9 +106,9 @@ export class UrimPlaneManager {
     }
 
     /**
-     * 緊急度から緊急度インデックス（緊急でない 0 - 20 緊急）を算出している
+     * 緊急度から緊急度インデックス（緊急でない 0 - 7 緊急）を算出している
      * 
-     * @param urgency 緊急度（現状[要検討]20分割している）
+     * @param urgency 緊急度（現状8分割している）
      */
     public urToCoord(urgency: number) {
         if (urgency <= 0) {
@@ -187,6 +189,7 @@ export class UrimPlaneManager {
                         // - bottom
                         // を計算する
 
+
                         toDoTip.width = canvas.width * this.widthScale / this.urgencyNumber;
                         toDoTip.height = canvas.height / this.importanceNumber;
                         toDoTip.left = this.calcUrCoord(canvas, toDoTip.toDoData.getUrgency()) + (canvas.width / this.urgencyNumber - toDoTip.width) / 2;
@@ -201,12 +204,14 @@ export class UrimPlaneManager {
                             toDoTip.isOnPage = false;
                         }
 
+
+
                         // 最大ページを求める
                         this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.maxPage = Math.max(this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.maxPage, toDoTip.page);
 
-                        if (index > (this.heightPartitionPerImportance - 2)) {
+                        if (index > (this.heightPartitionPerImportance - 3)) {
                             this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.hasPages = true;
-                        } else if (index <= (this.heightPartitionPerImportance - 2)) {
+                        } else if (index <= (this.heightPartitionPerImportance - 3)) {
                             this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].pm.hasPages = false;
                         }
 
@@ -255,7 +260,7 @@ export class UrimPlaneManager {
         ctx.beginPath();
         let fontSize = canvas.width / 80;
 
-        ctx.font = `900 ${fontSize}pt 'Font Awesome 5 Free'`
+        ctx.font = `500 ${fontSize}pt 'Font Awesome 5 Free'`
 
         ctx.fillStyle = 'rgb(223, 223, 223)';
         ctx.textAlign = 'center';
@@ -320,7 +325,7 @@ export class UrimPlaneManager {
         ctx.beginPath();
         ctx.setLineDash([5, 10]);
         ctx.lineWidth = 3;
-        ctx.strokeStyle = 'rgb(100, 100, 100)'
+        ctx.strokeStyle = 'rgb(223, 223, 223)'
         ctx.moveTo(canvas.width / 8, 0);
         for (let i = 1; i < 8; i++) {
             if (i !== 4) {
@@ -329,6 +334,23 @@ export class UrimPlaneManager {
             ctx.moveTo(canvas.width * (i + 1) / 8, 0);
         }
         ctx.stroke();
+    }
+
+    private renderRemainDays(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+        ctx.beginPath();
+        let fontSize = canvas.height * this.fontScale / this.importanceNumber;
+
+        ctx.font = `500 ${fontSize}px 'Font Awesome 5 Free'`;
+
+        ctx.fillStyle = 'rgb(255, 255, 255)';
+
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        const remeinDaysArray = ['31日-', '21日-30日', '14日-20日', '7日-13日', '5日-6日', '3日-4日', '2日', '1日']
+
+        for (let i = 0; i < 8; i++) {
+            ctx.fillText(remeinDaysArray[i], canvas.width * i / 8 + canvas.width / 16, canvas.height / 2);
+        }
     }
 
     /**
@@ -346,6 +368,7 @@ export class UrimPlaneManager {
 
         this.renderImBackground(canvas, ctx);
         this.renderAxis(canvas, ctx);
+        this.renderRemainDays(canvas, ctx);
         this.renderLineDash(canvas, ctx);
 
         this.toDoTips.forEach(toDoTip => {
