@@ -88,11 +88,11 @@ button[id=cancel_btn] {
     padding-bottom: 5px;
 }
 
-#formtable #title {
+#title {
     border-bottom-color: #E2C25F;
 }
 
-#formtable #detail_text {
+#detail_text {
     box-sizing: border-box;
     color: #DFDFDF;
     background-color: #3F3F3F;
@@ -102,15 +102,13 @@ button[id=cancel_btn] {
     padding-bottom: 5px;
 }
 
-#formtable #importance_level {
-    justify-content: space-between;
+#importance_level {
     width: 100%;
     text-align: center;
 }
 
-#formtable #importance_level .mdl-list__item
+#importance_level .mdl-list__item
 .mdl-list__item-primary-content{
-    justify-content: space-between;
     width: 100%;
     color: #DFDFDF;
     text-align: center;
@@ -167,7 +165,7 @@ button[id=cancel_btn] {
     padding-bottom: 5px;
 }
 
-#formtable #today_or_not {
+#today_or_not {
     box-sizing: border-box;
     color: #DFDFDF;
     width: 100%;
@@ -176,22 +174,12 @@ button[id=cancel_btn] {
     padding-bottom: 5px;
 }
 
-#formtable #button_row {
+#button_row {
     box-sizing: border-box;
     color: #DFDFDF;
     text-align: center;
     width: 70%;
+    font-size: 2em;
     margin: auto;
+    margin-bottom: 30px;
 }
-
-/* 
-input[type=radio] {
-    background-color: #2E2E2E;
-    color: white;
-}
-
-input[type=radio]::after {
-    background-color: #2E2E2E;
-    color: red;
-}
- */
