@@ -98,6 +98,11 @@ class ToDoTip {
 
         // toDoDataの色設定
         // ジャンルIDに応じた背景色に設定する
+        // ジャンルが消去されてしまっていた場合、todoに紐づいたジャンルIDをデフォルト値に書き換え。
+        if (settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId())==null){
+            this.toDoData.setDefaultGenreId();
+        }
+
         ctx.fillStyle = this.isDeleteCandidate ? '#f00' : settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
         ctx.fill();
 

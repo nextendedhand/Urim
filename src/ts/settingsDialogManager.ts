@@ -122,11 +122,18 @@ class SettingsDialogManager {
 
         // div 要素の作成と属性の指定
         let divElement = document.createElement("div");
-        divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
-                                +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
-                                //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
-                                +`<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
-                                +`</p>`
+        if (id === "other_default"){
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                                    +`</p>`            
+        }
+        else{
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                                    //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
+                                    +`<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
+                                    +`</p>`            
+        }
         // li 要素の作成
         let newLi = document.createElement("li");
         newLi.appendChild ( divElement );
@@ -135,10 +142,12 @@ class SettingsDialogManager {
         let list = document.getElementById("genreList");
         list.appendChild( newLi );   
 
-        let oneGenre = document.getElementById(randnum+"_deleteGenre");
-        oneGenre.addEventListener('click',function(){
-            onClickDeleteNode(randnum);
-        });
+        if(id != "other_default"){
+            let oneGenre = document.getElementById(randnum+"_deleteGenre");
+            oneGenre.addEventListener('click',function(){
+                onClickDeleteNode(randnum);
+            });            
+        }
     }
 
     /**

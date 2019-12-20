@@ -154,6 +154,14 @@ export default class toDoData {
     }
 
     /**
+    * This is setter for TODO item's genre id.
+    * @param void
+    * @returns void
+    */
+    public setDefaultGenreId() {
+        this.genreId = "other_default";
+    }
+    /**
     * This is setter for TODO item's importance.
     * @param importance
     * @returns void

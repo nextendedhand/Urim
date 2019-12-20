@@ -2,25 +2,14 @@
 input, textarea{
 	background-color: #DFDFDF;
 }
-#newGenreform{
-	width:100%;
-}
 
-#newGenreLabel{
-	width:60%;
-}
-
-.newGenreContents{
-	margin-top: 1%;
-	margin-left: 5%;
-	margin-bottom: 1%;
-}
 
 #deleteGenre {
   width: 40px;
   height: 40px;
   min-width: initial;
 }
+
 .flex{
 	display: flex;
 	flex-direction: row;
@@ -43,7 +32,6 @@ input, textarea{
 	padding: 0;
 }
 
-
 .delete_btn{
 	background-color: #E2C25F;
 }
@@ -62,4 +50,23 @@ input, textarea{
 
 #close-settings-dialog-button{
 	color:#E2C25F;
+}
+#newGenreContainer{
+	width:100%;
+}
+
+#newGenreLabel{
+	width:100%;
+	color:#2E2E2E;
+	background-color: #DFDFDF;
+}
+#genreLabelContainer{
+	width:60%;
+	margin:0,1%,1%,0;
+	padding: 0;
+}
+#newGenreContents{
+	margin-top: 1%;
+	margin-left: 5%;
+	margin-bottom: 1%;
 }
