@@ -276,9 +276,9 @@ export default class FormInfoManager {
 
         const manHour: ManHour = {
             year: 0,
-            month: parseInt(month),
-            day: parseInt(day),
-            hour: parseInt(hour),
+            month: parseFloat(month),
+            day: parseFloat(day),
+            hour: parseFloat(hour),
         }
         return manHour;
     }
