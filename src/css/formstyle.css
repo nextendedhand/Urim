@@ -23,10 +23,9 @@ button[id=cancel_btn] {
     color: #DFDFDF;
 }
 
-#formtable .mdl-textfield__label {
-    box-sizing: border-box;
-    width: 100%;
-    color: #3F3F3F;
+.alarmtxt {
+    color: #FE5721;
+    font-size: 1.2em;
 }
 
 #formtable {
@@ -40,6 +39,12 @@ button[id=cancel_btn] {
     margin-bottom: 20px;
     border-collapse: collapse;
     /* border: 1px solid #DFDFDF; */
+}
+
+#formtable .mdl-textfield__label {
+    box-sizing: border-box;
+    width: 100%;
+    color: #3F3F3F;
 }
 
 #formtable .mdl-data-table__cell--non-numeric {
