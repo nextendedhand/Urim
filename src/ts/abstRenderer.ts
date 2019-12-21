@@ -166,7 +166,7 @@ const makeTable = (): void => {
                     if (0 < j && j < 7) {
                         var sortbtn: HTMLElement = document.createElement("button");
                         sortbtn.id = "sort0" + String(j) + "-button";
-                        sortbtn.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect";
+                        sortbtn.className = "mdl-button mdl-js-button mdl-button--icon";
                         var sortIcon: HTMLElement = document.createElement("i");
                         if (j == 2 || j == 3 || j == 6) sortIcon.className = "fas fa-sort-alpha-up";
                         else if (j == 4 || j == 5) sortIcon.className = "fas fa-sort-numeric-up";
