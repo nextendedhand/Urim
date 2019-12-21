@@ -1,23 +1,81 @@
+/* background color */
+body{
+    background-color: #2e2e2e;
+}
 
-/* ソートボタンのみ対象 */
-#sort-01, #sort-02, #sort-03, #sort-04, #sort-05, #sort-06{
+/* sort button position */
+#sort01-button, #sort02-button, #sort03-button, #sort04-button, #sort05-button, #sort06-button{
     border-style: none;
     position: relative;
     left: 5%;
+    background-color: #e2c25f;
 }
 
-/* テーブルの調整 */
-table{
-    width: 100%;
-    text-align: center;
-    margin-top: 15px;
+/* start color */
+#today_star{
+    color: #fe5721;
 }
 
-/* 背景の着色 */
-table tr:nth-child(odd){
-    background-color: rgb(180, 180, 180)
-}
-
+/* header design */
 table tr:nth-child(1){
     border-bottom-style: double;
+}
+
+/* window button region */
+#abst_btn{
+    display: contents;
+}
+.btn-region{
+    position: absolute;
+    left: 15%;
+}
+
+/* button margin */
+#urim-button,#create-button,#modechange-button,#return-button,#delete-button{
+    margin-bottom: 3%;
+    position: relative;
+    top:5%;
+    background-color: #e2c25f;
+}
+
+/* table position */
+#ToDoList_TABLE{
+    position: relative;
+    margin-top: 12%;
+    border: 2px #9f9f9f;
+    color: #dfdfdf
+}
+
+/* table text design */
+.title_cell{
+    max-width: 450px;
+    overflow-wrap: break-word;
+}
+
+/* modal window setting */
+#modal-content{
+    /* ボックスの重なりの順序を指定 */
+    z-index:2;
+    /* divをブロック表示します。何も表示しないときは、none */
+    display:none;
+    /* 位置の固定 */
+    position:fixed;
+    /* 位置 */
+    top:10%;
+    left:25%;
+    /* 幅・高さ */
+    width:50%;
+    height:auto;
+    /* 外側の余白 */
+    margin:auto;
+    /* 内側の余白 */
+    padding:10px 20px;
+    /* 線 */
+    border:2px solid #aaa;
+    /* 背景の色 */
+    background:#fff;
+}
+.mdl-dialog__content{
+    /* テキスト折り返し */
+    overflow-wrap: break-word;
 }
