@@ -309,7 +309,7 @@ export class UrimPlaneManager {
                     // 矢印描画
                     let fontSize = canvas.height / this.importanceNumber;
                     ctx.font = `900 ${fontSize}px 'Font Awesome 5 Free'`;
-                    ctx.fillStyle = 'rgb(0, 0, 0)';
+                    ctx.fillStyle = 'rgb(223, 223, 223)';
 
                     ctx.textBaseline = 'top';
                     ctx.fillText('\uf0d9', this.urimCell[iIm][iUr].pm.left, this.urimCell[iIm][iUr].pm.top);
