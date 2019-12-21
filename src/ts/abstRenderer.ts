@@ -255,17 +255,27 @@ const returnColumnValue = (columnIndex: number, data: toDoData): string => {
         case 4:// urgency
             return String(data['urgency']);
         case 5:// manHour
-            if (0 < data['manHour'].year) return String(data['manHour'].year) + "Y";
-            else if (0 < data['manHour'].month) return String(data['manHour'].month) + "M";
-            else if (0 < data['manHour'].day) return String(data['manHour'].day) + "D";
-            else return String(data['manHour'].hour) + "h";
+            let str: string = "";
+            if (0 < data['manHour'].year) str = String(data['manHour'].year) + "Y";
+            if (0 < data['manHour'].month) {
+                if (str == "") str = String(data['manHour'].month) + "M";
+                else str = " " + String(data['manHour'].month) + "M";
+            }
+            if (0 < data['manHour'].day) {
+                if (str = "") str = String(data['manHour'].day) + "D";
+                else str = " " + String(data['manHour'].day) + "D";
+            }
+            if (0 < data['manHour'].hour) {
+                if (str == "") str = String(data['manHour'].hour) + "h";
+                else str = " " + String(data['manHour'].hour) + "h";
+            }
+            return
         case 6:// genre
             let id: string = data['genreId'];
             let temp: genreData[] = sdm.settingsData.getGenreData();
             let genre: string;
             temp.forEach(elm => {
                 if (elm['id'] == id) genre = elm['name'];
-
             });
             return genre;
         case 7://ID
