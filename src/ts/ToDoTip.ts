@@ -113,6 +113,12 @@ class ToDoTip {
         // toDoDataの矩形描画開始
         ctx.beginPath();
 
+        // toDoDataの色設定
+        // ジャンルIDに応じた背景色に設定する
+        // ジャンルが消去されてしまっていた場合、todoに紐づいたジャンルIDをデフォルト値に書き換え。
+        if (settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()) == null) {
+            this.toDoData.setDefaultGenreId();
+        }
 
         this.fillRoundedRect(ctx, this.left, this.top, this.width, this.height, this.height / 4);
         ctx.fillStyle = this.isDeleteCandidate ? '#f00' : settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
@@ -120,9 +126,6 @@ class ToDoTip {
 
         // toDoDataの描画矩形の設定
         this.fillRoundedRect(ctx, this.left + this.height / 8, this.top + this.height / 8, this.width - this.height / 4, this.height - this.height / 4, this.height / 4 - this.height / 8);
-
-        // toDoDataの色設定
-        // ジャンルIDに応じた背景色に設定する
         ctx.fillStyle = '#dfdfdf';
         ctx.fill();
 

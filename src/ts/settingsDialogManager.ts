@@ -58,7 +58,7 @@ class SettingsDialogManager {
             // 初期値に戻す
             genreColor.value = "#e66465";
             genreLabel.value = "";
-        },false);
+        });
 
         // リロード要求：削除などでメインウィンドウの更新が必要な場合への対処
         this.dialog.onclose = () => {
@@ -83,7 +83,7 @@ class SettingsDialogManager {
             this.dialog.showModal();
 
         let genreArray = this.sdm.settingsData.getGenreData();
-        let urgencyScale = this.sdm.settingsData.getUrgencyScale();
+        //let urgencyScale = this.sdm.settingsData.getUrgencyScale();
 
         if(genreArray){
             let genreElements = document.getElementsByName( "genre" ) ;
@@ -98,12 +98,12 @@ class SettingsDialogManager {
 
             }
         }
-
+        /*
         if(urgencyScale){
             let opts = document.getElementsByName( "options" );
             let oneOpt = opts[urgencyScale-1] as HTMLInputElement;
             oneOpt.checked = true;
-        }
+        }*/
     }
 
     /**
@@ -122,11 +122,18 @@ class SettingsDialogManager {
 
         // div 要素の作成と属性の指定
         let divElement = document.createElement("div");
-        divElement.innerHTML = `<p name="genre" id=${randnum}><input type="color" id=${randnum} value=${color} name=${label}>`
-                                +`<label for="colorpallet" id=${randnum}>${label}</label>`
-                                +`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">delete</button>`;
-                                +`</p>`
-           
+        if (id === "other_default"){
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                                    +`</p>`            
+        }
+        else{
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                                    //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
+                                    +`<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
+                                    +`</p>`            
+        }
         // li 要素の作成
         let newLi = document.createElement("li");
         newLi.appendChild ( divElement );
@@ -135,10 +142,12 @@ class SettingsDialogManager {
         let list = document.getElementById("genreList");
         list.appendChild( newLi );   
 
-        let oneGenre = document.getElementById(randnum+"_deleteGenre");
-        oneGenre.addEventListener('click',function(){
-            onClickDeleteNode(randnum);
-        });
+        if(id != "other_default"){
+            let oneGenre = document.getElementById(randnum+"_deleteGenre");
+            oneGenre.addEventListener('click',function(){
+                onClickDeleteNode(randnum);
+            });            
+        }
     }
 
     /**
@@ -180,7 +189,7 @@ class SettingsDialogManager {
             let oneGenre = new genreData(smlElem.value,smlElem.name,smlElem.id);
             this.sdm.settingsData.setGenreData(oneGenre);
         }
-
+        /*
         // 緊急度のスケール値取得・登録
         let scaleElements = document.getElementsByName( "options" ) ;
 
@@ -197,7 +206,7 @@ class SettingsDialogManager {
             // 未選択状態
         } else {
             this.sdm.settingsData.setUrgencyScale(parseInt(checkedValue));
-        }
+        }*/
 
         this.sdm.export();
         this.req = true;

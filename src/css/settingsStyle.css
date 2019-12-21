@@ -1,9 +1,72 @@
+
+input, textarea{
+	background-color: #DFDFDF;
+}
+
+
 #deleteGenre {
   width: 40px;
   height: 40px;
   min-width: initial;
 }
 
+.flex{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.flex .delete_btn{
+	background-color: #2F2F2F;
+}
+
+.genre_contents{
+	margin-top: 1%;
+	margin-left: 5%;
+	margin-bottom: 1%;
+	font-size: 120%;
+}
+
+#genreList p {
+	margin : 0;
+	padding: 0;
+}
+
+.delete_btn{
+	background-color: #E2C25F;
+}
+
 .mdl-dialog{
 	width:60%;
+}
+
+.mdl-card__title-text,.mdl-dialog__content{
+	color:#DFDFDF;
+}
+
+#settings-dialog{
+	background-color:#2E2E2E;
+}
+
+#close-settings-dialog-button{
+	color:#E2C25F;
+}
+#newGenreContainer{
+	width:100%;
+}
+
+#newGenreLabel{
+	width:100%;
+	color:#2E2E2E;
+	background-color: #DFDFDF;
+}
+#genreLabelContainer{
+	width:60%;
+	margin:0,1%,1%,0;
+	padding: 0;
+}
+#newGenreContents{
+	margin-top: 1%;
+	margin-left: 5%;
+	margin-bottom: 1%;
 }

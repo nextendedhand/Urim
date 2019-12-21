@@ -13,5 +13,11 @@
         "id": "1HHjvvCykP",
         "color": "#b6007a",
         "name": "house"
+    },
+    {
+        "id": "other_default",
+        "color": "#DFDFDF",
+        "name": "other"
     }
+
 ]

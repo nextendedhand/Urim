@@ -57,36 +57,45 @@
             </button>
         </div>
         <div class="mdl-dialog__content">
-            <div class="mdl-card__title">
-                <h3 class="mdl-card__title-text">Settings</h2>
+            <h1 class="mdl-card__title-text">設定</h1>
+            <h5>ジャンル一覧</h5>
+            <ul id="genreList">
+            </ul>
+
+            <h5>ジャンルの追加</h5>
+            <div class="flex" id="newGenreContainer">
+                <input type="color" id="newGenreColorPallet" name="createGenre" class="newGenreContents" value="#e66465">
+                <!--<input type="text" id="newGenreLabel" name="createGenre" class="newGenreContents">-->
+                <div class="mdl-textfield mdl-js-textfield newGenreContents" id="genreLabelContainer">
+                    <input class="mdl-textfield__input" name="newGenreLabel" type="text" id="newGenreLabel" value="">
+                    <label class="mdl-textfield__label" for="newGenreLabel">Text...</label>
+                </div>
+
+
+                <div class="mdl-layout-spacer newGenreContents">
+                    <button class="mdl-button mdl-button--icon" id="genreAdd">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+                </div>
             </div>
-            <h4>Genre List</h5>
-                <ul id="genreList">
-                </ul>
 
-                <h6>Create a genre node</h6>
-                <form name="form1" id="newGenre" action="">
-                    <input type="color" id="newGenreColorPallet" name="createGenre" value="#e66465">
-                    <input type="text" id="newGenreLabel" name="createGenre">
-                    <div class="mdl-layout-spacer">
-                        <button type="button" id="genreAdd" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">登録</button>
-                    </div>
-                </form>
+            <!--
 
-                <h4>Set urgency scale</h5>
+            <h4>Set urgency scale</h5>
 
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-                        <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
-                        <span class="mdl-radio__label">1 year</span>
-                    </label>
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-                        <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
-                        <span class="mdl-radio__label">1 month</span>
-                    </label>
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-                        <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
-                        <span class="mdl-radio__label">1 week</span>
-                    </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                <span class="mdl-radio__label">1 year</span>
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                <span class="mdl-radio__label">1 month</span>
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+                <span class="mdl-radio__label">1 week</span>
+            </label>
+            -->
         </div>
     </dialog>
 
