@@ -30,6 +30,18 @@ export class UrimPlaneManager {
     private fontScale: number;
     private widthScale: number;
     public toDoTips: ToDoTip[];
+    private startXCanvas: number;
+    private startYCanvas: number;
+    private endXCanvas: number;
+    private endYCanvas: number;
+    private startXPlain: number;
+    private startYPlain: number;
+    private endXPlain: number;
+    private endYPlain: number;
+    private startXToDoPlain: number;
+    private startYToDoPlain: number;
+    private endXToDoPlain: number;
+    private endYToDoPlain: number;
 
     /**
      * 4 * 20のセルを作成する
@@ -85,17 +97,30 @@ export class UrimPlaneManager {
 
         ctx.scale(dpr, dpr);
 
-        this.urAxis = new AxisManager(0, canvas.height / 2, canvas.width, canvas.height / 2, [0, canvas.height / 50, -canvas.height / 25, canvas.height / 50, -canvas.height / 25, canvas.height / 25]);
-        this.imAxis = new AxisManager(canvas.width / 2, canvas.height, canvas.width / 2, 0, [0, canvas.height / 50, -canvas.height / 25, canvas.height / 50, -canvas.height / 25, canvas.height / 25]);
+        this.startXCanvas = 0;
+        this.startYCanvas = 0;
+        this.endXCanvas = canvas.width;
+        this.endYCanvas = canvas.height;
+        this.startXPlain = canvas.width * 2.5 / 43.5;
+        this.startYPlain = canvas.height * 2.5 / 25.0;
+        this.endXPlain = canvas.width * 41.0 / 43.5;
+        this.endYPlain = canvas.height;
+        this.startXToDoPlain = canvas.width * 2.5 / 43.5;
+        this.startYToDoPlain = canvas.height * 4.0 / 25.0;
+        this.endXToDoPlain = canvas.width * 39.5 / 43.5;
+        this.endYToDoPlain = canvas.height;
+
+        this.urAxis = new AxisManager(this.startXToDoPlain, this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) / 2, this.endXPlain, this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) / 2, [0, canvas.height / 50.0, this.endXToDoPlain - this.startXToDoPlain, canvas.height / 50, this.endXToDoPlain - this.startXToDoPlain, canvas.height / 25]);
+        this.imAxis = new AxisManager(this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) / 2, this.endYToDoPlain, this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) / 2, this.startYPlain, [0, canvas.height / 50, this.endYToDoPlain - this.startYToDoPlain, canvas.height / 50, this.endYToDoPlain - this.startYToDoPlain, canvas.height / 25]);
 
         for (let iIm = 0; iIm < this.importanceNumber; iIm++) {
             for (let iUr = 0; iUr < this.urgencyNumber; iUr++) {
                 this.urimCell[iIm][iUr].ids = [''];
                 this.urimCell[iIm][iUr].pm.maxPage = 0;
                 this.urimCell[iIm][iUr].pm.minPage = 0;
-                this.urimCell[iIm][iUr].pm.left = iUr * canvas.width / this.urgencyNumber + canvas.width * (1 - this.widthScale) / (this.urgencyNumber * 2);
-                this.urimCell[iIm][iUr].pm.width = canvas.width * this.widthScale / this.urgencyNumber;
-                this.urimCell[iIm][iUr].pm.height = canvas.height / this.importanceNumber;
+                this.urimCell[iIm][iUr].pm.left = this.startXToDoPlain + iUr * (this.endXToDoPlain - this.startXToDoPlain) / this.urgencyNumber + (this.endXToDoPlain - this.startXToDoPlain) * (1 - this.widthScale) / (this.urgencyNumber * 2);
+                this.urimCell[iIm][iUr].pm.width = (this.endXToDoPlain - this.startXToDoPlain) * this.widthScale / this.urgencyNumber;
+                this.urimCell[iIm][iUr].pm.height = (this.endYToDoPlain - this.startYToDoPlain) / this.importanceNumber;
                 this.urimCell[iIm][iUr].pm.top = this.calcImCoord(canvas, Object.keys(common.imToNum).filter(v => { return common.imToNum[v] == iIm })[0]) + (this.heightPartitionPerImportance - 2) * this.urimCell[iIm][iUr].pm.height;
             }
         }
@@ -134,7 +159,7 @@ export class UrimPlaneManager {
      */
     private calcImCoord(canvas: HTMLCanvasElement, importance: string): number {
         const common = new Common();
-        return canvas.height * common.imToNum[<keyof { [s: string]: number }>importance] / 4 + canvas.height / (2 * this.importanceNumber);
+        return this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) * common.imToNum[<keyof { [s: string]: number }>importance] / 4 + (this.endYToDoPlain - this.startYToDoPlain) / (2 * this.importanceNumber);
     }
 
     /**
@@ -144,7 +169,7 @@ export class UrimPlaneManager {
      * @param urgency 緊急度
      */
     private calcUrCoord(canvas: HTMLCanvasElement, urgency: number): number {
-        return this.urToCoord(urgency) * canvas.width / this.urgencyNumber;
+        return this.startXToDoPlain + this.urToCoord(urgency) * (this.endXToDoPlain - this.startXToDoPlain) / this.urgencyNumber;
     }
 
     /**
@@ -155,7 +180,6 @@ export class UrimPlaneManager {
     private createUrimCell() {
         const common = new Common();
         // urimCellにデータ格納する
-        // ToDO: UtimCellクラス作るかどうか考える
         this.toDoTips.forEach((toDoTip: ToDoTip) => {
             if (this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].ids[0] !== '') {
                 this.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][this.urToCoord(toDoTip.toDoData.getUrgency())].ids.push(toDoTip.toDoData.getId());
@@ -190,9 +214,9 @@ export class UrimPlaneManager {
                         // を計算する
 
 
-                        toDoTip.width = canvas.width * this.widthScale / this.urgencyNumber;
-                        toDoTip.height = canvas.height / this.importanceNumber;
-                        toDoTip.left = this.calcUrCoord(canvas, toDoTip.toDoData.getUrgency()) + (canvas.width / this.urgencyNumber - toDoTip.width) / 2;
+                        toDoTip.width = (this.endXToDoPlain - this.startXToDoPlain) * this.widthScale / this.urgencyNumber;
+                        toDoTip.height = (this.endYToDoPlain - this.startYToDoPlain) / this.importanceNumber;
+                        toDoTip.left = this.calcUrCoord(canvas, toDoTip.toDoData.getUrgency()) + ((this.endXToDoPlain - this.startXToDoPlain) / this.urgencyNumber - toDoTip.width) / 2;
                         toDoTip.top = this.calcImCoord(canvas, toDoTip.toDoData.getImportance()) + (index % (this.heightPartitionPerImportance - 2)) * toDoTip.height;
                         toDoTip.bottom = toDoTip.top + toDoTip.height;
 
@@ -244,15 +268,6 @@ export class UrimPlaneManager {
      * @param ctx 
      */
     private renderAxis(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this.urAxis.startY = canvas.height / 2;
-        this.urAxis.endX = canvas.width - canvas.width / 60;
-        this.urAxis.endY = canvas.height / 2;
-
-        this.imAxis.startX = canvas.width / 2;
-        this.imAxis.startY = canvas.height;
-        this.imAxis.endX = canvas.width / 2;
-        this.imAxis.endY = canvas.height / 30;
-
         this.urAxis.create(ctx, 'gradient');
         this.imAxis.create(ctx, 'fill');
 
@@ -263,9 +278,9 @@ export class UrimPlaneManager {
         ctx.font = `500 ${fontSize}pt 'Font Awesome 5 Free'`
 
         ctx.fillStyle = 'rgb(223, 223, 223)';
+        ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
-
-        ctx.fillText('重要度', canvas.width / 2, parseInt(ctx.font));
+        ctx.fillText('重要度', this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) / 2, this.startYPlain * 1.75 / 2.5);
         ctx.textAlign = 'start';
 
         const vFillText = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => {
@@ -278,7 +293,7 @@ export class UrimPlaneManager {
             });
         };
 
-        vFillText(ctx, '緊急度', canvas.width, canvas.height / 2);
+        vFillText(ctx, '緊急度', this.endXCanvas * 42.0 / 43.5, this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) / 2);
     }
 
     /**
@@ -292,7 +307,8 @@ export class UrimPlaneManager {
 
         common.backgroundColor.forEach((color, index) => {
             ctx.fillStyle = color;
-            ctx.fillRect(canvas.width / 2 * (index % 2), canvas.height / 4 * Math.floor(index / 2), canvas.width / 2, canvas.height / 4);
+
+            ctx.fillRect(this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) / 2 * (index % 2), this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) / 4 * Math.floor(index / 2), (this.endXToDoPlain - this.startXToDoPlain) / 2, (this.endYToDoPlain - this.startYToDoPlain) / 4);
         })
     }
 
@@ -326,12 +342,12 @@ export class UrimPlaneManager {
         ctx.setLineDash([5, 10]);
         ctx.lineWidth = 3;
         ctx.strokeStyle = 'rgb(223, 223, 223)'
-        ctx.moveTo(canvas.width / 8, 0);
+        ctx.moveTo(this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) / 8, this.startYToDoPlain);
         for (let i = 1; i < 8; i++) {
             if (i !== 4) {
-                ctx.lineTo(canvas.width * i / 8, canvas.height);
+                ctx.lineTo(this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) * i / 8, this.endYToDoPlain);
             }
-            ctx.moveTo(canvas.width * (i + 1) / 8, 0);
+            ctx.moveTo(this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) * (i + 1) / 8, this.startYToDoPlain);
         }
         ctx.stroke();
     }
@@ -349,7 +365,7 @@ export class UrimPlaneManager {
         const remeinDaysArray = ['31日-', '21日-30日', '14日-20日', '7日-13日', '5日-6日', '3日-4日', '2日', '1日']
 
         for (let i = 0; i < 8; i++) {
-            ctx.fillText(remeinDaysArray[i], canvas.width * i / 8 + canvas.width / 16, canvas.height / 2);
+            ctx.fillText(remeinDaysArray[i], this.startXToDoPlain + (this.endXToDoPlain - this.startXToDoPlain) * i / 8 + (this.endXToDoPlain - this.startXToDoPlain) / 16, this.startYToDoPlain + (this.endYToDoPlain - this.startYToDoPlain) / 2);
         }
     }
 
