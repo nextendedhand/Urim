@@ -74,6 +74,26 @@ class ToDoTip {
     }
 
     /**
+     * 角丸四角を描画する
+     * 
+     * @param ctx 
+     * @param left 
+     * @param top 
+     * @param width 
+     * @param height 
+     * @param radius 
+     */
+    private fillRoundedRect(ctx: CanvasRenderingContext2D, left: number, top: number, width: number, height: number, radius: number) {
+        ctx.beginPath();
+        ctx.arc(left + radius, top + radius, radius, - Math.PI, - 0.5 * Math.PI, false);
+        ctx.arc(left + width - radius, top + radius, radius, - 0.5 * Math.PI, 0, false);
+        ctx.arc(left + width - radius, top + height - radius, radius, 0, 0.5 * Math.PI, false);
+        ctx.arc(left + radius, top + height - radius, radius, 0.5 * Math.PI, Math.PI, false);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    /**
      * todayの星マークの色をtoggleする
      * 
      * @param canvas 
@@ -94,7 +114,7 @@ class ToDoTip {
         ctx.beginPath();
 
         // toDoDataの描画矩形の設定
-        ctx.rect(this.left, this.top, this.width, this.height);
+        this.fillRoundedRect(ctx, this.left, this.top, this.width, this.height, this.height / 4);
 
         // toDoDataの色設定
         // ジャンルIDに応じた背景色に設定する
