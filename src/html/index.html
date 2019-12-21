@@ -2,18 +2,149 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>Hello World!</title>
-</head>
+    <meta charset="UTF-8">
+    <title>Urim</title>
+    <link href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-blue.min.css" />
+    <script src="../../node_modules/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="../css/settingsStyle.css">
 
 <body>
-  <h1>Hello World!</h1>
-  <!-- All of the Node.js APIs are available in this renderer process. -->
-</body>
+    <i class="fas fa-star" style="visibility:hidden;"></i>
+    <i class="far fa-star" style="visibility:hidden;"></i>
+    <div id="menu" class="mdl-grid">
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="abst-btn">
+                <i class="fas fa-toggle-on"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="delete-mode-change-btn">
+                <i class="fas fa-minus-circle"></i>
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--icon" style="visibility:hidden;" id="cancel-btn">
+                <i class="fas fa-chevron-circle-left"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="create-btn">
+                <i class="fas fa-plus-circle"></i>
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--icon" style="visibility:hidden;" id="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+        <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--4-col-tablet mdl-cell--hide-phone"></div>
+        <div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-tablet mdl-cell--1-col-phone">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="setting-btn">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </div>
 
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <div id="urim-plain-container">
+        <canvas id="urim-plain"></canvas>
+    </div>
+
+    <!-- 設定画面モーダル -->
+    <dialog id="settings-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__actions">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="close-settings-dialog-button">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+        <div class="mdl-dialog__content">
+            <h1 class="mdl-card__title-text">設定</h1>
+            <h5>ジャンル一覧</h5>
+            <ul id="genreList">
+            </ul>
+
+            <h5>ジャンルの追加</h5>
+            <div class="flex" id="newGenreContainer">
+                <input type="color" id="newGenreColorPallet" name="createGenre" class="newGenreContents" value="#e66465">
+                <!--<input type="text" id="newGenreLabel" name="createGenre" class="newGenreContents">-->
+                <div class="mdl-textfield mdl-js-textfield newGenreContents" id="genreLabelContainer">
+                    <input class="mdl-textfield__input" name="newGenreLabel" type="text" id="newGenreLabel" value="">
+                    <label class="mdl-textfield__label" for="newGenreLabel">Text...</label>
+                </div>
+
+
+                <div class="mdl-layout-spacer newGenreContents">
+                    <button class="mdl-button mdl-button--icon" id="genreAdd">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--
+
+            <h4>Set urgency scale</h5>
+
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                <span class="mdl-radio__label">1 year</span>
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                <span class="mdl-radio__label">1 month</span>
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+                <span class="mdl-radio__label">1 week</span>
+            </label>
+            -->
+        </div>
+    </dialog>
+
+    <!-- 詳細画面モーダル -->
+    <dialog id="detail-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__actions">
+            <button class="mdl-button mdl-js-button mdl-button--icon" id="close-detail-dialog-button">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+        <div class="mdl-dialog__content">
+            <i id="detail-today-star" class="fas fa-star" style="display:none;"></i>
+            <i id="detail-not-today-star" class="far fa-star detail-dialog-contents" style="display:none;"></i>
+            <div id="detail-title" class="detail-dialog-contents"></div>
+            <div id="detail-contents" class="detail-dialog-contents"></div>
+            <div id="detail-importance" class="detail-dialog-contents"></div>
+            <div id="detail-urgency" class="detail-dialog-contents"></div>
+            <div id="detail-deadline" class="detail-dialog-contents"></div>
+            <div id="detail-manHour" class="detail-dialog-contents"></div>
+            <div id="detail-genre" class="detail-dialog-contents"></div>
+            <div id="detail-place" class="detail-dialog-contents"></div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer">
+                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button" id="ddl_comp_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-check-circle"></i>
+                </button>
+            </div>
+            <div class="mdl-layout-spacer">
+                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+
+
+    </dialog>
+    <!-- 詳細画面モーダルここまで -->
+
+</body>
 <script>
-  // You can also require other files to run in this process
-  require('../../dist/renderer.js')
+    // You can also require other files to run in this process
+    require('../../dist/renderer.js');
 </script>
+
 
 </html>

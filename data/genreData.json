@@ -1,17 +1,23 @@
 [
-  {
-    "index": 0,
-    "color": "#FFFFFF",
-    "name": "work"
-  },
-  {
-    "index": 1,
-    "color": "#FFFF00",
-    "name": "school"
-  },
-  {
-    "index": 2,
-    "color": "#00FFFF",
-    "name": "house"
-  }
+    {
+        "id": "TWM9ht7aVB",
+        "color": "#d7c447",
+        "name": "work"
+    },
+    {
+        "id": "qKmfywGL6U",
+        "color": "#00ac9b",
+        "name": "school"
+    },
+    {
+        "id": "1HHjvvCykP",
+        "color": "#b6007a",
+        "name": "house"
+    },
+    {
+        "id": "other_default",
+        "color": "#DFDFDF",
+        "name": "other"
+    }
+
 ]

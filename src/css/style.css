@@ -1,0 +1,91 @@
+*{
+    user-select: none;
+}
+
+body{
+    background: #2E2E2E;
+}
+
+#urim-plain-container{
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-top: 56.25%;
+}
+
+#urim-plain{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#abst-btn,#create-btn,#delete-btn,#setting-btn{
+    margin-bottom: 1%;
+}
+
+.fa-plus-circle{
+    color: #E2C25F;
+}
+
+.fa-minus-circle{
+    color: #E2C25F;
+}
+
+.fa-chevron-circle-left{
+    color: #E2C25F;
+}
+
+.fa-toggle-on{
+    color: #E2C25F;
+}
+
+.fa-trash-alt{
+    color: #E2C25F;
+}
+
+.fa-cog{
+    color: #E2C25F;
+    margin:0 0 0 auto;
+}
+
+#detail-dialog{
+    background-color: #2E2E2E;
+}
+
+.detail-dialog-contents{
+	color:#DFDFDF;
+}
+
+#detail-today-star{
+    color: #FE5721;
+}
+
+#close-detail-dialog-button, #ddl_edit_btn, #ddl_done_btn, #ddl_del_btn{
+    color: #E2C25F;
+}
+
+/* 2番目に表示させるdiv半透明の膜 */
+#modal-overlay{
+    /* ボックスの重なりの順序を指定 */
+    z-index:1;
+    /* divをブロック表示します。何も表示しないときは、none */
+    display:none;
+    /* 位置の固定 */
+    position:fixed;
+    /* 位置 */
+    top:0;
+    left:0;
+    /* 幅・高さ */
+    width:100%;
+    height:100%;
+    /* 背景の色（半透明） */
+    background-color:rgba(51,51,51,0.6);
+    /* 外側の余白 */
+    margin-top:0px;
+}
+.mdl-dialog__content{
+    /* テキスト折り返し */
+    overflow-wrap: break-word;
+}

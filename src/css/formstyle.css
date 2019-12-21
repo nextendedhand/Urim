@@ -1,0 +1,185 @@
+@charset "utf-8";
+body {
+    background-color: #2E2E2E;
+}
+
+h3 {
+    color: #DFDFDF;
+    text-align: center;
+}
+
+button[id=create_btn] {
+    background-color: #FE5721;
+    color: #DFDFDF;
+}
+
+button[id=expire_btn] {
+    background-color: #FE5721;
+    color: #DFDFDF;
+}
+
+button[id=cancel_btn] {
+    background-color: #9F9F9F;
+    color: #DFDFDF;
+}
+
+.alarmtxt {
+    color: #FE5721;
+    font-size: 1.2em;
+}
+
+#formtable {
+    box-sizing: border-box;
+    table-layout: fixed;
+    width: 65%;
+    background-color: #2E2E2E;
+    color: #DFDFDF;
+    font-size: 1.2em;
+    padding-right: 2px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    /* border: 1px solid #DFDFDF; */
+}
+
+#formtable .mdl-textfield__label {
+    box-sizing: border-box;
+    width: 100%;
+    color: #3F3F3F;
+}
+
+#formtable .mdl-data-table__cell--non-numeric {
+    box-sizing: border-box;
+    width: 18%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+    font-size: 0.8em;
+    border-right: 1px solid #FE5721;
+    border-top: 1px solid #DFDFDF;
+    border-bottom: 1px solid #DFDFDF;
+    border-collapse: collapse;
+}
+
+#formtable .i_contents {
+    box-sizing: border-box;
+    width: 82%;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    margin-left: 15px;
+    text-align: center;
+    font-size: 0.6em;
+    border-top: 1px solid #DFDFDF;
+    border-bottom: 1px solid #DFDFDF; 
+    border-collapse: collapse;
+}
+
+#formtable .mdl-textfield {
+    box-sizing: border-box;
+    width: 95%;
+}
+
+#formtable .mdl-textfield__input[type="text"] {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    background-color: #3F3F3F;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+#title {
+    border-bottom-color: #E2C25F;
+}
+
+#detail_text {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    background-color: #3F3F3F;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+#importance_level {
+    width: 100%;
+    text-align: center;
+}
+
+#importance_level .mdl-list__item
+.mdl-list__item-primary-content{
+    width: 100%;
+    color: #DFDFDF;
+    text-align: center;
+}
+
+#formtable .mdl-list {
+    box-sizing: border-box;
+    width:100%;
+}
+
+#formtable .number-space {
+    box-sizing: border-box;
+    width:70px;
+}
+
+#formtable .number-input {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    background-color: #3F3F3F;
+    width: 100%;
+    padding-left: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+}
+
+#formtable .unit {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 15px;
+    padding-bottom: 2px;
+}
+
+#formtable .mdl-textfield select {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    background-color: #3F3F3F;
+    width: 80%;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+#formtable .mdl-textfield__input[type="date"] {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    background-color: #3F3F3F;
+    border-bottom-color: #E2C25F;
+    width: 80%;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#today_or_not {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+#button_row {
+    box-sizing: border-box;
+    color: #DFDFDF;
+    text-align: center;
+    width: 70%;
+    font-size: 2em;
+    margin: auto;
+    margin-bottom: 30px;
+}
