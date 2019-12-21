@@ -121,12 +121,12 @@ class ToDoTip {
         }
 
         this.fillRoundedRect(ctx, this.left, this.top, this.width, this.height, this.height / 4);
-        ctx.fillStyle = this.isDeleteCandidate ? '#f00' : settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
+        ctx.fillStyle = settingsData.getGenreData().find(gd => gd.getId() === this.toDoData.getGenreId()).getColor();
         ctx.fill();
 
         // toDoDataの描画矩形の設定
         this.fillRoundedRect(ctx, this.left + this.height / 8, this.top + this.height / 8, this.width - this.height / 4, this.height - this.height / 4, this.height / 4 - this.height / 8);
-        ctx.fillStyle = '#dfdfdf';
+        ctx.fillStyle = this.isDeleteCandidate ? '#ff0000' : '#dfdfdf';
         ctx.fill();
 
         // toDoDataの文字描画開始
