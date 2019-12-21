@@ -216,7 +216,7 @@ export class UrimPlaneManager {
                         }
 
                         toDoTip.right = toDoTip.left + toDoTip.width;
-                        toDoTip.setTextPosition(toDoTip.left, toDoTip.top + toDoTip.height * (1 - this.fontScale) / 2);
+                        toDoTip.setTextPosition(toDoTip.left + toDoTip.height / 10, toDoTip.top + toDoTip.height * (1 - this.fontScale) / 2);
 
                         toDoTip.urgencyNumber = this.urgencyNumber;
                         toDoTip.importanceNumber = this.importanceNumber;
@@ -342,7 +342,7 @@ export class UrimPlaneManager {
 
         ctx.font = `500 ${fontSize}px 'Font Awesome 5 Free'`;
 
-        ctx.fillStyle = 'rgb(255, 255, 255)';
+        ctx.fillStyle = 'rgb(240, 240, 240)';
 
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
