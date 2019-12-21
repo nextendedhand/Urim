@@ -116,6 +116,22 @@ const my_addEventListener = (): void => {
         toDoListDelete()
     });
 
+    // urim button
+    let urim_button: Element = document.getElementById('urim-button');
+    urim_button.addEventListener('click', (): void => {
+        tddm.export();
+        sdm.export();
+        location.href = '../html/index.html';
+    });
+
+    // create button
+    let create_button: Element = document.getElementById('create-button');
+    create_button.addEventListener('click', (): void => {
+        tddm.export();
+        sdm.export();
+        location.href = '../html/register_form.html';
+    });
+
 }
 
 /**
@@ -341,7 +357,7 @@ const subSortSetting_Changed = () => {
  */
 const changeDeleteMode = (): void => {
     changePartofDisplay(!enableDeleteList);
-    enableDeleteList = !changePartofDisplay;
+    enableDeleteList = !enableDeleteList;
 }
 
 /**
