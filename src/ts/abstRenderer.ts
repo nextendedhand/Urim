@@ -269,7 +269,7 @@ const returnColumnValue = (columnIndex: number, data: toDoData): string => {
                 if (str == "") str = String(data['manHour'].hour) + "h";
                 else str = " " + String(data['manHour'].hour) + "h";
             }
-            return
+            return str;
         case 6:// genre
             let id: string = data['genreId'];
             let temp: genreData[] = sdm.settingsData.getGenreData();
