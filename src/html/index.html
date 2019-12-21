@@ -99,25 +99,31 @@
         </div>
         <div class="mdl-dialog__content">
             <i id="detail-today-star" class="fas fa-star" style="display:none;"></i>
-            <i id="detail-not-today-star" class="far fa-star" style="display:none;"></i>
-            <div id="detail-title"></div>
-            <div id="detail-contents"></div>
-            <div id="detail-importance"></div>
-            <div id="detail-urgency"></div>
-            <div id="detail-deadline"></div>
-            <div id="detail-manHour"></div>
-            <div id="detail-genre"></div>
-            <div id="detail-place"></div>
+            <i id="detail-not-today-star" class="far fa-star detail-dialog-contents" style="display:none;"></i>
+            <div id="detail-title" class="detail-dialog-contents"></div>
+            <div id="detail-contents" class="detail-dialog-contents"></div>
+            <div id="detail-importance" class="detail-dialog-contents"></div>
+            <div id="detail-urgency" class="detail-dialog-contents"></div>
+            <div id="detail-deadline" class="detail-dialog-contents"></div>
+            <div id="detail-manHour" class="detail-dialog-contents"></div>
+            <div id="detail-genre" class="detail-dialog-contents"></div>
+            <div id="detail-place" class="detail-dialog-contents"></div>
         </div>
         <div class="mdl-grid">
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
+                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-edit"></i>
+                </button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
+                <button type="button" id="ddl_done_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-check-circle"></i>
+                </button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
         </div>
 

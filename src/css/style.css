@@ -49,3 +49,19 @@ body{
     color: #E2C25F;
     margin:0 0 0 auto;
 }
+
+#detail-dialog{
+    background-color: #2E2E2E;
+}
+
+.detail-dialog-contents{
+	color:#DFDFDF;
+}
+
+#detail-today-star{
+    color: #FE5721;
+}
+
+#close-detail-dialog-button, #ddl_edit_btn, #ddl_done_btn, #ddl_del_btn{
+    color: #E2C25F;
+}
