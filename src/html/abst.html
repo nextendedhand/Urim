@@ -30,15 +30,25 @@
             <table id="abst_btn">
                 <tr>
                     <td>
-                        <button type="button" id="urim-button" onclick="location.href = 'index.html'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Urimモード</button>
-                        <button type="button" id="return-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">中止</button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="urim-button">
+                            <i class="fas fa-toggle-off"></i>
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="return-button">
+                            <i class="fas fa-chevron-circle-left"></i>
+                        </button>
                     </td>
                     <td>
-                        <button type="button" id="create-button" onclick="location.href = 'create.html'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">TODO作成</button>
-                        <button type="button" id="delete-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除実行</button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="create-button">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="delete-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     </td>
                     <td>
-                        <button type="button" id="modechange-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除機能</button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="modechange-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -72,27 +82,33 @@
         <!-- contents -->
         <div class="mdl-dialog__content">
             <i id="detail-today-star" class="fas fa-star" style="display:none;"></i>
-            <i id="detail-not-today-star" class="far fa-star" style="display:none;"></i>
-            <div id="detail-title"></div>
-            <div id="detail-contents"></div>
-            <div id="detail-importance"></div>
-            <div id="detail-urgency"></div>
-            <div id="detail-deadline"></div>
-            <div id="detail-manHour"></div>
-            <div id="detail-genre"></div>
-            <div id="detail-place"></div>
+            <i id="detail-not-today-star" class="far fa-star detail-dialog-contents" style="display:none;"></i>
+            <div id="detail-title" class="detail-dialog-contents"></div>
+            <div id="detail-contents" class="detail-dialog-contents"></div>
+            <div id="detail-importance" class="detail-dialog-contents"></div>
+            <div id="detail-urgency" class="detail-dialog-contents"></div>
+            <div id="detail-deadline" class="detail-dialog-contents"></div>
+            <div id="detail-manHour" class="detail-dialog-contents"></div>
+            <div id="detail-genre" class="detail-dialog-contents"></div>
+            <div id="detail-place" class="detail-dialog-contents"></div>
         </div>
 
         <!-- action button region -->
         <div class="mdl-grid">
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">編集</button>
+                <button type="button" id="ddl_edit_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-edit"></i>
+                </button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_comp_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">達成</button>
+                <button type="button" id="ddl_comp_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-check-circle"></i>
+                </button>
             </div>
             <div class="mdl-layout-spacer">
-                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">削除</button>
+                <button type="button" id="ddl_del_btn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
         </div>
 
