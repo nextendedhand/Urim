@@ -1,9 +1,19 @@
+/* background color */
+body{
+    background-color: #2e2e2e;
+}
 
 /* sort button position */
-#sort-01, #sort-02, #sort-03, #sort-04, #sort-05, #sort-06{
+#sort01-button, #sort02-button, #sort03-button, #sort04-button, #sort05-button, #sort06-button{
     border-style: none;
     position: relative;
     left: 5%;
+    background-color: #e2c25f;
+}
+
+/* start color */
+#today_star{
+    color: #fe5721;
 }
 
 /* header design */
@@ -20,21 +30,20 @@ table tr:nth-child(1){
     left: 15%;
 }
 
-/* table region */
-#ToDoList_TABLE{
-    margin-top: 12%;
-}
-
 /* button margin */
 #urim-button,#create-button,#modechange-button,#return-button,#delete-button{
     margin-bottom: 3%;
     position: relative;
     top:5%;
+    background-color: #e2c25f;
 }
 
 /* table position */
 #ToDoList_TABLE{
     position: relative;
+    margin-top: 12%;
+    border: 2px #9f9f9f;
+    color: #dfdfdf
 }
 
 /* table text design */

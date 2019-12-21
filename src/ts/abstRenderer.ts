@@ -144,8 +144,7 @@ const makeTable = (): void => {
                     // add new cell
                     cell = rows[i].insertCell(-1);
 
-                    if (j == 0) cell.appendChild(document.createTextNode(TEABLE_HEADER_STRINGS[0]));    // checkbox for delete function
-                    else cell.appendChild(document.createTextNode("　" + TEABLE_HEADER_STRINGS[j]));    // head title
+                    cell.appendChild(document.createTextNode(TEABLE_HEADER_STRINGS[j]));
 
                     // add sort button
                     if (0 < j && j < 7) {
@@ -235,6 +234,7 @@ const returnColumnStar = (data: toDoData): any => {
     if (data['isToday']) {
         let sIcon: HTMLElement = document.createElement("i");
         sIcon.className = "fas fa-star"
+        sIcon.id = "today_star";
         return sIcon;
     }
     else return document.createElement("p");
