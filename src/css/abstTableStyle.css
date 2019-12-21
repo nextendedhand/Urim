@@ -8,7 +8,7 @@ body{
     border-style: none;
     position: relative;
     left: 5%;
-    background-color: #e2c25f;
+    color: #e2c25f;
 }
 
 /* start color */
@@ -35,7 +35,7 @@ table tr:nth-child(1){
     margin-bottom: 3%;
     position: relative;
     top:5%;
-    background-color: #e2c25f;
+    color: #e2c25f;
 }
 
 /* table position */
