@@ -22,6 +22,12 @@ let ctx: CanvasRenderingContext2D;
 
 const sdlgm = new SettingsDialogManager();
 
+let isDoubleClick = false;
+
+const delay = 200;
+
+let timer: NodeJS.Timeout;
+
 /**
 * html読み込み完了後、electron-storeからデータを読み込む
 * データ読み込み後に、描画処理
@@ -45,6 +51,9 @@ const addEventListners = () => {
      * todoをダブルクリックすると、詳細画面に遷移する
      */
     canvas.addEventListener('dblclick', e => {
+        clearTimeout(timer);
+        isDoubleClick = true;
+
         e.preventDefault();
 
         const dpr = window.devicePixelRatio || 1;
@@ -102,31 +111,37 @@ const addEventListners = () => {
             })
         })
 
-        // todoのクリック判定処理
-        if (document.getElementById('delete-btn').style.visibility == 'visible') {
-            // 削除モード時では、削除リストに追加される
-            upm.toDoTips.forEach(toDoTip => {
-                if (toDoTip.isOn(point)) {
-                    // 削除ボタンを有効化する
-                    document.getElementById('delete-btn').removeAttribute('disabled');
-                    // キャンセルボタンの追加
-                    document.getElementById('cancel-btn').style.visibility = 'visible';
-                    // 背景色を変更する
-                    toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
-                    // 削除リストに追加する
+        timer = setTimeout(function () {
+            if (!isDoubleClick) {
+                // todoのクリック判定処理
+                if (document.getElementById('delete-btn').style.visibility == 'visible') {
+                    // 削除モード時では、削除リストに追加される
+                    upm.toDoTips.forEach(toDoTip => {
+                        if (toDoTip.isOn(point)) {
+                            // 削除ボタンを有効化する
+                            document.getElementById('delete-btn').removeAttribute('disabled');
+                            // キャンセルボタンの追加
+                            document.getElementById('cancel-btn').style.visibility = 'visible';
+                            // 背景色を変更する
+                            toDoTip.toggleBackgroundColor(canvas, ctx, sdm.settingsData);
+                            // 削除リストに追加する
+                        }
+                    });
+                } else if (document.getElementById('delete-btn').style.visibility == 'hidden') {
+                    // 通常モードでは、☆をtoggleする
+                    upm.toDoTips.forEach(toDoTip => {
+                        // TODO: upmにページ判定関数として定義する
+                        if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
+                            if (toDoTip.isOn(point)) {
+                                toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
+                            }
+                        }
+                    });
                 }
-            });
-        } else if (document.getElementById('delete-btn').style.visibility == 'hidden') {
-            // 通常モードでは、☆をtoggleする
-            upm.toDoTips.forEach(toDoTip => {
-                // TODO: upmにページ判定関数として定義する
-                if (toDoTip.page == upm.urimCell[common.imToNum[<keyof { [s: string]: number }>toDoTip.toDoData.getImportance()]][upm.urToCoord(toDoTip.toDoData.getUrgency())].pm.page) {
-                    if (toDoTip.isOn(point)) {
-                        toDoTip.toggleToday(canvas, ctx, sdm.settingsData);
-                    }
-                }
-            });
-        }
+            }
+            isDoubleClick = false;
+        }, delay);
+
     });
 
     /**
