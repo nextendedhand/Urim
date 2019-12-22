@@ -1,5 +1,22 @@
 # Urim
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lang: NodeJS](https://img.shields.io/badge/Lang-NodeJS_11.x-blue.svg)]()
+[![Lang: TypeScript](https://img.shields.io/badge/Lang-TypeScript%203.4.x-blue.svg)]()
+[![FrameWork: Electron](https://img.shields.io/badge/FrameWork-Electron_6.x-teal.svg)]()
+
 ToDo list tool with Urgency-Importance feature.
+
+![preview](https://github.com/narugit/Urim/blob/master/docs/preview.png)
+
+## Install
+1. Download zip or dmg from [here](https://github.com/narugit/Urim/releases) for your OS.
+2. unwrap zip or dmg, then place it to your favorite place.
+
+## Authors
+- [narugit](https://github.com/narugit)
+- [asaiasa](https://github.com/asaiasa)
+- [Gadpulse](https://github.com/Gadpulse)
+- [TauXdev](https://github.com/TauXdev)
 
 ## For Developers
 ### Setup Development Environment
