@@ -1,30 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
-import ToDoDataManager from './toDoDataManager';
-import settingsDataManager from './settingsDataManager';
 
 let mainWindow: Electron.BrowserWindow;
-
-/**
- * [ForDebugFunction]
- * [デバッグ用関数]
- * electron-storeで管理しているtodoデータとsettingsデータをdata/*.jsonファイルの値にリセットする
- */
-const resetAllDataForDebug = () => {
-    const tddm = new ToDoDataManager();
-    const sdm = new settingsDataManager();
-
-    tddm.resetDataForDebug();
-    sdm.resetDataForDebug();
-}
-
-/**
- * アプリ起動後（readyイベントよりも先に呼ばれる）の処理
- * [以下デバッグ用]
- * 必要に応じてコメントをつけたり外したりしてください
- * electron-storeで管理するデータをローカルjsonの値にリセットする関数を呼び出している
- */
- app.on("will-finish-launching", resetAllDataForDebug);
 
 function createWindow() {
     // Create the browser window.
@@ -38,9 +15,6 @@ function createWindow() {
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, '../src/html/index.html'));
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
