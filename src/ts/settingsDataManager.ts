@@ -4,6 +4,7 @@ import settingsData from './settingsData';
 import LocalStorage from './localStorageManager';
 import Common from './common';
 import * as Store from 'electron-store';
+import genreData from './genreData';
 
 /**
 * This is a class for settingsData manager.
@@ -21,6 +22,7 @@ export default class settingsDataManager {
     constructor() {
         this.store = new Store();
         this.common = new Common();
+        this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', 'other_default')], 0);
     }
 
     /**
