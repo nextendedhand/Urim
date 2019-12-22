@@ -1,4 +1,4 @@
-import ToDoData from './ToDoData';
+import toDoData from './toDoData';
 import settingsData from './settingsData';
 import Common from './common';
 
@@ -27,7 +27,7 @@ class ToDoTip {
     public isOnPage: boolean;   // 今一番表示されているかどうか
     private text: TextPos;
     public shortTitle: string
-    public toDoData: ToDoData;
+    public toDoData: toDoData;
     public urgencyNumber: number;
     public importanceNumber: number;
     public fontScale: number;
@@ -38,7 +38,7 @@ class ToDoTip {
      * 
      * @param toDoData todoデータ
      */
-    constructor(toDoData: ToDoData) {
+    constructor(toDoData: toDoData) {
         this.toDoData = toDoData;
         this.isDeleteCandidate = false;
     }

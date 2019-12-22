@@ -502,7 +502,7 @@ const afterToDoDelete = (deleteId: string[]): void => {
         tddm.export();
 
     } catch (e) {
-        error_s = " :Error in writing localStorage";
+        error_s = " :Error in writing electron-store";
     }
 
     tableInitialize();
