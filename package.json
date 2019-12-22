@@ -36,10 +36,8 @@
     "repository": "https://github.com/narugit/Urim",
     "keywords": [
         "Electron",
-        "quick",
-        "start",
-        "tutorial",
-        "demo",
+        "todo",
+        "utility",
         "typescript"
     ],
     "author": "asaiasa, Gadpulse, narugit, TauXdev",
