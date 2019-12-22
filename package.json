@@ -8,7 +8,9 @@
         "lint": "tslint -c tslint.json -p tsconfig.json",
         "start": "npm run transpile && electron ./dist/main.js",
         "build:win": "rm -rf dist && npm run transpile && electron-builder -w",
-        "build:mac": "rm -rf dist && npm run transpile && electron-builder -m"
+        "build:mac": "rm -rf dist && npm run transpile && electron-builder -m",
+        "build:linux": "rm -rf dist && npm run transpile && electron-builder -l",
+        "build:all": "rm -rf dist && npm run transpile && electron-builder -mwl"
     },
     "build": {
         "extraMetadata": {
@@ -21,6 +23,10 @@
         },
         "win": {
             "icon": "src/icon/icon-win.png",
+            "target": "zip"
+        },
+        "linux": {
+            "icon": "src/icon/icon-linux.png",
             "target": "zip"
         },
         "directories": {
