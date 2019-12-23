@@ -24,7 +24,7 @@ const sdlgm = new SettingsDialogManager();
 
 let isDoubleClick = false;
 
-const delay = 200;
+const delay = 300;
 
 let timer: NodeJS.Timeout;
 
@@ -253,6 +253,8 @@ const addEventListners = () => {
         createBtn.parentNode.insertBefore(deleteBtn, tmp);
 
         upm.deleteToDoTips(tddm);
+        tddm.export();
+        sdm.export();
         render();
     });
 

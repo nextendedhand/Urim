@@ -1,5 +1,5 @@
 import AxisManager from './axisManager';
-import ToDoData from './ToDoData';
+import toDoData from './toDoData';
 import ToDoTip from './ToDoTip';
 import Common from './common';
 import PageManager from './pageManager';
@@ -46,7 +46,7 @@ export class UrimPlaneManager {
     /**
      * 4 * 20のセルを作成する
      */
-    constructor(toDoDatas: ToDoData[]) {
+    constructor(toDoDatas: toDoData[]) {
         this.sdm = new settingsDataManager();
         this.sdm.import();
         this.urgencySpans = [2, 4, 14, 30];
@@ -70,7 +70,7 @@ export class UrimPlaneManager {
         }
 
         this.toDoTips = new Array();
-        toDoDatas.forEach((toDoData: ToDoData) => {
+        toDoDatas.forEach((toDoData: toDoData) => {
             let toDoTip = new ToDoTip(toDoData);
             this.toDoTips.push(toDoTip);
         });
