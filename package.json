@@ -1,6 +1,6 @@
 {
     "name": "urim",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "To do list tool with Urgency-Importance feature.",
     "scripts": {
         "transpile": "tsc",
@@ -16,7 +16,7 @@
         "extraMetadata": {
             "main": "./dist/main.js"
         },
-        "appId": "urim",
+        "appId": "Urim",
         "mac": {
             "icon": "src/icon/icon-mac.png",
             "target": "dmg"
@@ -27,7 +27,10 @@
         },
         "linux": {
             "icon": "src/icon/icon-linux.png",
-            "target": "zip"
+            "target": [
+                "zip",
+                "deb"
+            ]
         },
         "directories": {
             "output": "out"
@@ -40,7 +43,7 @@
         "utility",
         "typescript"
     ],
-    "author": "asaiasa, Gadpulse, narugit, TauXdev",
+    "author": "asaiasa, Gadpulse, narugit, TauXdev <narusens@gmail.com>",
     "license": "MIT",
     "devDependencies": {
         "electron": "^6.0.8",
