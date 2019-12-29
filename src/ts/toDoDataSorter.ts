@@ -2,10 +2,10 @@
 import { enableDeleteList as IS_DELETE_MODE, GENRE_ARRAY as GENRE_LIST, showDetailDialog as showDetailDialog } from './abstRenderer';
 
 // importance list
-const IMPORTANCE_LIST: string[] = ["S", "A", "B", "C", "D"];
+const IMPORTANCE_LIST: string[] = ["S", "A", "B", "C"];
 
 // today mark
-const TODAY_LIST: string[] = ["★", ""];
+const TODAY_LIST: string[] = ["", " "];
 
 // man hour unit
 const MANHOUR_UNIT_LIST: string[] = ["Y", "M", "D", "h"];
@@ -146,7 +146,7 @@ const mySort03 = (order: boolean, subsorton: boolean = false, pos: number[] = [1
     if (!order) list = IMPORTANCE_LIST.slice().reverse();
     for (i = 0; i < IMPORTANCE_LIST.length; ++i) {
         posGR.push(pos[0]);
-        if (sortBySpecifiedCharacterPriority(3, list[i], pos) == false) posGR.pop();
+        sortBySpecifiedCharacterPriority(3, list[i], pos)
     }
 
     if (subsorton) {
