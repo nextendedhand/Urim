@@ -41,7 +41,7 @@ export default class FormInfoManager {
         const gDataObj = sdm.settingsData.getGenreData();
         for (let i = 0; i < gDataObj.length; i++) {
             gArray[i] = new genreData(gDataObj[i]["color"],
-                                gDataObj[i]["name"], gDataObj[i]["id"]);
+                gDataObj[i]["name"], gDataObj[i]["id"]);
         }
         this.updateGenreData(gArray);
     }
@@ -53,14 +53,14 @@ export default class FormInfoManager {
         const tdDataObj = tddm.toDoDataArray;
         for (let i = 0; i < tdDataObj.length; i++) {
             tdArray[i] = new toDoData(tdDataObj[i]["title"],
-                            tdDataObj[i]["importance"],
-                            tdDataObj[i]["manHour"],
-                            tdDataObj[i]["genreId"],
-                            tdDataObj[i]["detailData"]["deadline"],
-                            tdDataObj[i]["detailData"]["contents"],
-                            tdDataObj[i]["detailData"]["place"],
-                            tdDataObj[i]["isToday"],
-                            tdDataObj[i]["id"]);
+                tdDataObj[i]["importance"],
+                tdDataObj[i]["manHour"],
+                tdDataObj[i]["genreId"],
+                tdDataObj[i]["detailData"]["deadline"],
+                tdDataObj[i]["detailData"]["contents"],
+                tdDataObj[i]["detailData"]["place"],
+                tdDataObj[i]["isToday"],
+                tdDataObj[i]["id"]);
         }
 
         let target_index = tdArray.length;
@@ -75,7 +75,7 @@ export default class FormInfoManager {
 
         // ***titleの書き込み
         document.getElementById("title")
-                .setAttribute("value", target.getTitle());
+            .setAttribute("value", target.getTitle());
 
         // ***detailの書き込み
         const detailTextForm = document.getElementById("detail_text");
@@ -83,12 +83,12 @@ export default class FormInfoManager {
 
         // ***importanceの選択
         document.getElementById(target.getImportance())
-                .setAttribute("checked", "yes");
+            .setAttribute("checked", "yes");
 
         // ***placeの書き込み
         document.getElementById("place")
-                .setAttribute("value", details.getPlace());
-        
+            .setAttribute("value", details.getPlace());
+
         // ***genreのoptionの動的な設定と選択
         const sdm = new settingsDataManager();
         sdm.import();
@@ -96,7 +96,7 @@ export default class FormInfoManager {
         const gDataObj = sdm.settingsData.getGenreData();
         for (let i = 0; i < gDataObj.length; i++) {
             gArray[i] = new genreData(gDataObj[i]["color"],
-                                gDataObj[i]["name"], gDataObj[i]["id"]);
+                gDataObj[i]["name"], gDataObj[i]["id"]);
         }
 
         let genre_list = document.getElementById("genre");
@@ -125,26 +125,26 @@ export default class FormInfoManager {
             deadline_day = deadlineObj["day"];
         }
         const deadlineStr = deadlineObj["year"] + "-"
-                            + deadline_month + "-" + deadline_day;
+            + deadline_month + "-" + deadline_day;
         document.getElementById("deadline")
-                .setAttribute("value", deadlineStr);
+            .setAttribute("value", deadlineStr);
 
         // ***manHourの書き込み
         const manHourObj = target.getManHour();
         document.getElementById("man_hour_m")
-                .setAttribute("value", manHourObj["month"]);
+            .setAttribute("value", manHourObj["month"]);
         document.getElementById("man_hour_d")
-                .setAttribute("value", manHourObj["day"]);
+            .setAttribute("value", manHourObj["day"]);
         document.getElementById("man_hour_h")
-                .setAttribute("value", manHourObj["hour"]);
-        
+            .setAttribute("value", manHourObj["hour"]);
+
         // ***isTodayの選択
         if (target.getIsToday()) {
             document.getElementById("today")
-                    .setAttribute("checked", "yes");
+                .setAttribute("checked", "yes");
         } else {
             document.getElementById("notoday")
-                    .setAttribute("checked", "yes");
+                .setAttribute("checked", "yes");
         }
     }
 
@@ -165,7 +165,7 @@ export default class FormInfoManager {
         const place = this.getPlace();
         // isToday: タスクが本日中かどうか
         const isToday = this.getIsToday();
-    
+
         const items: FormItems = {
             title: title,
             importance: importance,
@@ -178,7 +178,7 @@ export default class FormInfoManager {
         }
         return items;
     }
-    
+
     // toDoDataArrayの末尾にtoDoDataを追加しexport
     public registerTask(items: FormItems) {
         const tddm = new ToDoDataManager();
@@ -188,7 +188,7 @@ export default class FormInfoManager {
             items.title, items.importance,
             items.manHour as any, items.genreId, items.deadline as any,
             items.contents, items.place, items.isToday);
-    
+
         tddm.toDoDataArray.push(toDoDataItems);
         tddm.export();
     }
@@ -224,7 +224,7 @@ export default class FormInfoManager {
         }
 
         // yearが等しいのでmonthを比較
-        if (deadline["month"] != (now_date.getMonth()+1)) {
+        if (deadline["month"] != (now_date.getMonth() + 1)) {
             return deadline["month"] > now_date.getMonth();
         }
 
@@ -239,7 +239,7 @@ export default class FormInfoManager {
     public IsDeadlineFilled(): boolean {
         return (document.getElementById("deadline") as HTMLInputElement).value != "";
     }
-    
+
     private updateGenreData(genreDataArray: genreData[]) {
         let genre_list = document.getElementById("genre");
         for (let i = 0; i < genreDataArray.length; i++) {
@@ -253,7 +253,7 @@ export default class FormInfoManager {
     private getTitle(): string {
         return (document.getElementById("title") as HTMLInputElement).value;
     }
-    
+
     private getImportance(): string {
         if ((document.getElementById("S") as HTMLInputElement).checked) {
             return (document.getElementById("S") as HTMLInputElement).value;
@@ -265,7 +265,7 @@ export default class FormInfoManager {
             return (document.getElementById("C") as HTMLInputElement).value;
         }
     }
-    
+
     private getManHour(): ManHour {
         let month = (document.getElementById("man_hour_m") as HTMLInputElement).value;
         let day = (document.getElementById("man_hour_d") as HTMLInputElement).value;
@@ -282,18 +282,18 @@ export default class FormInfoManager {
         }
         return manHour;
     }
-    
+
     private getGenreId(): string {
         return (document.getElementById("genre") as HTMLInputElement).value;
     }
-    
+
     private getContents(): string {
         return (document.getElementById("detail_text") as HTMLInputElement).value;
     }
-    
+
     private getDeadline(): Deadline {
         const date = (document.getElementById("deadline") as HTMLInputElement).value;
-        
+
         const dateInfo = date.split('-');
         const deadLine: Deadline = {
             year: parseInt(dateInfo[0]),
@@ -302,11 +302,11 @@ export default class FormInfoManager {
         }
         return deadLine;
     }
-    
+
     private getPlace(): string {
         return (document.getElementById("place") as HTMLInputElement).value;
     }
-    
+
     private getIsToday(): boolean {
         return (document.getElementById("today") as HTMLInputElement).checked;
     }
