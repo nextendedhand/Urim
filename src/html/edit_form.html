@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,170 +8,169 @@
     <link rel="stylesheet" type="text/css" href="../css/formstyle.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script> 
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 
 
 <body>
     <div class=formlist>
-      <div class=inner>
-      <h3>TODO編集</h3>
-      <form action="#">
-      <table id=formtable align="center">
-        <tbody>
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric">タイトル</td>
-            <td class="i_contents">
-                <div class="alarmtxt" id="title_alarm"></div>
-                <div class="mdl-textfield mdl-js-textfield">
-                  <input class="mdl-textfield__input" name="title" type="text" id="title" value="">
-                  <label class="mdl-textfield__label" for="title"></label>
+        <div class=inner>
+            <h3>TODO編集</h3>
+            <form action="#">
+                <table id=formtable align="center">
+                    <tbody>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">タイトル</td>
+                            <td class="i_contents">
+                                <div class="alarmtxt" id="title_alarm"></div>
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" name="title" type="text" id="title" value="">
+                                    <label class="mdl-textfield__label" for="title"></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">内容</td>
+                            <td class="i_contents">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <textarea id="detail_text" class="mdl-textfield__input" rows="5" value=""></textarea>
+                                    <label class="mdl-textfield__label" for="detail_text"></label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">場所</td>
+                            <td class="i_contents">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" name="place" type="text" id="place" value="">
+                                    <label class="mdl-textfield__label" for="place"></label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">重要度</td>
+                            <td class="i_contents">
+                                <ul class="mdl-list" id=importance_level>
+                                    <li class="mdl-list__item">
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="S">
+                                                <input type="radio" id="S" class="mdl-radio__button" name="importance" value="S" checked>S
+                                            </label>
+                                        </span>
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="A">
+                                                <input type="radio" id="A" class="mdl-radio__button" name="importance" value="A">A
+                                            </label>
+                                        </span>
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="B">
+                                                <input type="radio" id="B" class="mdl-radio__button" name="importance" value="B">B
+                                            </label>
+                                        </span>
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="C">
+                                                <input type="radio" id="C" class="mdl-radio__button" name="importance" value="C">C
+                                            </label>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">工数</td>
+                            <td class="i_contents">
+                                <ul class="mdl-list">
+                                    <span class="mdl-list__item-primary-content">
+                                        <div class="number-space mdl-textfield mdl-js-textfield">
+                                            <input class="number-input mdl-textfield__input" type="number" name="man_hour_m" id="man_hour_m" value="">
+                                            <label class="mdl-textfield__label" for="man_hour_m"></label>
+                                        </div>
+                                    </span>
+                                    <span class="mdl-list__item-primary-content unit">
+                                        ヶ月
+                                    </span>
+                                    <span class="mdl-list__item-primary-content">
+                                        <div class="number-space mdl-textfield mdl-js-textfield">
+                                            <input class="number-input mdl-textfield__input" type="number" name="man_hour_d" id="man_hour_d" value="">
+                                            <label class="mdl-textfield__label" for="man_hour_d"></label>
+                                        </div>
+                                    </span>
+                                    <span class="mdl-list__item-primary-content unit">
+                                        日
+                                    </span>
+                                    <span class="mdl-list__item-primary-content">
+                                        <div class="number-space mdl-textfield mdl-js-textfield">
+                                            <input class="number-input mdl-textfield__input" type="number" name="man_hour_h" id="man_hour_h" value="">
+                                            <label class="mdl-textfield__label" for="man_hour_h"></label>
+                                        </div>
+                                    </span>
+                                    <span class="mdl-list__item-primary-content unit">
+                                        時間
+                                    </span>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">ジャンル</td>
+                            <td class="i_contents">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <select class="mdl-textfield__input" name="genre" id="genre"></select>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">締切</td>
+                            <td class="i_contents">
+                                <div class="alarmtxt" id="deadline_alarm"></div>
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">いつやるの？</td>
+                            <td class="i_contents">
+                                <ul class="mdl-list">
+                                    <li class="mdl-list__item" id=today_or_not>
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="today">
+                                                <input type="radio" id="today" class="mdl-radio__button" name="istoday" value="yes" checked>今日でしょ
+                                            </label>
+                                        </span>
+                                        <span class="mdl-list__item-primary-content">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="notoday">
+                                                <input type="radio" id="notoday" class="mdl-radio__button" name="istoday" value="no">明日以降
+                                            </label>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="button_row">
+                    <span class="mdl-list__item-primary-content">
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" value="expire" id="expire_btn">決定</button>
+                    </span>
+                    <span class="mdl-list__item-primary-content">
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--raised" value="cancel" id="cancel_btn">キャンセル</button>
+                    </span>
                 </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric">内容</td>
-            <td class="i_contents">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <textarea id="detail_text" class="mdl-textfield__input" rows= "5" value=""></textarea>
-                  <label class="mdl-textfield__label" for="detail_text"></label>
-                </div>
-            </td>
-          </tr>
-  
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric">場所</td>
-            <td class="i_contents">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <input class="mdl-textfield__input" name="place" type="text" id="place" value="">
-                  <label class="mdl-textfield__label" for="place"></label>
-                </div>
-            </td>
-          </tr>
-  
-          <tr>
-              <td class="mdl-data-table__cell--non-numeric">重要度</td>
-              <td class="i_contents">
-                  <ul class="mdl-list" id=importance_level>
-                      <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="S">
-                              <input type="radio" id="S" class="mdl-radio__button" name="importance" value="S" checked>S
-                          </label>
-                      </span>
-                        <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="A">
-                              <input type="radio" id="A" class="mdl-radio__button" name="importance" value="A">A
-                            </label>
-                      </span>
-                        <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="B">
-                              <input type="radio" id="B" class="mdl-radio__button" name="importance" value="B">B
-                            </label>
-                      </span>
-                        <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="C">
-                              <input type="radio" id="C" class="mdl-radio__button" name="importance" value="C">C
-                            </label>
-                      </span>
-                      </li>
-                    </ul>
-              </td>
-          </tr>
-  
-          <tr>
-              <td class="mdl-data-table__cell--non-numeric">工数</td>
-              <td class="i_contents">
-                  <ul class="mdl-list">
-                        <span class="mdl-list__item-primary-content">
-                            <div class="number-space mdl-textfield mdl-js-textfield">
-                              <input class="number-input mdl-textfield__input" type="number" name="man_hour_m" id="man_hour_m" value="">
-                              <label class="mdl-textfield__label" for="man_hour_m"></label>
-                            </div>
-                        </span>
-                        <span class="mdl-list__item-primary-content unit">
-                            ヶ月
-                        </span>
-                        <span class="mdl-list__item-primary-content">
-                            <div class="number-space mdl-textfield mdl-js-textfield">
-                              <input class="number-input mdl-textfield__input" type="number" name="man_hour_d" id="man_hour_d" value="">
-                              <label class="mdl-textfield__label" for="man_hour_d"></label>
-                            </div>
-                        </span>
-                        <span class="mdl-list__item-primary-content unit">
-                            日
-                        </span>
-                        <span class="mdl-list__item-primary-content">
-                            <div class="number-space mdl-textfield mdl-js-textfield">
-                              <input class="number-input mdl-textfield__input" type="number" name="man_hour_h" id="man_hour_h" value="">
-                              <label class="mdl-textfield__label" for="man_hour_h"></label>
-                            </div>
-                        </span>
-                        <span class="mdl-list__item-primary-content unit">
-                            時間
-                        </span>
-                  </ul>
-              </td>
-          </tr>
-  
-          <tr>
-              <td class="mdl-data-table__cell--non-numeric">ジャンル</td>
-              <td class="i_contents">
-                <div class="mdl-textfield mdl-js-textfield">
-                    <select class="mdl-textfield__input" name="genre" id="genre"></select>
-                </div>
-              </td>           
-          </tr>
-  
-          <tr>
-              <td class="mdl-data-table__cell--non-numeric">締切</td>
-              <td class="i_contents">
-                  <div class="alarmtxt" id="deadline_alarm"></div>
-                  <div class="mdl-textfield mdl-js-textfield">
-                      <input class="mdl-textfield__input" type="date" name="deadline" id="deadline" value="">
-                  </div>
-              </td>
-          </tr>
-  
-          <tr>
-              <td class="mdl-data-table__cell--non-numeric">いつやるの？</td>
-              <td class="i_contents">
-                <ul class="mdl-list">
-                    <li class="mdl-list__item" id=today_or_not>
-                      <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="today">
-                              <input type="radio" id="today" class="mdl-radio__button" name="istoday" value="yes" checked>今日でしょ
-                          </label>
-                      </span>
-                      <span class="mdl-list__item-primary-content">
-                          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="notoday">
-                              <input type="radio" id="notoday" class="mdl-radio__button" name="istoday" value="no">明日以降
-                          </label>
-                      </span>
-                    </li>
-                </ul>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-          
-          <div id="button_row">
-            <span class="mdl-list__item-primary-content">
-              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
-              value="expire" id="expire_btn">決定</button>
-            </span>
-            <span class="mdl-list__item-primary-content">
-              <button type="button" class="mdl-button mdl-js-button mdl-button--raised"
-              value="cancel" id="cancel_btn">キャンセル</button>
-            </span>
-          </div>
-       
-      </form>
-      </div>
+
+            </form>
+        </div>
     </div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
     require('../../dist/toDoEditor.js');
-  </script>
-  </html>
+</script>
+
+</html>

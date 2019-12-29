@@ -515,4 +515,3 @@ const replaceRows = (table: HTMLTableElement, row1_index: number, row2_index: nu
     table.rows[row1_index].parentNode.replaceChild(clone2, table.rows[row1_index]);
     table.rows[row2_index].parentNode.replaceChild(clone1, table.rows[row2_index]);
 }
-

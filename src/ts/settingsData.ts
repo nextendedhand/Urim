@@ -64,11 +64,11 @@ export default class settingsData {
     public deleteGenreData(id: string) {
         var isDeleted = false;
         this.genreArray = this.genreArray.filter(genreData => {
-            if(genreData.getId() === id){
-                isDeleted = true;               
+            if (genreData.getId() === id) {
+                isDeleted = true;
             }
 
-            return genreData.getId() != id;            
+            return genreData.getId() != id;
         });
 
         if (!isDeleted) {
@@ -80,6 +80,7 @@ export default class settingsData {
     * @param id
     * @returns void
     */
-    public deleteAllGenreData():void {
+    public deleteAllGenreData(): void {
         this.genreArray = [];
-    }}
+    }
+}

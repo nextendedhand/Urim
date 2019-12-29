@@ -10,7 +10,7 @@ class SettingsDialogManager {
     private sdm: settingsDataManager;
     private req: boolean;
     private id: string;
-    private isPushedCreateBtn : boolean;
+    private isPushedCreateBtn: boolean;
 
 
     /**
@@ -35,26 +35,26 @@ class SettingsDialogManager {
         this.dialog.querySelector('#close-settings-dialog-button').addEventListener('click', () => {
             this.writeDataToElectronStore();
 
-            setTimeout(function(){
+            setTimeout(function () {
                 let allGenreData = document.getElementById('genreList');
-                while(allGenreData.firstChild){
+                while (allGenreData.firstChild) {
                     allGenreData.removeChild(allGenreData.firstChild);
-                }                
-            },300);
+                }
+            }, 300);
 
             this.dClose();
         });
 
 
-        this.dialog.querySelector('#genreAdd').addEventListener('click',(e)=>{
+        this.dialog.querySelector('#genreAdd').addEventListener('click', (e) => {
 
-            let genreColor: HTMLInputElement =<HTMLInputElement>document.getElementById('newGenreColorPallet');
-            let genreLabel: HTMLInputElement =<HTMLInputElement>document.getElementById('newGenreLabel');
+            let genreColor: HTMLInputElement = <HTMLInputElement>document.getElementById('newGenreColorPallet');
+            let genreLabel: HTMLInputElement = <HTMLInputElement>document.getElementById('newGenreLabel');
 
             let color = genreColor.value;
             let label = genreLabel.value;
 
-            this.createGenreData(color,label);
+            this.createGenreData(color, label);
             // 初期値に戻す
             genreColor.value = "#e66465";
             genreLabel.value = "";
@@ -85,15 +85,15 @@ class SettingsDialogManager {
         let genreArray = this.sdm.settingsData.getGenreData();
         //let urgencyScale = this.sdm.settingsData.getUrgencyScale();
 
-        if(genreArray){
-            let genreElements = document.getElementsByName( "genre" ) ;
+        if (genreArray) {
+            let genreElements = document.getElementsByName("genre");
 
-            if (genreArray.length>genreElements.length){
-                for(let i = 0; i<genreArray.length; i++){
+            if (genreArray.length > genreElements.length) {
+                for (let i = 0; i < genreArray.length; i++) {
                     let id = genreArray[i].getId();
                     let color = genreArray[i].getColor();
                     let label = genreArray[i].getName();
-                    this.createGenreData(color,label,id);
+                    this.createGenreData(color, label, id);
                 }
 
             }
@@ -113,40 +113,40 @@ class SettingsDialogManager {
      * @param label ジャンルの名称
      * @param id ジャンルのID
      */
-    private createGenreData = (color:string,label:string, id?: string):void => {
-        if (!id){
+    private createGenreData = (color: string, label: string, id?: string): void => {
+        if (!id) {
             var randnum = this.generateId();
-        }else{
+        } else {
             var randnum = id;
         }
 
         // div 要素の作成と属性の指定
         let divElement = document.createElement("div");
-        if (id === "other_default"){
+        if (id === "other_default") {
             divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
-                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
-                                    +`</p>`            
+                + `<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                + `</p>`
         }
-        else{
+        else {
             divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
-                                    +`<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
-                                    //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
-                                    +`<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
-                                    +`</p>`            
+                + `<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
+                //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
+                + `<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
+                + `</p>`
         }
         // li 要素の作成
         let newLi = document.createElement("li");
-        newLi.appendChild ( divElement );
-       
+        newLi.appendChild(divElement);
+
         // リストに追加
         let list = document.getElementById("genreList");
-        list.appendChild( newLi );   
+        list.appendChild(newLi);
 
-        if(id != "other_default"){
-            let oneGenre = document.getElementById(randnum+"_deleteGenre");
-            oneGenre.addEventListener('click',function(){
+        if (id != "other_default") {
+            let oneGenre = document.getElementById(randnum + "_deleteGenre");
+            oneGenre.addEventListener('click', function () {
                 onClickDeleteNode(randnum);
-            });            
+            });
         }
     }
 
@@ -175,18 +175,18 @@ class SettingsDialogManager {
      *
      *
     */
-    private writeDataToElectronStore = ():void => {
+    private writeDataToElectronStore = (): void => {
         console.log("writeDataToElectronStore")
 
         // ジャンルデータの取得・登録
-        let genreElements = document.getElementsByName( "genre" ) ;
+        let genreElements = document.getElementsByName("genre");
         this.sdm.settingsData.deleteAllGenreData();
         console.log(genreElements.length);
 
-        for (let oneGenreElement="", i = genreElements.length; i--;){
+        for (let oneGenreElement = "", i = genreElements.length; i--;) {
             let oneGenreElements = genreElements[i];
             let smlElem = oneGenreElements.childNodes[0] as HTMLInputElement;
-            let oneGenre = new genreData(smlElem.value,smlElem.name,smlElem.id);
+            let oneGenre = new genreData(smlElem.value, smlElem.name, smlElem.id);
             this.sdm.settingsData.setGenreData(oneGenre);
         }
         /*
@@ -213,10 +213,10 @@ class SettingsDialogManager {
     }
 };
 
-function onClickDeleteNode(randnum:string):void{
-        let elem = document.getElementById(randnum);
-        let elem2 = elem.parentNode.parentNode;
-        elem2.parentNode.removeChild(elem2);    
+function onClickDeleteNode(randnum: string): void {
+    let elem = document.getElementById(randnum);
+    let elem2 = elem.parentNode.parentNode;
+    elem2.parentNode.removeChild(elem2);
 }
 
 
