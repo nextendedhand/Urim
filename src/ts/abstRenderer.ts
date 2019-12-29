@@ -253,7 +253,11 @@ const returnColumnStar = (data: toDoData): any => {
         sIcon.id = "today_star";
         return sIcon;
     }
-    else return document.createElement("p");
+    else {
+        let noIcon: HTMLElement = document.createElement("p");
+        noIcon.textContent = " ";
+        return noIcon;
+    }
 }
 
 /**
