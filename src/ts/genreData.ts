@@ -6,6 +6,7 @@ export default class genreData {
     private id: string;
     private color: string;
     private name: string;
+    private timestamp: string;
 
     /**
     * This is a constructor.
@@ -13,9 +14,9 @@ export default class genreData {
     * @param name genre name.
     * @param id OPTION: genre ID.
     */
-    constructor(color: string, name: string);
-    constructor(color: string, name: string, id: string);
-    constructor(color: string, name: string, id?: string) {
+    constructor(color: string, name: string, timestamp: string);
+    constructor(color: string, name: string, timestamp: string, id: string);
+    constructor(color: string, name: string, timestamp: string, id?: string) {
         if (id === undefined) {
             this.id = this.generateId();
             console.log("genreID生成");
@@ -25,6 +26,7 @@ export default class genreData {
         }
         this.color = color;
         this.name = name;
+        this.timestamp = timestamp;
     }
 
     /**
@@ -76,6 +78,15 @@ export default class genreData {
     }
 
     /**
+    * This is getter for timestamp.
+    * @param void
+    * @returns timestamp
+    */
+    public getTimestamp(): string {
+        return this.timestamp;
+    }
+
+    /**
     * This is setter for color.
     * @param color
     * @returns void
@@ -91,5 +102,14 @@ export default class genreData {
     */
     public setName(name: string) {
         this.name = name;
+    }
+
+    /**
+    * This is setter for timestamp.
+    * @param timestamp
+    * @returns void
+    */
+    public setTimestamp(timestamp: string) {
+        this.timestamp = timestamp;
     }
 }

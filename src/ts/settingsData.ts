@@ -14,7 +14,7 @@ export default class settingsData {
     */
     constructor(genreArray: genreData[], urgencyScale: number) {
         this.genreArray = [];
-        genreArray.forEach(gd => this.genreArray.push(new genreData(gd['color'], gd['name'], gd['id'])));
+        genreArray.forEach(gd => this.genreArray.push(new genreData(gd['color'], gd['name'], gd['timestamp'], gd['id'])));
         this.urgencyScale = urgencyScale;
     }
 
@@ -24,6 +24,11 @@ export default class settingsData {
     * @returns genreArray
     */
     public getGenreData(): genreData[] {
+        this.genreArray.sort((a: genreData, b: genreData) => {
+            if (a.getTimestamp() < b.getTimestamp()) return -1;
+            if (a.getTimestamp() > b.getTimestamp()) return 1;
+            return 0;
+        });
         return this.genreArray;
     }
 

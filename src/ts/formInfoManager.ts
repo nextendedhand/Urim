@@ -41,7 +41,7 @@ export default class FormInfoManager {
         const gDataObj = sdm.settingsData.getGenreData();
         for (let i = 0; i < gDataObj.length; i++) {
             gArray[i] = new genreData(gDataObj[i]["color"],
-                gDataObj[i]["name"], gDataObj[i]["id"]);
+                gDataObj[i]["name"], gDataObj[i]["timestamp"], gDataObj[i]["id"]);
         }
         this.updateGenreData(gArray);
     }
@@ -96,7 +96,7 @@ export default class FormInfoManager {
         const gDataObj = sdm.settingsData.getGenreData();
         for (let i = 0; i < gDataObj.length; i++) {
             gArray[i] = new genreData(gDataObj[i]["color"],
-                gDataObj[i]["name"], gDataObj[i]["id"]);
+                gDataObj[i]["name"], gDataObj[i]["timestamp"], gDataObj[i]["id"]);
         }
 
         let genre_list = document.getElementById("genre");
