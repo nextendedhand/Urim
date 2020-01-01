@@ -21,7 +21,7 @@ export default class settingsDataManager {
     constructor() {
         this.store = new Store();
         this.common = new Common();
-        this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', 'other_default')], 0);
+        this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], 0);
     }
 
     /**

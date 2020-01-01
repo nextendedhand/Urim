@@ -53,8 +53,10 @@ class SettingsDialogManager {
 
             let color = genreColor.value;
             let label = genreLabel.value;
+            let date = new Date();
+            let timestamp = date.getUTCFullYear() + ('0' + (date.getUTCMonth() + 1)).slice(-2) + ('0' + date.getUTCDate()).slice(-2) + ('0' + date.getUTCHours()).slice(-2) + ('0' + date.getUTCMinutes()).slice(-2) + ('0' + date.getUTCSeconds()).slice(-2)
 
-            this.createGenreData(color, label);
+            this.createGenreData(color, label, timestamp);
             // 初期値に戻す
             genreColor.value = "#e66465";
             genreLabel.value = "";
@@ -93,9 +95,9 @@ class SettingsDialogManager {
                     let id = genreArray[i].getId();
                     let color = genreArray[i].getColor();
                     let label = genreArray[i].getName();
-                    this.createGenreData(color, label, id);
+                    let timestamp = genreArray[i].getTimestamp();
+                    this.createGenreData(color, label, timestamp, id);
                 }
-
             }
         }
         /*
@@ -113,7 +115,7 @@ class SettingsDialogManager {
      * @param label ジャンルの名称
      * @param id ジャンルのID
      */
-    private createGenreData = (color: string, label: string, id?: string): void => {
+    private createGenreData = (color: string, label: string, timestamp: string, id?: string): void => {
         if (!id) {
             var randnum = this.generateId();
         } else {
@@ -123,12 +125,12 @@ class SettingsDialogManager {
         // div 要素の作成と属性の指定
         let divElement = document.createElement("div");
         if (id === "other_default") {
-            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label} data-timestamp=${timestamp}>`
                 + `<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
                 + `</p>`
         }
         else {
-            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label}>`
+            divElement.innerHTML = `<p name="genre" id=${randnum} class="flex"><input type="color" id=${randnum} value=${color} name=${label} data-timestamp=${timestamp}>`
                 + `<label for="colorpallet" id=${randnum} class="genre_contents">${label}</label>`
                 //+`<button type="button" id="${randnum}_deleteGenre" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete_btn genre_contents">delete</button>`
                 + `<button class="mdl-button mdl-js-button mdl-button--icon delete_btn genre_contents" id="${randnum}_deleteGenre"><i class="fas fa-trash-alt delete-btn"></i></button>`
@@ -186,7 +188,7 @@ class SettingsDialogManager {
         for (let oneGenreElement = "", i = genreElements.length; i--;) {
             let oneGenreElements = genreElements[i];
             let smlElem = oneGenreElements.childNodes[0] as HTMLInputElement;
-            let oneGenre = new genreData(smlElem.value, smlElem.name, smlElem.id);
+            let oneGenre = new genreData(smlElem.value, smlElem.name, smlElem.dataset.timestamp, smlElem.id);
             this.sdm.settingsData.setGenreData(oneGenre);
         }
         /*
