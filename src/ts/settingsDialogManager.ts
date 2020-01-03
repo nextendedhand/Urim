@@ -24,6 +24,8 @@ class SettingsDialogManager {
         this.sdm.import();
         this.id = null;
         this.isPushedCreateBtn = false;
+        const textSizeSlider = document.getElementById('textSizeSlider') as HTMLInputElement;
+        textSizeSlider.value = String(this.sdm.settingsData.getTextSize());
     }
 
     /**
@@ -33,7 +35,9 @@ class SettingsDialogManager {
 
         // 閉じるボタン
         this.dialog.querySelector('#close-settings-dialog-button').addEventListener('click', () => {
-            this.writeDataToElectronStore();
+            let textSizeSlider = document.getElementById('textSizeSlider') as HTMLInputElement;
+            this.sdm.settingsData.setTextSize(Number(textSizeSlider.value));
+            console.error(this.sdm.settingsData.getTextSize());
 
             setTimeout(function () {
                 let allGenreData = document.getElementById('genreList');
@@ -41,6 +45,8 @@ class SettingsDialogManager {
                     allGenreData.removeChild(allGenreData.firstChild);
                 }
             }, 300);
+
+            this.writeDataToElectronStore();
 
             this.dClose();
         });

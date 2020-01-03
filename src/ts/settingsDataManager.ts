@@ -21,7 +21,11 @@ export default class settingsDataManager {
     constructor() {
         this.store = new Store();
         this.common = new Common();
-        this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], 0);
+        if (this.store.get(this.common.key.settingsData).textSize !== undefined) {
+            this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], this.store.get(this.common.key.settingsData).textSize, 0);
+        } else {
+            this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], 60, 0);
+        }
     }
 
     /**
@@ -36,7 +40,7 @@ export default class settingsDataManager {
 
             let genreDataArray = settingsDataArray.genreArray;
 
-            this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray.urgencyScale));
+            this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray.textSize), Number(settingsDataArray.urgencyScale));
             console.log(this.settingsData);
         }
         catch (e) {
@@ -93,7 +97,7 @@ export default class settingsDataManager {
             }
             console.log("Completed genre data resetting.");
 
-            this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray[0]['urgencyScale']));
+            this.settingsData = new settingsData(genreDataArray, Number(settingsDataArray[0]['textSize']), Number(settingsDataArray[0]['urgencyScale']));
 
             this.store.set(this.common.key.settingsData, this.settingsData);
         }

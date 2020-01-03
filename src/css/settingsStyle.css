@@ -70,3 +70,7 @@ input, textarea{
 	margin-left: 5%;
 	margin-bottom: 1%;
 }
+.mdl-slider:active::-webkit-slider-thumb,
+.mdl-slider::-webkit-slider-thumb {
+    background: #E2C25F !important;
+}

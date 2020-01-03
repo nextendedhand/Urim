@@ -53,7 +53,7 @@ const addEventListners = () => {
     canvas.addEventListener('dblclick', e => {
         clearTimeout(timer);
         isDoubleClick = true;
-
+        console.log('db')
         e.preventDefault();
 
         const dpr = window.devicePixelRatio || 1;

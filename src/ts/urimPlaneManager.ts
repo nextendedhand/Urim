@@ -55,7 +55,7 @@ export class UrimPlaneManager {
         this.heightPartitionPerImportance = 5;
         this.importanceNumber = 4 * this.heightPartitionPerImportance;
         this.urgencyNumber = this.widthPartitionPerSpan * this.urgencySpans.length;
-        this.fontScale = 0.6;
+        this.fontScale = 0.0035 * this.sdm.settingsData.getTextSize() + 0.25; //0 -> 0.25, 20 -> 0.32, 40 -> 0.39, 60 -> 0.46, 80 -> 0.53. 100 -> 0.6
         this.widthScale = 0.8;
 
         this.urimCell = new Array(this.importanceNumber);

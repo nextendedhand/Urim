@@ -6,15 +6,17 @@ import genreData from './genreData';
 */
 export default class settingsData {
     private genreArray: genreData[];
+    private textSize: number;
     private urgencyScale: number;
 
     /**
     * This is a constructor.
     * @param void
     */
-    constructor(genreArray: genreData[], urgencyScale: number) {
+    constructor(genreArray: genreData[], textSize: number, urgencyScale: number) {
         this.genreArray = [];
         genreArray.forEach(gd => this.genreArray.push(new genreData(gd['color'], gd['name'], gd['timestamp'], gd['id'])));
+        this.textSize = textSize;
         this.urgencyScale = urgencyScale;
     }
 
@@ -30,6 +32,15 @@ export default class settingsData {
             return 0;
         });
         return this.genreArray;
+    }
+
+    /**
+    * This is getter for text size.
+    * @param void
+    * @returns textSize
+    */
+    public getTextSize(): number {
+        return this.textSize;
     }
 
     /**
@@ -50,6 +61,16 @@ export default class settingsData {
         //let id = this.generateId();
         //genreData.setId(id);
         this.genreArray.push(genreData);
+    }
+
+    /**
+    * This is setter for text size.
+    * @param textSize
+    * @returns void
+    */
+    public setTextSize(textSize: number) {
+        this.textSize = textSize;
+        console.error("set text size")
     }
 
     /**
