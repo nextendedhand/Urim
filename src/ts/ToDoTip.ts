@@ -150,10 +150,9 @@ class ToDoTip {
         let title = this.toDoData.getTitle();
         this.shortTitle = title;
 
-        if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(title).width >= this.width) {
-            console.log('超えた', this.shortTitle);
+        if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(title).width >= this.width - this.height * 3 / 8) {
             while (true) {
-                if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(`${title}..`).width < this.width) {
+                if (ctx.measureText(todayIcon).width * 1.25 + ctx.measureText(`${title}..`).width < this.width - this.height * 3 / 8) {
                     this.shortTitle = title + '..';
                     break;
                 }
