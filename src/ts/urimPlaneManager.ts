@@ -5,6 +5,7 @@ import Common from './common';
 import PageManager from './pageManager';
 import settingsDataManager from './settingsDataManager';
 import toDoDataManager from './toDoDataManager';
+import * as Store from 'electron-store';
 
 export interface UrimCell {
     ids: string[],
@@ -42,6 +43,7 @@ export class UrimPlaneManager {
     private startYToDoPlain: number;
     private endXToDoPlain: number;
     private endYToDoPlain: number;
+    private store: Store;
 
     /**
      * 4 * 20のセルを作成する
@@ -50,12 +52,18 @@ export class UrimPlaneManager {
         this.sdm = new settingsDataManager();
         this.sdm.import();
         this.urgencySpans = [2, 4, 14, 30];
+        this.store = new Store();
+        const common = new Common();
 
         this.widthPartitionPerSpan = 2;
         this.heightPartitionPerImportance = 5;
         this.importanceNumber = 4 * this.heightPartitionPerImportance;
         this.urgencyNumber = this.widthPartitionPerSpan * this.urgencySpans.length;
-        this.fontScale = 0.0035 * this.sdm.settingsData.getTextSize() + 0.25; //0 -> 0.25, 20 -> 0.32, 40 -> 0.39, 60 -> 0.46, 80 -> 0.53. 100 -> 0.6
+        if (this.store.get(common.key.settingsData).textSize !== undefined) {
+            this.fontScale = 0.0035 * this.sdm.settingsData.getTextSize() + 0.25; //0 -> 0.25, 20 -> 0.32, 40 -> 0.39, 60 -> 0.46, 80 -> 0.53. 100 -> 0.6
+        } else {
+            this.fontScale = 0.46;
+        }
         this.widthScale = 0.8;
 
         this.urimCell = new Array(this.importanceNumber);
