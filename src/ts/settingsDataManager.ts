@@ -21,7 +21,8 @@ export default class settingsDataManager {
     constructor() {
         this.store = new Store();
         this.common = new Common();
-        if (this.store.get(this.common.key.settingsData).textSize !== undefined) {
+
+        if (this.store.has('settingsData')) {
             this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], this.store.get(this.common.key.settingsData).textSize, 0);
         } else {
             this.settingsData = new settingsData([new genreData('#DFDFDF', 'other', '99999999999999', 'other_default')], 60, 0);
