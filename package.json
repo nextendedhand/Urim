@@ -46,7 +46,7 @@
     "author": "asaiasa, Gadpulse, narugit, TauXdev <narusens@gmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^6.0.8",
+        "electron": "^9.4.0",
         "electron-builder": "^21.2.0",
         "tslint": "^5.10.0",
         "typescript": "^3.4.1"
